@@ -193,7 +193,7 @@ public class UserDAO {
 			try {
 				//call getConnection() method 
 				con = ConnectionManager.getConnection();
-
+//tologn kluare
 				//3. create statement
 				ps = con.prepareStatement(SELECT_USER_LOGIN);
 		        ps.setString(1, user.getEmail());
