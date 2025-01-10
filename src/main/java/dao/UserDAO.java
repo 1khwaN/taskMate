@@ -45,7 +45,7 @@ public class UserDAO {
 			try {			
 				//call getConnection() method
 				con = ConnectionManager.getConnection();
-
+//test
 				//3. create statement
 				ps = con.prepareStatement(INSERT_USERS_SQL);
 				ps.setString(1, user.getUserName());
