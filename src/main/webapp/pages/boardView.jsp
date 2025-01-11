@@ -367,49 +367,144 @@
         height="26"
       ></iconify-icon>
     </button>
-    <h1 class="header no-margin">Name</h1>
-    <p class="value">some long task name</p>
-    <h1 class="header">Description</h1>
-    <p class="value">
-      some long task namesome long task namesome long task name
-    </p>
-    <div class="flex items-center">
-      <h1 class="header min-width">Due date</h1>
-      <p class="value">January 7, 2020</p>
+
+    <!-- View Task Details -->
+    <div id="view-task-details">
+      <h1 class="header no-margin">Name</h1>
+      <p class="value" id="task-name">Some long task name</p>
+      <h1 class="header">Description</h1>
+      <p class="value" id="task-description">Some long task description</p>
+      <div class="flex items-center">
+        <h1 class="header min-width">Due date</h1>
+        <p class="value" id="task-due-date">January 7, 2020</p>
+      </div>
+      <div class="flex items-center">
+        <h1 class="header min-width">Status</h1>
+        <p class="value status-value" id="task-status">
+          <span class="circle blue-background"></span><span>Doing</span>
+        </p>
+      </div>
+      <div class="control-buttons-container">
+        <!-- Update button -->
+        <button
+          id="update-task-cta"
+          class="button circle-button pink-background flex justify-center items-center"
+        >
+          <iconify-icon
+            icon="material-symbols:edit-rounded"
+            style="color: black"
+            width="24"
+            height="24"
+          ></iconify-icon>
+        </button>
+        <!-- Delete button -->
+        <button
+          id="delete-task-cta"
+          class="button circle-button pink-background flex justify-center items-center"
+        >
+          <iconify-icon
+            icon="ic:round-delete"
+            style="color: black"
+            width="24"
+            height="24"
+          ></iconify-icon>
+        </button>
+      </div>
     </div>
-    <div class="flex items-center">
-      <h1 class="header min-width">Status</h1>
-      <p class="value status-value">
-        <span class="circle blue-background"></span><span>Doing</span>
-      </p>
-    </div>
-    <div class="control-buttons-container">
-      <!-- edit button -->
-      <button
-        class="button circle-button pink-background flex justify-center items-center"
-      >
-        <iconify-icon
-          icon="material-symbols:edit-rounded"
-          style="color: black"
-          width="24"
-          height="24"
-        ></iconify-icon>
-      </button>
-      <!-- delete button -->
-      <button
-        id="delete-task-cta"
-        class="button circle-button pink-background flex justify-center items-center"
-      >
-        <iconify-icon
-          icon="ic:round-delete"
-          style="color: black"
-          width="24"
-          height="24"
-        ></iconify-icon>
-      </button>
+
+    <!-- Update Task Form -->
+    <div id="update-task-form" class="hide">
+      <h1 class="header">Update Task</h1>
+      <form>
+        <label for="update-task-name">Task Name</label>
+        <input type="text" id="update-task-name" class="form-input" />
+
+        <label for="update-task-description">Task Description</label>
+        <textarea id="update-task-description" class="form-input"></textarea>
+
+        <label for="update-task-due-date">Due Date</label>
+        <input type="date" id="update-task-due-date" class="form-input" />
+
+        <label for="update-task-status">Status</label>
+        <select id="update-task-status" class="form-input">
+          <option value="To Do">To Do</option>
+          <option value="Doing">Doing</option>
+          <option value="Done">Done</option>
+        </select>
+
+        <button type="button" id="save-task-btn" class="button blue-background">
+          Save
+        </button>
+        <button type="button" id="cancel-task-btn" class="button red-background">
+          Cancel
+        </button>
+      </form>
     </div>
   </div>
 </div>
+
+  <script>
+    // Select all task buttons
+const taskButtons = document.querySelectorAll('.task-button');
+const viewTaskOverlay = document.getElementById('view-task-overlay');
+const closeOverlayButton = document.querySelector('.close-button');
+
+taskButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        viewTaskOverlay.classList.remove('hide');
+    });
+});
+
+// Add event listener to the close button
+closeOverlayButton.addEventListener('click', () => {
+    // Hide the overlay
+    viewTaskOverlay.classList.add('hide');
+});
+
+// Select necessary elements
+const updateButton = document.getElementById('update-task-cta');
+const overlay = document.getElementById('view-task-overlay');
+const updateTaskForm = document.getElementById('update-task-form');
+const saveTaskBtn = document.getElementById('save-task-btn');
+const cancelTaskBtn = document.getElementById('cancel-task-btn');
+
+// Handle the update button click
+updateButton.addEventListener('click', () => {
+  // Show the overlay and form
+  overlay.classList.remove('hide');
+  updateTaskForm.classList.remove('hide');
+});
+
+// Handle the save button click
+saveTaskBtn.addEventListener('click', () => {
+  // Get updated values
+  const updatedName = document.getElementById('update-task-name').value;
+  const updatedDescription = document.getElementById('update-task-description').value;
+  const updatedDueDate = document.getElementById('update-task-due-date').value;
+  const updatedStatus = document.getElementById('update-task-status').value;
+
+  // Simulate saving task details
+  console.log("Updated Task:", {
+    name: updatedName,
+    description: updatedDescription,
+    dueDate: updatedDueDate,
+    status: updatedStatus,
+  });
+
+  // Close the overlay
+  overlay.classList.add('hide');
+});
+
+// Handle the cancel button click
+cancelTaskBtn.addEventListener('click', () => {
+  // Close the overlay
+  overlay.classList.add('hide');
+});
+
+// Populate task details on overlay open
+populateTaskDetails(taskData);
+
+  </script>  
 
 <!-- import IconifyIcon web component -->
 <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
