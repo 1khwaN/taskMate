@@ -102,7 +102,7 @@
             </label>
           </div>
       
-          <!-- List -->
+         <!--List
           <div class="radio-container">
             <input
               type="radio"
@@ -121,8 +121,8 @@
               ></iconify-icon>
               <span>List</span>
             </label>
-          </div>
-      
+          </div> 
+       -->  
           <!-- Board -->
           <div class="radio-container">
             <input
