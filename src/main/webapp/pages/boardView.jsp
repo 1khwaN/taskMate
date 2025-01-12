@@ -364,12 +364,12 @@
 </div>
 </div>
 
-<!-- view task -->
-<div id="view-task-overlay" class="overlay view-task-overlay hide">
-  <div class="overlay-content green-background">
-    <!-- close button -->
+<!-- Update Task Overlay -->
+<div id="update-task-overlay" class="overlay hide">
+  <div class="overlay-content blue-background">
+    <!-- Close button -->
     <button
-      class="button circle-button blue-background flex justify-center items-center close-button"
+      class="button circle-button red-background flex justify-center items-center close-button"
     >
       <iconify-icon
         icon="material-symbols:close-rounded"
@@ -379,39 +379,66 @@
       ></iconify-icon>
     </button>
 
-    <!-- View Task Details -->
-    <div id="view-task-details">
-      <h1 class="header no-margin">Name</h1>
-      <p class="value" id="task-name">Some long task name</p>
-      <h1 class="header">Description</h1>
-      <p class="value" id="task-description">Some long task description</p>
-      <div class="flex items-center">
-        <h1 class="header min-width">Due date</h1>
-        <p class="value" id="task-due-date">January 7, 2020</p>
+    <!-- Update Task Form -->
+    <h1 class="header no-margin">Update Task</h1>
+    <form>
+      <div class="form-group">
+        <label for="update-task-name" class="header">Task Name</label>
+        <input
+          type="text"
+          id="update-task-name"
+          class="form-input value"
+          placeholder="Enter task name"
+        />
       </div>
-      <div class="flex items-center">
-        <h1 class="header min-width">Status</h1>
-        <p class="value status-value" id="task-status">
-          <span class="circle blue-background"></span><span>Doing</span>
-        </p>
+
+      <div class="form-group">
+        <label for="update-task-description" class="header">Task Description</label>
+        <textarea
+          id="update-task-description"
+          class="form-input value"
+          placeholder="Enter task description"
+        ></textarea>
       </div>
+
+      <div class="form-group flex items-center">
+        <label for="update-task-due-date" class="header min-width">Due Date</label>
+        <input
+          type="date"
+          id="update-task-due-date"
+          class="form-input value"
+        />
+      </div>
+
+      <div class="form-group flex items-center">
+        <label for="update-task-status" class="header min-width">Status</label>
+        <select id="update-task-status" class="form-input value">
+          <option value="To Do">To Do</option>
+          <option value="Doing">Doing</option>
+          <option value="Done">Done</option>
+        </select>
+      </div>
+
       <div class="control-buttons-container">
-        <!-- Update button -->
+        <!-- Save button -->
         <button
-          id="update-task-cta"
-          class="button circle-button pink-background flex justify-center items-center"
+          type="button"
+          id="save-task-btn"
+          class="button circle-button green-background flex justify-center items-center"
         >
           <iconify-icon
-            icon="material-symbols:edit-rounded"
+            icon="material-symbols:check-circle"
             style="color: black"
             width="24"
             height="24"
           ></iconify-icon>
         </button>
+
         <!-- Delete button -->
         <button
-          id="delete-task-cta"
-          class="button circle-button pink-background flex justify-center items-center"
+          type="button"
+          id="delete-task-btn"
+          class="button circle-button red-background flex justify-center items-center"
         >
           <iconify-icon
             icon="ic:round-delete"
@@ -421,101 +448,94 @@
           ></iconify-icon>
         </button>
       </div>
-    </div>
-
-    <!-- Update Task Form -->
-    <div id="update-task-form" class="hide">
-      <h1 class="header">Update Task</h1>
-      <form>
-        <label for="update-task-name">Task Name</label>
-        <input type="text" id="update-task-name" class="form-input" />
-
-        <label for="update-task-description">Task Description</label>
-        <textarea id="update-task-description" class="form-input"></textarea>
-
-        <label for="update-task-due-date">Due Date</label>
-        <input type="date" id="update-task-due-date" class="form-input" />
-
-        <label for="update-task-status">Status</label>
-        <select id="update-task-status" class="form-input">
-          <option value="To Do">To Do</option>
-          <option value="Doing">Doing</option>
-          <option value="Done">Done</option>
-        </select>
-
-        <button type="button" id="save-task-btn" class="button blue-background">
-          Save
-        </button>
-        <button type="button" id="cancel-task-btn" class="button red-background">
-          Cancel
-        </button>
-      </form>
-    </div>
+    </form>
   </div>
 </div>
+<style>
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
-  <script>
-    // Select all task buttons
-const taskButtons = document.querySelectorAll('.task-button');
-const viewTaskOverlay = document.getElementById('view-task-overlay');
-const closeOverlayButton = document.querySelector('.close-button');
+.overlay-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
 
-taskButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        viewTaskOverlay.classList.remove('hide');
-    });
-});
+.hide {
+  display: none;
+}
 
-// Add event listener to the close button
-closeOverlayButton.addEventListener('click', () => {
-    // Hide the overlay
-    viewTaskOverlay.classList.add('hide');
-});
+.control-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+</style>
 
+<script>
 // Select necessary elements
-const updateButton = document.getElementById('update-task-cta');
-const overlay = document.getElementById('view-task-overlay');
-const updateTaskForm = document.getElementById('update-task-form');
-const saveTaskBtn = document.getElementById('save-task-btn');
-const cancelTaskBtn = document.getElementById('cancel-task-btn');
+const updateTaskOverlay = document.getElementById("update-task-overlay");
+const closeOverlayButton = document.querySelector(".close-button");
+const saveTaskBtn = document.getElementById("save-task-btn");
+const deleteTaskBtn = document.getElementById("delete-task-btn");
 
-// Handle the update button click
-updateButton.addEventListener('click', () => {
-  // Show the overlay and form
-  overlay.classList.remove('hide');
-  updateTaskForm.classList.remove('hide');
+// Attach event listeners to all task buttons
+document.querySelectorAll(".task-button").forEach((taskButton) => {
+  taskButton.addEventListener("click", () => {
+    updateTaskOverlay.classList.remove("hide");
+    
+    // Optionally, populate the form with task details
+    const taskName = taskButton.querySelector(".task-name").textContent;
+    const taskDueDate = taskButton.querySelector(".task-due-date").textContent;
+
+    document.getElementById("update-task-name").value = taskName;
+    document.getElementById("update-task-due-date").value = taskDueDate;
+
+    console.log("Task selected:", { taskName, taskDueDate });
+  });
+});
+
+// Close overlay on close button click
+closeOverlayButton.addEventListener("click", () => {
+  updateTaskOverlay.classList.add("hide");
 });
 
 // Handle the save button click
-saveTaskBtn.addEventListener('click', () => {
-  // Get updated values
-  const updatedName = document.getElementById('update-task-name').value;
-  const updatedDescription = document.getElementById('update-task-description').value;
-  const updatedDueDate = document.getElementById('update-task-due-date').value;
-  const updatedStatus = document.getElementById('update-task-status').value;
+saveTaskBtn.addEventListener("click", () => {
+  const updatedName = document.getElementById("update-task-name").value;
+  const updatedDescription = document.getElementById("update-task-description").value;
+  const updatedDueDate = document.getElementById("update-task-due-date").value;
+  const updatedStatus = document.getElementById("update-task-status").value;
 
-  // Simulate saving task details
-  console.log("Updated Task:", {
+  console.log("Task Updated:", {
     name: updatedName,
     description: updatedDescription,
     dueDate: updatedDueDate,
     status: updatedStatus,
   });
 
-  // Close the overlay
-  overlay.classList.add('hide');
+  updateTaskOverlay.classList.add("hide");
 });
 
-// Handle the cancel button click
-cancelTaskBtn.addEventListener('click', () => {
-  // Close the overlay
-  overlay.classList.add('hide');
+// Handle the delete button click
+deleteTaskBtn.addEventListener("click", () => {
+  console.log("Task Deleted");
+  updateTaskOverlay.classList.add("hide");
 });
-
-// Populate task details on overlay open
-populateTaskDetails(taskData);
-
-  </script>  
+</script>
 
 <!-- import IconifyIcon web component -->
 <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
