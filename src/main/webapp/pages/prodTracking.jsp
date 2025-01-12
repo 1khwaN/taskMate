@@ -49,7 +49,7 @@
                 class="button icon-button"
                 onclick="window.location.href='accProfile.jsp';"
             >
-                <img src="/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
+                <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
             <button

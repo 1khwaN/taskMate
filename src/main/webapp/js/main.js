@@ -1,5 +1,5 @@
 // Import Chart.js if you're using a bundler
-import { Chart } from "chart.js/auto";
+/*import { Chart } from "chart.js/auto";*/
 
 // Elements
 const radioViewOptions = document.querySelectorAll("input[name='view-option']");
