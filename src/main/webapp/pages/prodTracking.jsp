@@ -143,6 +143,27 @@
               <span>Board</span>
             </label>
           </div>
+          <!--Members-->
+	        <div class="radio-container">
+            <input
+              type="radio"
+              id="members"
+              name="view-option"
+              value="members"
+              class="radio-input"
+              onclick="window.location.href='memberView.jsp';"
+            />
+            <label for="members" class="radio-label">
+              <!-- grid -->
+              <iconify-icon
+                icon="ic:round-grid-view"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Members</span>
+            </label>
+          </div>
         </div>
       </div>
 
