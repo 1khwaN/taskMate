@@ -19,4 +19,14 @@
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/LoginController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>prodTrackingController</display-name>
+    <servlet-name>prodTrackingController</servlet-name>
+    <servlet-class>controller.productivityTracking.prodTrackingController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>prodTrackingController</servlet-name>
+    <url-pattern>/prodTrackingController</url-pattern>
+  </servlet-mapping>
 </web-app>

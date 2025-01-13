@@ -17,7 +17,7 @@
     <!-- main css -->
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/prodTrack.css" />
+    <link rel="stylesheet" href="../css/boardView.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -102,7 +102,7 @@
             </label>
           </div>
       
-         <!--List
+          <!-- <!-- List
           <div class="radio-container">
             <input
               type="radio"
@@ -110,6 +110,7 @@
               name="view-option"
               value="list"
               class="radio-input"
+              
               onclick="window.location.href='listView.jsp';"
             />
             <label for="list" class="radio-label">
@@ -121,8 +122,8 @@
               ></iconify-icon>
               <span>List</span>
             </label>
-          </div> 
-       -->  
+          </div> --> 
+      
           <!-- Board -->
           <div class="radio-container">
             <input
@@ -131,6 +132,7 @@
               name="view-option"
               value="board"
               class="radio-input"
+              
               onclick="window.location.href='boardView.jsp';"
             />
             <label for="board" class="radio-label">
@@ -143,6 +145,7 @@
               <span>Board</span>
             </label>
           </div>
+          
           <!--Members-->
 	        <div class="radio-container">
             <input
@@ -151,6 +154,7 @@
               name="view-option"
               value="members"
               class="radio-input"
+              
               onclick="window.location.href='memberView.jsp';"
             />
             <label for="members" class="radio-label">
@@ -166,83 +170,78 @@
           </div>
         </div>
       </div>
-
-      <!-- tasks -->
-      <div class="prod-Container" style="display: flex; justify-content:center; gap: 20px;">
-        <!-- Container with background frame for both charts -->
-        <div class="chart-frame" style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 48%; max-width: 600px;">
-            <!-- Bar Chart -->
-            <canvas id="myBarChart" style="width:100%;max-width:600px"></canvas>
+     </div>
+    
+    <!-- Productivity Charts -->
+    <div class="prod-Container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        <!-- Bar Chart -->
+        <div class="chart-frame">
+            <canvas id="barChart"></canvas>
         </div>
-    
-        <div class="chart-frame" style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); width: 48%; max-width: 600px;">
-            <!-- Pie Chart -->
-            <canvas id="myPieChart" style="width:100%;max-width:600px;"></canvas>
+        <!-- Pie Chart -->
+        <div class="chart-frame">
+            <canvas id="pieChart"></canvas>
         </div>
-    
-        <script>
-            // Bar Chart
-            var xValues = ["To Do", "Doing", "Done"];
-            var yValues = [5, 12, 8];
-            var barColors = ["red", "green", "blue"];
-
-            new Chart("myBarChart", {
-                type: "bar",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        backgroundColor: barColors,
-                        data: yValues
-                    }]
-                },
-                options: {
-                    legend: { display: false },
-                    title: {
-                        display: true,
-                        text: "Current Status of Tasks"
-                    },
-                    scales: {
-                    	 yAxes: [{ // For Chart.js 2.5.0, use yAxes
-                    	        ticks: {
-                    	          beginAtZero: true // Ensure y-axis starts at 0
-                    	        }
-                    	 }]
-                    }
-                }
-            });
-
-    
-            // Pie Chart
-            var pieValues = [5, 12, 8]; // Same data, or can be changed for the pie chart
-            var pieLabels = ["To Do", "Doing", "Done"];
-            var pieColors = ["red", "green", "blue"];
-    
-            new Chart("myPieChart", {
-                type: "pie",
-                data: {
-                    labels: pieLabels,
-                    datasets: [{
-                        backgroundColor: pieColors,
-                        data: pieValues
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            enabled: true
-                        }
-                    }
-                }
-            });
-        </script>
     </div>
     
-    
-    
+    <!-- Script to generate dynamic data -->
+    <script>
+        // Fetch data dynamically from JSP backend
+        var taskData = {
+            labels: [<%= request.getAttribute("taskStatuses") %>], // Example: ["To Do", "Doing", "Done"]
+            values: [<%= request.getAttribute("taskCounts") %>],  // Example: [5, 12, 8]
+        };
+
+        // Bar Chart
+        new Chart("barChart", {
+            type: "bar",
+            data: {
+                labels: taskData.labels,
+                datasets: [{
+                    label: 'Number of Tasks',
+                    backgroundColor: ["red", "green", "blue"], // Customize colors
+                    data: taskData.values
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Task Status Overview"
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: { beginAtZero: true }
+                    }]
+                },
+                legend: { display: false }
+            }
+        });
+
+        // Pie Chart
+        new Chart("pieChart", {
+            type: "pie",
+            data: {
+                labels: taskData.labels,
+                datasets: [{
+                    backgroundColor: ["red", "green", "blue"], // Same colors as bar chart
+                    data: taskData.values
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Task Distribution"
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+    </script>
+</div>
 
         
     <!-- import IconifyIcon web component -->
