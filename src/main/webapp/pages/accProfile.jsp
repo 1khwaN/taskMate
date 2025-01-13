@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +18,7 @@
     <!-- main css -->
     <!-- <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/entry-page.css" /> -->
-    <link rel="stylesheet" href="/taskMate/css/bootstrap-5.0.2-dist/bootstrap-5.0.2-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/taskMate/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/taskMate/css/accProfile.css" />
 
 
@@ -42,47 +43,50 @@
         </div>
     </div>
     <section class="section">
-        <div class="row">
-            <div class="col-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center align-items-center flex-column">
-                            <div class="avatar avatar-xl">
-                                <img src="../img/profPic.png" alt="Avatar">
-                            </div>
-
-                            <h3 class="mt-3">John Doe</h3>
-                            <p class="text-small">Project Manager</p>
+    <div class="row">
+        <!-- Profile Picture Section -->
+        <div class="col-12 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                        <div class="avatar avatar-xl">
+                            <img src="../img/profPic.png" alt="Avatar">
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="accProfile.jsp" method="post">
-                            <div class="form-group">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Your Name" value="">
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text" name="email" id="email" class="form-control" placeholder="Your Email" value="">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone" class="form-label">Password:</label>
-                                <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Password" value="">
-                            </div>
-                            <div class="form-group">
-                                <br>
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </form>
+                        <h3 class="mt-3">${user.name}</h3>
+                        <p class="text-small">Project Manager</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- Form Section -->
+        <div class="col-12 col-lg-8">
+            <div class="card h-100">
+                <div class="card-body">
+                    <form action="accProfile.jsp" method="post">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder=${user.id} value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" name="email" id="email" class="form-control" placeholder="Your Email" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Password:</label>
+                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Password" value="">
+                        </div>
+                        <div class="form-group">
+                            <br>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 </div>
 </body> 
 </html>
