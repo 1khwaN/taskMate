@@ -202,9 +202,11 @@
                         text: "Current Status of Tasks"
                     },
                     scales: {
-                        y: {
-                            beginAtZero: true // Ensure y-axis starts at 0
-                        }
+                    	 yAxes: [{ // For Chart.js 2.5.0, use yAxes
+                    	        ticks: {
+                    	          beginAtZero: true // Ensure y-axis starts at 0
+                    	        }
+                    	 }]
                     }
                 }
             });
