@@ -17,7 +17,7 @@
     <!-- main css -->
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
-    
+    <link rel="stylesheet" href="../css/boardView.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -369,7 +369,7 @@
   <div class="overlay-content blue-background">
     <!-- Close button -->
     <button
-      class="button circle-button red-background flex justify-center items-center close-button"
+      class="button circle-button flex justify-center items-center close-button"
     >
       <iconify-icon
         icon="material-symbols:close-rounded"
@@ -451,39 +451,8 @@
     </form>
   </div>
 </div>
-<style>
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
 
-.overlay-content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  width: 400px;
-  max-width: 90%;
-  position: relative;
-}
 
-.hide {
-  display: none;
-}
-
-.control-buttons-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-</style>
 
 <script>
 // Select necessary elements
