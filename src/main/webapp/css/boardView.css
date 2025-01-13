@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease-out; /* Add fade-in animation */
+  animation: fadeIn 0.4s ease-out; /* Add fade-in animation */
 }
 
 .overlay.hide {
@@ -30,7 +30,7 @@
   max-width: 400px;
   width: 90%;
   position: relative;
-  animation: popUp 0.3s ease-out; /* Add pop-up animation */
+  animation: popUp 0.4s ease-out; /* Add pop-up animation */
 }
 
 /* Close button */
