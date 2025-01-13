@@ -152,7 +152,7 @@
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon
-                icon="ic:round-grid-view"
+                icon="tdesign:member-filled"
                 style="color: black"
                 width="24"
                 height="24"
