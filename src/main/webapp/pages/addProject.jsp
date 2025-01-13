@@ -5,16 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Task Management System</title>
+
+	<link rel="stylesheet" href="/taskMate/css/bootstrap.min.css" />
+    
 </head>
 <body>
 	<h1 class="header">Add Project</h1>
         <form class="form" autocomplete="off">
           <label for="name" class="label">Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            class="input white-background"
+          <input type="text" name="name" id="name" class="input white-background"
             required
           />
           <label for="description" class="label">Description</label>
@@ -46,8 +45,7 @@
                 required
               />
             </div>
-            
-              
+
               <input
                 type="text"
                 name="due-date-year"
