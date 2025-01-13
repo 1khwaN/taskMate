@@ -12,6 +12,7 @@ public class Task implements Serializable{
 	private Date endDate;
 	private String taskStatus;
 	private int projectID;
+	private Project project;
 	
 	public Task() {
 		
