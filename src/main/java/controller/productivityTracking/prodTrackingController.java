@@ -1,58 +1,60 @@
 package controller.productivityTracking;
 
+import dao.ProdTrackingDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import dao.ProdTrackingDAO;
-
-/**
- * Servlet implementation class prodTrackingController
- */
+@WebServlet("/prodTracking")
 public class prodTrackingController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+
     public prodTrackingController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		ProdTrackingDAO dao = new ProdTrackingDAO();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ProdTrackingDAO dao = new ProdTrackingDAO();
 
-	    // Fetch task counts by status from the database
-	    Map<String, Integer> taskCounts = dao.getTaskCountsByStatus();
+        // Fetch task counts by status from the database
+        Map<String, Integer> taskCounts = dao.getTaskCountsByStatus();
 
-	    // Prepare data for JSP
-	    String statuses = String.join(", ", taskCounts.keySet().stream().map(s -> "\"" + s + "\"").toArray(String[]::new));
-	    String counts = taskCounts.values().stream().map(String::valueOf).collect(Collectors.joining(", "));
+        // Manually build JSON strings for statuses and counts
+        StringBuilder statusesJson = new StringBuilder("[");
+        StringBuilder countsJson = new StringBuilder("[");
 
-	    // Pass the data to the JSP
-	    request.setAttribute("taskStatuses", statuses);
-	    request.setAttribute("taskCounts", counts);
+        for (Map.Entry<String, Integer> entry : taskCounts.entrySet()) {
+            statusesJson.append("\"").append(entry.getKey()).append("\",");
+            countsJson.append(entry.getValue()).append(",");
+        }
 
-	    // Forward to JSP
-	    request.getRequestDispatcher("views/prodTracking.jsp").forward(request, response);
-	}
+        // Remove trailing commas and close the arrays
+        if (!taskCounts.isEmpty()) {
+            statusesJson.deleteCharAt(statusesJson.length() - 1);
+            countsJson.deleteCharAt(countsJson.length() - 1);
+        }
+        statusesJson.append("]");
+        countsJson.append("]");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
+        // Pass the JSON data to the JSP
+        request.setAttribute("taskStatuses", statusesJson.toString());
+        request.setAttribute("taskCounts", countsJson.toString());
 
+        System.out.println("Statuses JSON: " + statusesJson);
+        System.out.println("Counts JSON: " + countsJson);
+
+        // Forward to JSP
+        request.getRequestDispatcher("pages/prodTracking.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // No POST handling
+    }
 }

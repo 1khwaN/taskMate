@@ -64,9 +64,10 @@
             <div class="card h-100">
                 <div class="card-body">
                     <form action="accProfile.jsp" method="post">
+                        <input type="hidden" name="id" id="id" class="form-control" placeholder=${user.id} value="">               
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder=${user.id} value="">
+                            <input type="text" name="name" id="name" class="form-control" placeholder=${user.name} value="">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>

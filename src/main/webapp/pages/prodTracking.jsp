@@ -175,6 +175,14 @@
     <!-- Productivity Charts -->
     <div class="prod-Container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
         <!-- Bar Chart -->
+         <%
+    String taskStatuses = (String) request.getAttribute("taskStatuses");
+    String taskCounts = (String) request.getAttribute("taskCounts");
+
+    // Debugging in JSP
+    System.out.println("Received taskStatuses: " + taskStatuses);
+    System.out.println("Received taskCounts: " + taskCounts);
+	%>
         <div class="chart-frame">
             <canvas id="barChart"></canvas>
         </div>
@@ -184,64 +192,69 @@
         </div>
     </div>
     
+   
     <!-- Script to generate dynamic data -->
-    <script>
-        // Fetch data dynamically from JSP backend
-        var taskData = {
-            labels: [<%= request.getAttribute("taskStatuses") %>], // Example: ["To Do", "Doing", "Done"]
-            values: [<%= request.getAttribute("taskCounts") %>],  // Example: [5, 12, 8]
-        };
+   <script>
+    // Fetch data dynamically from JSP backend
+    var taskData = {
+        labels: JSON.parse('<%= request.getAttribute("taskStatuses") != null ? request.getAttribute("taskStatuses") : "[]" %>'), // Example: ["To Do", "Doing", "Done"]
+        values: JSON.parse('<%= request.getAttribute("taskCounts") != null ? request.getAttribute("taskCounts") : "[]" %>')  // Example: [5, 12, 8]
+    };
 
-        // Bar Chart
-        new Chart("barChart", {
-            type: "bar",
-            data: {
-                labels: taskData.labels,
-                datasets: [{
-                    label: 'Number of Tasks',
-                    backgroundColor: ["red", "green", "blue"], // Customize colors
-                    data: taskData.values
+    console.log("Task Data Labels: ", taskData.labels);
+    console.log("Task Data Values: ", taskData.values);
+
+    // Bar Chart
+    new Chart("barChart", {
+        type: "bar",
+        data: {
+            labels: taskData.labels,
+            datasets: [{
+                label: 'Number of Tasks',
+                backgroundColor: ["red", "green", "blue"], // Customize colors
+                data: taskData.values
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Task Status Overview"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: { beginAtZero: true }
                 }]
             },
-            options: {
-                title: {
-                    display: true,
-                    text: "Task Status Overview"
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: { beginAtZero: true }
-                    }]
-                },
-                legend: { display: false }
-            }
-        });
+            legend: { display: true }
+        }
+    });
 
-        // Pie Chart
-        new Chart("pieChart", {
-            type: "pie",
-            data: {
-                labels: taskData.labels,
-                datasets: [{
-                    backgroundColor: ["red", "green", "blue"], // Same colors as bar chart
-                    data: taskData.values
-                }]
+    // Pie Chart
+    new Chart("pieChart", {
+        type: "pie",
+        data: {
+            labels: taskData.labels,
+            datasets: [{
+                backgroundColor: ["red", "green", "blue"], // Same colors as bar chart
+                data: taskData.values
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Task Distribution"
             },
-            options: {
-                title: {
-                    display: true,
-                    text: "Task Distribution"
-                },
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
                 }
             }
-        });
-    </script>
-</div>
+        }
+    });
+</script>
+
+
 
         
     <!-- import IconifyIcon web component -->
