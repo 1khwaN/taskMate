@@ -18,11 +18,12 @@ public class ProdTrackingDAO{
 	public Map<String, Integer> getTaskCountsByStatus() {
         Map<String, Integer> taskCounts = new HashMap<>();
         
+        
 
         try { 
         	con = ConnectionManager.getConnection();
             ps = con.prepareStatement(getTaskCount);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             while (rs.next()) {
                 String status = rs.getString("status");
