@@ -9,7 +9,12 @@ public class ProdTrackingDAO {
     private static final String GET_TASK_COUNT = "SELECT taskStatus, COUNT(*) AS count FROM task GROUP BY taskStatus";
 
     public Map<String, Integer> getTaskCountsByStatus() {
-        Map<String, Integer> taskCounts = new HashMap<>();
+        // Map to hold the result in the desired order
+        Map<String, Integer> taskCounts = new LinkedHashMap<>();
+        
+        // Predefined order of task statuses
+        List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done");
+
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -23,15 +28,23 @@ public class ProdTrackingDAO {
             rs = ps.executeQuery();
 
             // Process the result set
+            Map<String, Integer> result = new HashMap<>();
             while (rs.next()) {
                 String status = rs.getString("taskStatus"); // Ensure column name matches the DB schema
                 int count = rs.getInt("count");
 
-                // Debugging output
-                System.out.println("Task Status: " + status + ", Count: " + count);
+                // Store the result in a temporary map
+                result.put(status, count);
+            }
 
-                // Store the result in the map
-                taskCounts.put(status, count);
+            // Now, order the result based on the predefined status order
+            for (String status : statusOrder) {
+                if (result.containsKey(status)) {
+                    taskCounts.put(status, result.get(status));
+                } else {
+                    // If a status is missing (e.g., no tasks in this status), assign a count of 0
+                    taskCounts.put(status, 0);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Log the exception
@@ -47,7 +60,7 @@ public class ProdTrackingDAO {
         }
 
         // Debugging output for the entire map
-        System.out.println("Task Counts Map: " + taskCounts);
+        System.out.println("Ordered Task Counts Map: " + taskCounts);
 
         // Return the task counts map
         return taskCounts;

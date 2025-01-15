@@ -237,7 +237,7 @@
         data: {
             labels: taskData.labels,
             datasets: [{
-                backgroundColor: ["olive", "peru", "navy"], // Same colors as bar chart
+                backgroundColor: ["khaki", "peru", "navy"], // Same colors as bar chart
                 data: taskData.values
             }]
         },
@@ -260,6 +260,6 @@
     <!-- import IconifyIcon web component -->
     <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
     <!-- js -->
-    <script src="../js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>
   </body>
 </html>
