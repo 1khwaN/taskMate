@@ -88,7 +88,7 @@
               value="track"
               class="radio-input"
               
-              onclick="window.location.href='prodTracking.jsp';"
+              onclick="window.location.href='/taskMate/prodTrackingController';"
               
             />
             <label for="track" class="radio-label">

@@ -1,6 +1,7 @@
 package controller.productivityTracking;
 
 import dao.ProdTrackingDAO;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,6 +42,7 @@ public class prodTrackingController extends HttpServlet {
         }
         statusesJson.append("]");
         countsJson.append("]");
+        
 
         // Pass the JSON data to the JSP
         request.setAttribute("taskStatuses", statusesJson.toString());
@@ -50,7 +52,8 @@ public class prodTrackingController extends HttpServlet {
         System.out.println("Counts JSON: " + countsJson);
 
         // Forward to JSP
-        request.getRequestDispatcher("pages/prodTracking.jsp").forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("pages/prodTracking.jsp");
+        view.forward(request, response);
     }
 
     @Override

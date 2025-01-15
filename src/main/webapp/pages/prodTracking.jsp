@@ -15,9 +15,9 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -47,7 +47,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='accProfile.jsp';"
+                onclick="window.location.href='pages/accProfile.jsp';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -55,20 +55,20 @@
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
-              onclick="window.location.href='addTask.jsp';"
+              onclick="window.location.href='pages/addTask.jsp';"
             >
               Add task
             </button>
             <button
               id="add-project-cta"
               class="button regular-button green-background"
-              onclick="window.location.href='addProject.jsp';"
+              onclick="window.location.href='pages/addProject.jsp';"
             >
               Add Project
             </button>
             <button class="sign-out-cta"
             class="button regular-button red-background"
-            onclick="window.location.href='login.jsp';"
+            onclick="window.location.href='pages/login.jsp';"
             >
             Log out
             	
@@ -88,7 +88,7 @@
               value="track"
               class="radio-input"
               checked
-              onclick="window.location.href='prodTracking.jsp';"
+              onclick="window.location.href='/taskMate/prodTrackingController';"
               
             />
             <label for="track" class="radio-label">
@@ -133,7 +133,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='boardView.jsp';"
+              onclick="window.location.href='pages/boardView.jsp';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -155,7 +155,7 @@
               value="members"
               class="radio-input"
               
-              onclick="window.location.href='memberView.jsp';"
+              onclick="window.location.href='pages/memberView.jsp';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->
@@ -197,8 +197,10 @@
    <script>
     // Fetch data dynamically from JSP backend
     var taskData = {
-        labels: JSON.parse('<%= request.getAttribute("taskStatuses") != null ? request.getAttribute("taskStatuses") : "[]" %>'), // Example: ["To Do", "Doing", "Done"]
+     	labels: JSON.parse('<%= request.getAttribute("taskStatuses") != null ? request.getAttribute("taskStatuses") : "[]" %>'), // Example: ["To Do", "Doing", "Done"]
         values: JSON.parse('<%= request.getAttribute("taskCounts") != null ? request.getAttribute("taskCounts") : "[]" %>')  // Example: [5, 12, 8]
+        /* labels: JSON.parse('["To Do", "In Progress", "Completed"]'),
+        values: JSON.parse('[5, 10, 7]') */
     };
 
     console.log("Task Data Labels: ", taskData.labels);
@@ -211,7 +213,7 @@
             labels: taskData.labels,
             datasets: [{
                 label: 'Number of Tasks',
-                backgroundColor: ["red", "green", "blue"], // Customize colors
+                backgroundColor: ["crimson", "salmon", "teal"], // Customize colors
                 data: taskData.values
             }]
         },
@@ -225,7 +227,7 @@
                     ticks: { beginAtZero: true }
                 }]
             },
-            legend: { display: true }
+            legend: { display: false }
         }
     });
 
@@ -235,7 +237,7 @@
         data: {
             labels: taskData.labels,
             datasets: [{
-                backgroundColor: ["red", "green", "blue"], // Same colors as bar chart
+                backgroundColor: ["olive", "peru", "navy"], // Same colors as bar chart
                 data: taskData.values
             }]
         },
@@ -253,8 +255,6 @@
         }
     });
 </script>
-
-
 
         
     <!-- import IconifyIcon web component -->
