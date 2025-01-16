@@ -25,7 +25,7 @@ public class prodTrackingController extends HttpServlet {
 
         // Get the logged-in user ID from the session
 //        Integer loggedInUserId = (Integer) request.getSession().getAttribute("userID");
-        Integer loggedInUserId = 2;
+        Integer loggedInUserId = 4;
 //        if (loggedInUserId == null) {
 //            // If user is not logged in, redirect to login page
 //            response.sendRedirect("pages/login.jsp");

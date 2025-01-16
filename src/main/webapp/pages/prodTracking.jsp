@@ -17,6 +17,9 @@
     <!-- main css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/prodTrack.css" />
+    
+    
     
 
 
@@ -261,7 +264,7 @@
     const taskData = {
         labels: ${taskStatuses}, // Task statuses: ["To Do", "Doing", "Done"]
         datasets: [{
-            label: "User Tasks",
+            label: "User Tasks", 
             backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each bar segment
             data: ${taskCounts} // Task counts for each status
         }]
@@ -279,9 +282,13 @@
             },
             scales: {
                 x: { stacked: true },
-                y: { stacked: true, beginAtZero: true }
+                y: { 
+                    stacked: true,
+                    beginAtZero: true 
+                }
             }
         }
+
     });
 
 

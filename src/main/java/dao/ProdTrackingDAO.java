@@ -7,13 +7,18 @@ import connection.ConnectionManager;
 public class ProdTrackingDAO {
 
     private static final String GET_TASK_COUNT = "SELECT taskStatus, COUNT(*) AS count FROM task GROUP BY taskStatus";
-    private static final String GET_TASK_COUNT_BY_USER = "SELECT taskStatus, COUNT(*) AS count FROM task WHERE userID = ? GROUP BY taskStatus";
+    private static final String GET_TASK_COUNT_BY_USER = "SELECT t.taskStatus, COUNT(*) AS count " +
+												         "FROM task t " +
+												         "INNER JOIN task_member tm ON t.taskID = tm.taskID " +
+												         "INNER JOIN user u ON tm.userID = u.userID " +
+												         "WHERE u.userID = ? " +
+												         "GROUP BY t.taskStatus";
     
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
 
-
+ 
     public Map<String, Integer> getTaskCountsByStatus() {
         // Map to hold the result in the desired order
         Map<String, Integer> taskCounts = new LinkedHashMap<>();
@@ -70,7 +75,7 @@ public class ProdTrackingDAO {
     
     public Map<String, Integer> getTaskCountsByUser(int userID) {
         Map<String, Integer> taskCounts = new LinkedHashMap<>();
-        List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done");
+        List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done"); 
 
 
 
