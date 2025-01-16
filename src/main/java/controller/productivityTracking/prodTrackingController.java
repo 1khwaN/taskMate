@@ -23,38 +23,44 @@ public class prodTrackingController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProdTrackingDAO dao = new ProdTrackingDAO();
 
-        // Fetch task counts by status from the database
-        Map<String, Integer> taskCounts = dao.getTaskCountsByStatus();
+        // Get the logged-in user ID from the session
+//        Integer loggedInUserId = (Integer) request.getSession().getAttribute("userID");
+        Integer loggedInUserId = 2;
+//        if (loggedInUserId == null) {
+//            // If user is not logged in, redirect to login page
+//            response.sendRedirect("pages/login.jsp");
+//            return;
+//        }
 
-        // Manually build JSON strings for statuses and counts
+        // Fetch task counts for the logged-in user
+        Map<String, Integer> userTaskCounts = dao.getTaskCountsByUser(loggedInUserId);
+
+        // Prepare JSON for chart data
         StringBuilder statusesJson = new StringBuilder("[");
         StringBuilder countsJson = new StringBuilder("[");
 
-        for (Map.Entry<String, Integer> entry : taskCounts.entrySet()) {
+        for (Map.Entry<String, Integer> entry : userTaskCounts.entrySet()) {
             statusesJson.append("\"").append(entry.getKey()).append("\",");
             countsJson.append(entry.getValue()).append(",");
         }
 
         // Remove trailing commas and close the arrays
-        if (!taskCounts.isEmpty()) {
+        if (!userTaskCounts.isEmpty()) {
             statusesJson.deleteCharAt(statusesJson.length() - 1);
             countsJson.deleteCharAt(countsJson.length() - 1);
         }
         statusesJson.append("]");
         countsJson.append("]");
-        
 
         // Pass the JSON data to the JSP
         request.setAttribute("taskStatuses", statusesJson.toString());
         request.setAttribute("taskCounts", countsJson.toString());
 
-        System.out.println("Statuses JSON: " + statusesJson);
-        System.out.println("Counts JSON: " + countsJson);
-
         // Forward to JSP
         RequestDispatcher view = request.getRequestDispatcher("pages/prodTracking.jsp");
         view.forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

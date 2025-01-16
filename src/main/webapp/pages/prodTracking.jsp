@@ -186,6 +186,9 @@
         <div class="chart-frame">
             <canvas id="barChart"></canvas>
         </div>
+        <div class="chart-frame">
+            <canvas id="stackedBarChart"></canvas>
+        </div>
         <!-- Pie Chart -->
         <div class="chart-frame">
             <canvas id="pieChart"></canvas>
@@ -194,44 +197,98 @@
     
    
     <!-- Script to generate dynamic data -->
-   <script>
-    // Fetch data dynamically from JSP backend
-    var taskData = {
-     	labels: JSON.parse('<%= request.getAttribute("taskStatuses") != null ? request.getAttribute("taskStatuses") : "[]" %>'), // Example: ["To Do", "Doing", "Done"]
-        values: JSON.parse('<%= request.getAttribute("taskCounts") != null ? request.getAttribute("taskCounts") : "[]" %>')  // Example: [5, 12, 8]
-        /* labels: JSON.parse('["To Do", "In Progress", "Completed"]'),
-        values: JSON.parse('[5, 10, 7]') */
+   <!-- <script>	
+   // Prepare chart data from server-side attributes
+   const taskData = {
+       labels: ${taskStatuses}, // Statuses (To Do, Doing, Done)
+       values: ${taskCounts}   // Task counts for the logged-in user
+   };
+
+   // Check if there is data to display
+   if (taskData.labels.length > 0 && taskData.values.length > 0) {
+       // Render Bar Chart
+       new Chart("barChart", {
+           type: "bar",
+           data: {
+               labels: taskData.labels, // X-axis labels (To Do, Doing, Done)
+               datasets: [{
+                   label: "Task Count",
+                   backgroundColor: ["khaki", "peru", "navy"], // Bar colors
+                   data: taskData.values // Task counts
+               }]
+           },
+           options: {
+               responsive: true,
+               plugins: {
+                   legend: {
+                       display: false // Hide legend since there's only one dataset
+                   },
+                   tooltip: {
+                       callbacks: {
+                           label: (context) => {
+                               const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                               const percentage = ((context.raw / total) * 100).toFixed(2);
+                               return `${context.raw} (${percentage}%)`; // Show count and percentage
+                           }
+                       }
+                   }
+               },
+               scales: {
+                   x: {
+                       title: {
+                           display: true,
+                           text: "Task Status"
+                       }
+                   },
+                   y: {
+                       title: {
+                           display: true,
+                           text: "Number of Tasks"
+                       },
+                       beginAtZero: true // Start Y-axis at 0
+                   }
+               }
+           }
+       });
+   } else {
+       // Show a message if no tasks exist for the logged-in user
+       document.write("<p>No tasks available for the logged-in user.</p>");
+   }  -->
+   
+    <script>
+   // Data from the server
+   // Chart data passed from servlet
+    const taskData = {
+        labels: ${taskStatuses}, // Task statuses: ["To Do", "Doing", "Done"]
+        datasets: [{
+            label: "User Tasks",
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each bar segment
+            data: ${taskCounts} // Task counts for each status
+        }]
     };
 
-    console.log("Task Data Labels: ", taskData.labels);
-    console.log("Task Data Values: ", taskData.values);
-
-    // Bar Chart
-    new Chart("barChart", {
+    // Render stacked bar chart
+    new Chart("stackedBarChart", {
         type: "bar",
-        data: {
-            labels: taskData.labels,
-            datasets: [{
-                label: 'Number of Tasks',
-                backgroundColor: ["crimson", "salmon", "teal"], // Customize colors
-                data: taskData.values
-            }]
-        },
+        data: taskData,
         options: {
-            title: {
-                display: true,
-                text: "Task Status Overview"
+            responsive: true,
+            plugins: {
+                legend: { position: "top" },
+                title: { display: true, text: "Task Distribution by Status" }
             },
             scales: {
-                yAxes: [{
-                    ticks: { beginAtZero: true }
-                }]
-            },
-            legend: { display: false }
+                x: { stacked: true },
+                y: { stacked: true, beginAtZero: true }
+            }
         }
     });
 
-    // Pie Chart
+
+
+
+
+    /* // Pie Chart
     new Chart("pieChart", {
         type: "pie",
         data: {
@@ -253,7 +310,7 @@
                 }
             }
         }
-    });
+    }); */
 </script>
 
         

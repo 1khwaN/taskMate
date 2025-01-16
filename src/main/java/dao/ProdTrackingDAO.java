@@ -7,6 +7,12 @@ import connection.ConnectionManager;
 public class ProdTrackingDAO {
 
     private static final String GET_TASK_COUNT = "SELECT taskStatus, COUNT(*) AS count FROM task GROUP BY taskStatus";
+    private static final String GET_TASK_COUNT_BY_USER = "SELECT taskStatus, COUNT(*) AS count FROM task WHERE userID = ? GROUP BY taskStatus";
+    
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
 
     public Map<String, Integer> getTaskCountsByStatus() {
         // Map to hold the result in the desired order
@@ -14,10 +20,6 @@ public class ProdTrackingDAO {
         
         // Predefined order of task statuses
         List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done");
-
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
         try {
             // Establish connection
@@ -65,4 +67,43 @@ public class ProdTrackingDAO {
         // Return the task counts map
         return taskCounts;
     }
+    
+    public Map<String, Integer> getTaskCountsByUser(int userID) {
+        Map<String, Integer> taskCounts = new LinkedHashMap<>();
+        List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done");
+
+
+
+        try {
+            con = ConnectionManager.getConnection();
+            ps = con.prepareStatement(GET_TASK_COUNT_BY_USER);
+            ps.setInt(1, userID); // Set the user ID parameter
+            rs = ps.executeQuery();
+
+            Map<String, Integer> result = new HashMap<>();
+            while (rs.next()) {
+                String status = rs.getString("taskStatus");
+                int count = rs.getInt("count");
+                result.put(status, count);
+            }
+
+            // Ensure the task counts follow the predefined status order
+            for (String status : statusOrder) {
+                taskCounts.put(status, result.getOrDefault(status, 0));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return taskCounts;
+    }
+
 }
