@@ -6,13 +6,20 @@ import connection.ConnectionManager;
 
 public class ProdTrackingDAO {
 
-    private static final String GET_TASK_COUNT = "SELECT taskStatus, COUNT(*) AS count FROM task GROUP BY taskStatus";
+    private static final String GET_TASK_COUNT = "SELECT taskStatus, COUNT(*) AS count FROM task GROUP BY taskStatus";//not used
     private static final String GET_TASK_COUNT_BY_USER = "SELECT t.taskStatus, COUNT(*) AS count " +
 												         "FROM task t " +
 												         "INNER JOIN task_member tm ON t.taskID = tm.taskID " +
 												         "INNER JOIN user u ON tm.userID = u.userID " +
 												         "WHERE u.userID = ? " +
-												         "GROUP BY t.taskStatus";
+												         "GROUP BY t.taskStatus";// USE FOR NORMAL COUNT
+    
+    private static final String GET_TASK_DETAILS_BY_USER = "SELECT t.taskStatus, t.taskName " +
+												           "FROM task t " +
+												           "INNER JOIN task_member tm ON t.taskID = tm.taskID " +
+												           "INNER JOIN user u ON tm.userID = u.userID " +
+												           "WHERE u.userID = ? " +
+												           "ORDER BY t.taskStatus";//Use for Chart(member)
     
     Connection con = null;
     PreparedStatement ps = null;
@@ -110,5 +117,45 @@ public class ProdTrackingDAO {
 
         return taskCounts;
     }
+    
+    public Map<String, List<String>> getTaskDetailsByUser(int userID) {
+        Map<String, List<String>> taskDetails = new LinkedHashMap<>();
+        List<String> statusOrder = Arrays.asList("To Do", "Doing", "Done"); 
+
+        // Initialize the map with empty lists for each status
+        for (String status : statusOrder) {
+            taskDetails.put(status, new ArrayList<>());
+        }
+
+        try {
+            con = ConnectionManager.getConnection();
+            ps = con.prepareStatement(GET_TASK_DETAILS_BY_USER);
+            ps.setInt(1, userID); // Set the user ID parameter
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String status = rs.getString("taskStatus");
+                String taskName = rs.getString("taskName");
+
+                // Add the task name to the corresponding status
+                if (taskDetails.containsKey(status)) {
+                    taskDetails.get(status).add(taskName);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return taskDetails;
+    }
+
 
 }

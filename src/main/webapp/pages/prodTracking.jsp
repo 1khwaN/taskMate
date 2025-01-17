@@ -199,66 +199,8 @@
     </div>
     
    
-    <!-- Script to generate dynamic data -->
-   <!-- <script>	
-   // Prepare chart data from server-side attributes
-   const taskData = {
-       labels: ${taskStatuses}, // Statuses (To Do, Doing, Done)
-       values: ${taskCounts}   // Task counts for the logged-in user
-   };
-
-   // Check if there is data to display
-   if (taskData.labels.length > 0 && taskData.values.length > 0) {
-       // Render Bar Chart
-       new Chart("barChart", {
-           type: "bar",
-           data: {
-               labels: taskData.labels, // X-axis labels (To Do, Doing, Done)
-               datasets: [{
-                   label: "Task Count",
-                   backgroundColor: ["khaki", "peru", "navy"], // Bar colors
-                   data: taskData.values // Task counts
-               }]
-           },
-           options: {
-               responsive: true,
-               plugins: {
-                   legend: {
-                       display: false // Hide legend since there's only one dataset
-                   },
-                   tooltip: {
-                       callbacks: {
-                           label: (context) => {
-                               const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-                               const percentage = ((context.raw / total) * 100).toFixed(2);
-                               return `${context.raw} (${percentage}%)`; // Show count and percentage
-                           }
-                       }
-                   }
-               },
-               scales: {
-                   x: {
-                       title: {
-                           display: true,
-                           text: "Task Status"
-                       }
-                   },
-                   y: {
-                       title: {
-                           display: true,
-                           text: "Number of Tasks"
-                       },
-                       beginAtZero: true // Start Y-axis at 0
-                   }
-               }
-           }
-       });
-   } else {
-       // Show a message if no tasks exist for the logged-in user
-       document.write("<p>No tasks available for the logged-in user.</p>");
-   }  -->
    
-    <script>
+   <!--  <script>
    // Data from the server
    // Chart data passed from servlet
     const taskData = {
@@ -289,9 +231,48 @@
             }
         }
 
-    });
+    }); -->
 
-
+<script>
+	//Pass data from servlet to JavaScript
+	const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
+	const taskDatasets = ${taskDatasets}; // Example: [{ label: "Task1", data: [1, 0, 0], backgroundColor: "#FF6384" }, ...]
+	
+	// Create the stacked bar chart
+	new Chart("stackedBarChart", {
+	    type: "bar",
+	    data: {
+	        labels: taskStatuses,
+	        datasets: taskDatasets
+	    },
+	    options: {
+	    	indexAxis: 'y',
+	        responsive: true,
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        // Show task name and its count when hovered
+	                        return context.dataset.label + ": " + context.raw;
+	                    }
+	                }
+	            },
+	            title: {
+	                display: true,
+	                text: "Task Distribution by Status"
+	            }
+	        },
+	        scales: {
+	            x: {
+	                stacked: true
+	            },
+	            y: {
+	                stacked: true,
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
 
 
 
