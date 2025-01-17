@@ -1,0 +1,194 @@
+package dao;
+
+import java.sql.*;
+import java.util.*;
+
+import connection.ConnectionManager;
+import model.Task;
+
+public class TaskDAO {
+
+	private static Connection con = null;
+	private static ResultSet rs = null;
+	private static PreparedStatement ps = null;
+	private static String sql = null;
+	
+	public static void addTask(Task task) {
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "INSERT INTO task(taskID,taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, task.getTaskName());
+			ps.setString(2, task.getDescription());
+			ps.setString(3, task.getStartDate());
+			ps.setString(4, task.getEndDate());
+			ps.setString(5, task.getTaskStatus());
+			ps.setInt(6, task.getProjectID());
+			
+			ps.executeUpdate();
+			
+			System.out.println("Task added successfully");
+			
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static List<Task> getAllTasks() {
+		List<Task> tasks = new ArrayList<Task>();
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "SELECT * FROM task ORDER BY taskID";
+			ps = con.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				Task task = new Task();
+				task.setTaskID(rs.getInt("taskID"));
+				task.setTaskName(rs.getString("taskName"));
+				task.setDescription(rs.getString("description"));
+				task.setStartDate(rs.getString("startDate"));
+				task.setEndDate(rs.getString("endDate"));
+				task.setTaskStatus(rs.getString("taskStatus"));
+				task.setProjectID(rs.getInt("projectID"));
+				tasks.add(task);
+			}
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return tasks;
+	}
+	
+	public static Task getTaskByID(int taskID) {
+		Task task = new Task();
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "SELECT * FROM task WHERE taskID = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, taskID);
+			
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				task.setTaskID(rs.getInt("taskID"));
+				task.setTaskName(rs.getString("taskName"));
+				task.setDescription(rs.getString("description"));
+				task.setStartDate(rs.getString("startDate"));
+				task.setEndDate(rs.getString("endDate"));
+				task.setTaskStatus(rs.getString("taskStatus"));
+				task.setProjectID(rs.getInt("projectID"));
+			}
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return task;
+	}
+	
+	public static void deleteProduct(int taskID) {
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "DELETE FROM task WHERE taskID = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, taskID);
+			
+			ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updateTask(Task task) {
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "UPDATE task SET taskName=?, description=?, startDate=?, endDate=?, taskStatus=?, projectID=? WHERE taskID=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, task.getTaskName());
+			ps.setString(2, task.getDescription());
+			ps.setString(3, task.getStartDate());
+			ps.setString(4, task.getEndDate());
+			ps.setString(5, task.getTaskStatus());
+			ps.setInt(6,  task.getProjectID());
+			ps.setInt(7,  task.getTaskID());
+			
+			ps.executeUpdate();
+			
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static List<Task> getProjectTasks() {
+		List<Task> tasks = new ArrayList<Task>();
+		try {
+			con = ConnectionManager.getConnection();
+			
+			sql = "SELECT * FROM task t INNER JOIN project p ON t.projectID = p.projectID";
+			ps = con.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				Task task = new Task();
+				task.setTaskID(rs.getInt("taskID"));
+				task.setTaskName(rs.getString("taskName"));
+				task.setDescription(rs.getString("description"));
+				task.setStartDate(rs.getString("startDate"));
+				task.setEndDate(rs.getString("endDate"));
+				task.setTaskStatus(rs.getString("taskStatus"));
+				task.setProjectID(rs.getInt("projectID"));
+				task.setProject(ProjectDAO.getProjectByID(rs.getInt("projectID")));
+				tasks.add(task);
+			}
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return tasks;
+	}
+	
+	public static List<Task> getTasksByProjectID(int projectID) {
+		List<Task> tasks = new ArrayList<Task>();
+		try {
+			con = ConnectionManager.getConnection();
+
+			// SQL query to select tasks for a specific projectID
+			sql = "SELECT * FROM task WHERE projectID = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, projectID);
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Task task = new Task();
+				task.setTaskID(rs.getInt("taskID"));
+				task.setTaskName(rs.getString("taskName"));
+				task.setDescription(rs.getString("description"));
+				task.setStartDate(rs.getString("startDate"));
+				task.setEndDate(rs.getString("endDate"));
+				task.setTaskStatus(rs.getString("taskStatus"));
+				task.setProjectID(rs.getInt("projectID"));
+				task.setProject(ProjectDAO.getProjectByID(rs.getInt("projectID"))); // Optional if needed
+				tasks.add(task);
+			}
+
+			con.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tasks;
+	}
+
+}
