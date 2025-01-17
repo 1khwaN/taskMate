@@ -29,17 +29,18 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Account Profile</h3>
-                <p class="text-subtitle text-muted">Users can change their profile information here</p>
+                <h2 class="list-header">Account Profile</h2>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+                    
+            <!-- BreadCrumb -->
+            <!-- <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.jsp">Dashboard</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Profile</li>
                     </ol>
                 </nav>
-            </div>
+            </div> -->
         </div>
     </div>
     <section class="section">
@@ -52,8 +53,8 @@
                         <div class="avatar avatar-xl">
                             <img src="../img/profPic.png" alt="Avatar">
                         </div>
-                        <h3 class="mt-3">${user.name}</h3>
-                        <p class="text-small">Project Manager</p>
+                        <h3 class="mt-3">${"Izzy"}</h3><!-- Retrive from db -->
+                        <p class="text-small">${"Project Manager"}</p><!-- Retrive from db -->
                     </div>
                 </div>
             </div>
@@ -64,22 +65,23 @@
             <div class="card h-100">
                 <div class="card-body">
                     <form action="accProfile.jsp" method="post">
-                        <input type="hidden" name="id" id="id" class="form-control" placeholder=${user.id} value="">               
+                        <input type="hidden" name="id" id="id" class="form-control"  value="${user.id}">               
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder=${user.name} value="">
+                            <input type="text" name="name" id="name" class="form-control" value="${user.name}">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Your Email" value="">
+                            <input type="text" name="email" id="email" class="form-control" value="${user.email}">
                         </div>
                         <div class="form-group">
                             <label for="phone" class="form-label">Password:</label>
-                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Password" value="">
+                            <input type="text" name="phone" id="phone" class="form-control" value="${user.password}">
                         </div>
                         <div class="form-group">
                             <br>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            
                         </div>
                     </form>
                 </div>

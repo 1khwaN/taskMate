@@ -180,12 +180,24 @@
               <p class="task-due-date">Due on January 7, 2020</p>
             </div>
             <!-- arrow -->
+            <button
+              style="background: none; border: none; cursor: pointer; padding: 0;"
+            	onclick="handleDelete()"
+            ></button>
             <iconify-icon
               icon="material-symbols:delete-rounded"
               style="color: red"
               width="30"
               height="30"
             ></iconify-icon>
+            </button>
+            
+            <script>
+  				function handleDelete() {
+    			alert('Delete button clicked!');
+    // Add your delete logic here
+  }
+</script>
           </div>
         </li>
       </ul>

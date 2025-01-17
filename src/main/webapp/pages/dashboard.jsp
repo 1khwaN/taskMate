@@ -55,6 +55,7 @@
             >
               Add task
             </button>
+            
             <button
               id="add-project-cta"
               class="button regular-button green-background"
