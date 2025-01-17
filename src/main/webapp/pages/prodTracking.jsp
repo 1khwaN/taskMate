@@ -17,6 +17,9 @@
     <!-- main css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/prodTrack.css" />
+    
+    
     
 
 
@@ -186,6 +189,9 @@
         <div class="chart-frame">
             <canvas id="barChart"></canvas>
         </div>
+        <div class="chart-frame">
+            <canvas id="stackedBarChart"></canvas>
+        </div>
         <!-- Pie Chart -->
         <div class="chart-frame">
             <canvas id="pieChart"></canvas>
@@ -193,45 +199,84 @@
     </div>
     
    
-    <!-- Script to generate dynamic data -->
-   <script>
-    // Fetch data dynamically from JSP backend
-    var taskData = {
-     	labels: JSON.parse('<%= request.getAttribute("taskStatuses") != null ? request.getAttribute("taskStatuses") : "[]" %>'), // Example: ["To Do", "Doing", "Done"]
-        values: JSON.parse('<%= request.getAttribute("taskCounts") != null ? request.getAttribute("taskCounts") : "[]" %>')  // Example: [5, 12, 8]
-        /* labels: JSON.parse('["To Do", "In Progress", "Completed"]'),
-        values: JSON.parse('[5, 10, 7]') */
+   
+   <!--  <script>
+   // Data from the server
+   // Chart data passed from servlet
+    const taskData = {
+        labels: ${taskStatuses}, // Task statuses: ["To Do", "Doing", "Done"]
+        datasets: [{
+            label: "User Tasks", 
+            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each bar segment
+            data: ${taskCounts} // Task counts for each status
+        }]
     };
 
-    console.log("Task Data Labels: ", taskData.labels);
-    console.log("Task Data Values: ", taskData.values);
-
-    // Bar Chart
-    new Chart("barChart", {
+    // Render stacked bar chart
+    new Chart("stackedBarChart", {
         type: "bar",
-        data: {
-            labels: taskData.labels,
-            datasets: [{
-                label: 'Number of Tasks',
-                backgroundColor: ["crimson", "salmon", "teal"], // Customize colors
-                data: taskData.values
-            }]
-        },
+        data: taskData,
         options: {
-            title: {
-                display: true,
-                text: "Task Status Overview"
+            responsive: true,
+            plugins: {
+                legend: { position: "top" },
+                title: { display: true, text: "Task Distribution by Status" }
             },
             scales: {
-                yAxes: [{
-                    ticks: { beginAtZero: true }
-                }]
-            },
-            legend: { display: false }
+                x: { stacked: true },
+                y: { 
+                    stacked: true,
+                    beginAtZero: true 
+                }
+            }
         }
-    });
 
-    // Pie Chart
+    }); -->
+
+<script>
+	//Pass data from servlet to JavaScript
+	const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
+	const taskDatasets = ${taskDatasets}; // Example: [{ label: "Task1", data: [1, 0, 0], backgroundColor: "#FF6384" }, ...]
+	
+	// Create the stacked bar chart
+	new Chart("stackedBarChart", {
+	    type: "bar",
+	    data: {
+	        labels: taskStatuses,
+	        datasets: taskDatasets
+	    },
+	    options: {
+	    	indexAxis: 'y',
+	        responsive: true,
+	        plugins: {
+	            tooltip: {
+	                callbacks: {
+	                    label: function(context) {
+	                        // Show task name and its count when hovered
+	                        return context.dataset.label + ": " + context.raw;
+	                    }
+	                }
+	            },
+	            title: {
+	                display: true,
+	                text: "Task Distribution by Status"
+	            }
+	        },
+	        scales: {
+	            x: {
+	                stacked: true
+	            },
+	            y: {
+	                stacked: true,
+	                beginAtZero: true
+	            }
+	        }
+	    }
+	});
+
+
+
+    /* // Pie Chart
     new Chart("pieChart", {
         type: "pie",
         data: {
@@ -253,7 +298,7 @@
                 }
             }
         }
-    });
+    }); */
 </script>
 
         
