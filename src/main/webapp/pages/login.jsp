@@ -25,7 +25,7 @@
         class="left-column flex flex-column height-full justify-center items-center"
       >
         <h1 class="welcoming-title">Welcome back</h1>
-        <form class="form" autocomplete="off" action="dashboard.jsp" method="post">
+        <form class="form" autocomplete="off" action="LoginController" method="post"> <!-- Update action to LoginController -->
           <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" class="input" required />
 
@@ -45,10 +45,16 @@
             Log in
           </button>
         </form>
+
         <p class="sign-up-prompt">
           Don’t have an account?
           <a href="./signup.jsp" class="sign-up-link">Sign up</a>
         </p>
+        
+        <!-- Show error message if login fails -->
+        <c:if test="${not empty errorMessage}">
+            <div class="error-message">${errorMessage}</div>
+        </c:if>
       </div>
       <!-- right side -->
       <div class="right-column"></div>
