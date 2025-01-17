@@ -102,28 +102,7 @@
             </label>
           </div>
       
-          <!-- <!-- List
-          <div class="radio-container">
-            <input
-              type="radio"
-              id="list"
-              name="view-option"
-              value="list"
-              class="radio-input"
-              
-              onclick="window.location.href='listView.jsp';"
-            />
-            <label for="list" class="radio-label">
-              <iconify-icon
-                icon="material-symbols:format-list-bulleted-rounded"
-                style="color: black"
-                width="24"
-                height="24"
-              ></iconify-icon>
-              <span>List</span>
-            </label>
-          </div> --> 
-      
+          
           <!-- Board -->
           <div class="radio-container">
             <input
@@ -175,6 +154,46 @@
      <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<!-- js -->
 	<script src="../js/main.js"></script>
+	
+	<div id="board-view" class="board-view">
+    <!-- list -->
+    <div>
+			<div
+				style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="list-header">
+					<span class="text">List of Members</span>
+
+				</h2>
+				<button id="add-project-cta"
+					class="button regular-button green-background"
+					onclick="window.location.href='addMembers.jsp';">Add
+					Member</button>
+			</div>
+
+
+
+			<ul class="tasks-list blue">
+        <li class="task-item">
+          <div class="task-button">
+            <div class="task-button">
+              <p class="task-name">Design UI</p>
+              <p class="task-due-date">Due on January 7, 2020</p>
+            </div>
+            <!-- arrow -->
+            <iconify-icon
+              icon="material-symbols:delete-rounded"
+              style="color: red"
+              width="30"
+              height="30"
+            ></iconify-icon>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- list -->
+    
+  </div>
+	
    </body>
   </html>
       
