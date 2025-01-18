@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import connection.ConnectionManager;
+import model.User;
 
 public class Member {
 	private static Connection con = null;
@@ -22,6 +23,6 @@ public class Member {
 		catch (Exception e) {
 			
 		}
-		return 
+		return user;
 	}
 }

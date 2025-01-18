@@ -8,73 +8,46 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
-
+import dao.UserDAO;
 import java.io.IOException;
 
-import dao.UserDAO;
-
-
+//@WebServlet("/LoginController") // Use this or web.xml, not both
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private HttpSession session;
-	private RequestDispatcher view;
-	
-    public LoginController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Retrieve and set user credentials
-        	User user = new User();
-        	
-        	String email = request.getParameter("email");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
-            
+
+            User user = new User();
             user.setEmail(email);
             user.setPassword(password);
 
-            // Attempt to log in the user
             user = UserDAO.login(user);
 
-          //set user session if user is valid
-            if (user.isLoggedIn()) {
-				session = request.getSession(true);
+            if (user != null && user.isLoggedIn()) {
+                HttpSession session = request.getSession(true);
                 session.setAttribute("sessionId", user.getUserId());
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
-                
-                // Redirect based on user role
+
+                RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                	request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));   					
-                	System.out.print(user.getEmail()+" Login successfully");
-                	view = request.getRequestDispatcher("dashboard.jsp"); 			// staff page
-					view.forward(request, response);
-                	
-                } else 
-                    response.sendRedirect("memberView.jsp");
-                    System.out.print(user.getEmail()+" Login successfully");
-                	view = request.getRequestDispatcher("memberView.jsp"); 			// staff page
-					view.forward(request, response);
-					
+                    view = request.getRequestDispatcher("dashboard.jsp");
+                } else { // Member
+                    view = request.getRequestDispatcher("memberView.jsp");
+                }
+                request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
+                System.out.print(user.getEmail() + " Login successfully");
+                view.forward(request, response);
             } else {
-                // Invalid login, redirect to error page
-				/*
-				 * request.setAttribute("errorMessage", "Invalid email or password.");
-				 * RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-				 * dispatcher.forward(request, response);
-				 */
-            	response.sendRedirect("invalidLogin.jsp");
+                response.sendRedirect("invalidLogin.jsp");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-			/*
-			 * request.setAttribute("errorMessage",
-			 * "An unexpected error occurred. Please try again later."); RequestDispatcher
-			 * dispatcher = request.getRequestDispatcher("login.jsp");
-			 * dispatcher.forward(request, response);
-			 */
+            response.sendRedirect("error.jsp"); // Redirect to an error page
         }
     }
 }
