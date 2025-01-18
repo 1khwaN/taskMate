@@ -35,14 +35,19 @@ public class LoginController extends HttpServlet {
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                    view = request.getRequestDispatcher("dashboard.jsp");
+                    view = request.getRequestDispatcher("prodTracking.jsp");
                 } else { // Member
-                    view = request.getRequestDispatcher("memberView.jsp");
+                    view = request.getRequestDispatcher("prodTracking.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
                 System.out.print(user.getEmail() + " Login successfully");
                 view.forward(request, response);
             } else {
+            	System.out.println(user.isLoggedIn());
+                System.out.println(user.getEmail() + " Login not successful");
+                System.out.println(user.getPassword());
+                System.out.println(user.getTypeID());
+                System.out.println(user.getUserId());
                 response.sendRedirect("invalidLogin.jsp");
             }
         } catch (Exception ex) {
