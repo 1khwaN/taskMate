@@ -22,9 +22,9 @@ public class ProjectController extends HttpServlet {
 	private RequestDispatcher view;
 	private String action="", forward="";
 	private int projectID;
-	private static String LIST = "/project/listOfProjects.jsp";
-	private static String UPDATE = "/project/updateProject.jsp";
-	private static String VIEW = "/project/viewProject.jsp";
+	private static String LIST = "/taskMate/project/listOfProjects.jsp";
+	private static String UPDATE = "/taskMate/project/updateProject.jsp";
+	private static String VIEW = "/taskMate/project/viewProject.jsp";
 //	private static String ADD = "/project/addProject.jsp";
        
     /**

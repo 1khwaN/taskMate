@@ -112,7 +112,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='boardView.jsp';"
+              onclick="window.location.href='/taskMate/task/listOfTasks.jsp';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -121,7 +121,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Board</span>
+              <span>Tasks List</span>
             </label>
           </div>
           

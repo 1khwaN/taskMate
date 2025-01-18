@@ -133,7 +133,7 @@
               value="board"
               class="radio-input"
               checked
-              onclick="window.location.href='boardView.jsp';"
+              onclick="window.location.href='/taskMate/project/listOfTasks.jsp';"
             />
             <label for="board" class="radio-label">
               <iconify-icon

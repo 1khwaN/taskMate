@@ -44,7 +44,7 @@
 						onclick="confirmation(<c:out value="${project.projectID}"/>)">Delete</button>
 
 					<button id="update-task-cta" class="button regular-button green-background"
-						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Update Project
+						onclick="window.location.href='/taskMate/ProjectController?action=updateProject&projectID=${project.projectID}';">Update Project
 					</button>
 					<button id="add-task-cta" class="button regular-button blue-background"
 						onclick="window.location.href='/taskMate/task/addTask.jsp';" > Add task

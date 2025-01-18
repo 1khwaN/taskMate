@@ -58,7 +58,7 @@
             <button
               id="add-project-cta"
               class="button regular-button green-background"
-              onclick="window.location.href='addProject.jsp';"
+              onclick="window.location.href='/taskMate/project/addProject.jsp';"
             >
               Add Project
             </button>
@@ -126,8 +126,8 @@
             name="view-option"
             value="board"
             class="radio-input"
-            onclick="window.location.href='boardView.jsp';"
-          />
+            onclick="window.location.href='/taskMate/task/listOfTasks.jsp';"
+           />
           <label for="board" class="radio-label">
             <iconify-icon
               icon="ic:round-grid-view"
@@ -135,7 +135,7 @@
               width="24"
               height="24"
             ></iconify-icon>
-            <span>Board</span>
+            <span>Tasks List</span>
           </label>
         </div>
 
