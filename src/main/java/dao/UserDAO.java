@@ -12,6 +12,7 @@ public class UserDAO {
 	private static PreparedStatement ps = null;
 	private static Statement stmt = null;
 	private static ResultSet rs = null;
+	private static String sql=null;
 	private static String INSERT_USERS_SQL = "INSERT INTO user(userName,email,password,typeID)VALUES(?,?,?)";
 	private static final String SELECT_USER_BY_ID = "SELECT * FROM user WHERE userID = ?";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
@@ -55,7 +56,7 @@ public class UserDAO {
 				
 				//4. execute query
 				ps.executeUpdate();
-
+				System.out.print("User registered successfully");
 				//5. close connection
 				con.close();
 
@@ -175,6 +176,37 @@ public class UserDAO {
 			}	
 		}
 
+		public static User getUserByEmail(String email) {
+			User user = new User();
+			try {
+				//call getConnection() method 
+				con = ConnectionManager.getConnection();
+				
+				//3. create statement  
+				sql = "SELECT * FROM user WHERE email=?";
+				ps=con.prepareStatement(sql);
+				ps.setString(1, email);
+				
+				//execute statement
+				rs = ps.executeQuery();
+
+				if (rs.next()) {	            
+					user.setUserId(rs.getInt("userID"));
+					user.setEmail(rs.getString("email"));				
+					user.setPassword(rs.getString("password"));
+					user.setTypeID(rs.getInt("typeID"));
+				}
+				//5. close connection
+				con.close();
+				
+			}catch(Exception e) {
+				e.printStackTrace();		
+			}
+
+			return user;
+		}
+
+		
 		//login
 		public static User login(User user) throws SQLException, NoSuchAlgorithmException{
 
