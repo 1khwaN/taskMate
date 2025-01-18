@@ -46,13 +46,13 @@ public class LoginController extends HttpServlet {
                 if (user.getTypeID() == 1) { // Project manager
                 	request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));   					
                 	System.out.print(user.getEmail()+" Login successfully");
-                	view = request.getRequestDispatcher("dashboard.jsp"); 			// staff page
+                	view = request.getRequestDispatcher("pages/dashboard.jsp"); 			// staff page
 					view.forward(request, response);
                 	
                 } else 
                     response.sendRedirect("memberView.jsp");
                     System.out.print(user.getEmail()+" Login successfully");
-                	view = request.getRequestDispatcher("memberView.jsp"); 			// staff page
+                	view = request.getRequestDispatcher("pages/memberView.jsp"); 			// staff page
 					view.forward(request, response);
 					
             } else {

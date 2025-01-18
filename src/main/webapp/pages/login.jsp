@@ -35,7 +35,7 @@
       >
         <h1 class="welcoming-title">Welcome back</h1>
         
-        <form class="form" autocomplete="off" action="LoginController" method="POST"> <!-- Update action to LoginController -->
+        <form class="form" autocomplete="off" action="/taskMate/LoginController" method="POST"> <!-- Update action to LoginController -->
           <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" class="input" required />
 

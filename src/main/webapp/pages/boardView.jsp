@@ -364,6 +364,7 @@
 </div>
 </div>
 
+
 <!-- Update Task Overlay -->
 <div id="update-task-overlay" class="overlay hide">
   <div class="overlay-content blue-background">
