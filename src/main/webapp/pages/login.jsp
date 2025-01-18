@@ -1,5 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+	<%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -25,7 +34,8 @@
         class="left-column flex flex-column height-full justify-center items-center"
       >
         <h1 class="welcoming-title">Welcome back</h1>
-        <form class="form" autocomplete="off" action="LoginController" method="post"> <!-- Update action to LoginController -->
+        
+        <form class="form" autocomplete="off" action="LoginController" method="POST"> <!-- Update action to LoginController -->
           <label for="email" class="label">Email</label>
           <input type="email" name="email" id="email" class="input" required />
 
