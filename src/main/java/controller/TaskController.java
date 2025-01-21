@@ -44,7 +44,8 @@ public class TaskController extends HttpServlet {
 		action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("listTask")) {
-		    int projectID = Integer.parseInt(request.getParameter("projectID")); // Correctly retrieve projectID
+//		    int projectID = Integer.parseInt(request.getParameter("projectID")); // Correctly retrieve projectID
+			int projectID = 2;
 		    forward = LIST;
 			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
 		}

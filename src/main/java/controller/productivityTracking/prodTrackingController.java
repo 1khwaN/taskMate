@@ -63,7 +63,7 @@ public class prodTrackingController extends HttpServlet {
 //    }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int loggedInUserID = 1; // Hardcoded user ID for now
+        int loggedInUserID = 2; // Hardcoded user ID for now
         ProdTrackingDAO dao = new ProdTrackingDAO();
 
         // Fetch task details grouped by status
