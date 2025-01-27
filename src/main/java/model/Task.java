@@ -1,15 +1,16 @@
 package model;
 
-import java.util.Date;
 import java.io.Serializable;
+//import java.util.Date;
 
 public class Task implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private int taskID;
 	private String taskName;
-	private Date startDate;
-	private Date endDate;
+	private String description;
+	private String startDate;
+	private String endDate;
 	private String taskStatus;
 	private int projectID;
 	private Project project;
@@ -33,19 +34,27 @@ public class Task implements Serializable{
 		this.taskName = taskName;
 	}
 
-	public Date getStartDate() {
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
@@ -64,4 +73,13 @@ public class Task implements Serializable{
 	public void setProjectID(int projectID) {
 		this.projectID = projectID;
 	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}	
+	
 }
