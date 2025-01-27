@@ -12,9 +12,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
+
 @WebServlet("/prodTracking")
 public class prodTrackingController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    
 
     public prodTrackingController() {
         super();
@@ -63,7 +66,7 @@ public class prodTrackingController extends HttpServlet {
 //    }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int loggedInUserID = 2; // Hardcoded user ID for now
+    	Integer loggedInUserID = (Integer) request.getSession().getAttribute("userID");
         ProdTrackingDAO dao = new ProdTrackingDAO();
 
         // Fetch task details grouped by status
