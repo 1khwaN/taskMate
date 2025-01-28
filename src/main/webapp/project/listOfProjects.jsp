@@ -98,6 +98,12 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
+	            				<!-- popup view -->
+	            				<iconify-icon 
+	            					icon="weui:eyes-on-outlined" 
+	            					width="24" 
+	            					height="24"
+	            				></iconify-icon>
 					            <!-- delete icon -->
 					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
@@ -138,6 +144,12 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
+	            				<!-- popup view -->
+	            				<iconify-icon 
+	            					icon="weui:eyes-on-outlined" 
+	            					width="24" 
+	            					height="24"
+	            				></iconify-icon>
 					            <!-- delete icon -->
 					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
@@ -178,6 +190,12 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
+	            				<!-- popup view -->
+	            				<iconify-icon 
+	            					icon="weui:eyes-on-outlined" 
+	            					width="24" 
+	            					height="24"
+	            				></iconify-icon>
 					            <!-- delete icon -->
 					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
