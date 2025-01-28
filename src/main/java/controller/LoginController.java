@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
                 System.out.println(user.getPassword());
                 System.out.println(user.getTypeID());
                 System.out.println(user.getUserId());
-                response.sendRedirect("invalidLogin.jsp");
+                response.sendRedirect("pages/invalidLogin.jsp");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
