@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<<<<<<< Updated upstream
+=======
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+>>>>>>> Stashed changes
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +21,9 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -141,7 +146,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='memberView.jsp';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->
@@ -161,14 +166,14 @@
      <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<!-- js -->
 	<script src="../js/main.js"></script>
-	
+
 	<div id="board-view" class="board-view">
-    <!-- list -->
-    <div>
+		<!-- list -->
+		<div>
 			<div
 				style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="list-header">
-					<span class="text">List of Members</span>
+				<a class="text" href="taskMate/UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
 
 				</h2>
 				<button id="add-project-cta"
@@ -178,41 +183,32 @@
 			</div>
 
 
-
+			
 			<ul class="tasks-list blue">
-        <li class="task-item">
-          <div class="task-button">
-            <div class="task-button">
-              <p class="task-name">Design UI</p>
-              <p class="task-due-date">Due on January 7, 2020</p>
-            </div>
-            <!-- arrow -->
-            <button
-              style="background: none; border: none; cursor: pointer; padding: 0;"
-            	onclick="handleDelete()"
-            ></button>
-            <iconify-icon
-              icon="material-symbols:delete-rounded"
-              style="color: red"
-              width="30"
-              height="30"
-            ></iconify-icon>
-            </button>
-            
-            <script>
-  				function handleDelete() {
-    			alert('Delete button clicked!');
-    // Add your delete logic here
-  }
-</script>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- list -->
-    
-  </div>
-	
-   </body>
+				<c:forEach var="user" items="${users}">
+					<li class="task-item">
+						<div class="task-button">
+							<div class="task-button">
+								<p class="task-name">Username : <c:out value="${user.userName}"/></p>
+								<p class="task-due-date">Email : <c:out value="${user.email}"/></p>								
+							</div>
+							<!-- arrow -->
+							<button
+								style="background: none; border: none; cursor: pointer; padding: 0;"
+								onclick=""></button>
+							<iconify-icon icon="material-symbols:delete-rounded"
+								style="color: red" width="30" height="30">
+							</iconify-icon>
+							</button>
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+		<!-- list -->
+
+	</div>
+
+</body>
   </html>
       

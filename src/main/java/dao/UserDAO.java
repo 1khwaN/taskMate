@@ -16,6 +16,11 @@ public class UserDAO {
 	private static String INSERT_USERS_SQL = "INSERT INTO user(userName,email,password,typeID)VALUES(?,?,?)";
 	private static final String SELECT_USER_BY_ID = "SELECT * FROM user WHERE userID = ?";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
+	private static final String SELECT_ALL_USERS_BY_PID = "SELECT * "
+														+ "FROM project_member pm "
+														+ "INNER JOIN user u ON pm.userID = u.userID "
+														+ "INNER JOIN project p ON pm.projectID = p.projectID "
+														+ "WHERE pm.projectID = ?;";
 	private static final String DELETE_USERS_SQL = "DELETE FROM user WHERE userID = ?;";
 	private static final String UPDATE_USERS_SQL = "UPDATE user SET email= ? WHERE userID = ?;";
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
@@ -38,7 +43,7 @@ public class UserDAO {
 			byte byteData[] = md.digest();
 
 			//convert the byte to hex format
-			StringBuffer sb = new StringBuffer();
+//			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < byteData.length; i++) {
 				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 			}
@@ -109,15 +114,55 @@ public class UserDAO {
 				con = ConnectionManager.getConnection();
 
 				//3. create statement
-				
+				stmt = con.createStatement();
 
 				//4. execute query
-				
+				rs = stmt.executeQuery(SELECT_ALL_USERS);
 
 				//process ResultSet
 				while (rs.next()) { 
-					
+					User user = new User();
+					user.setUserId(rs.getInt("userID"));
+					user.setEmail(rs.getString("email"));
+					user.setUserName(rs.getString("userName"));
+					user.setPassword(rs.getString("password"));
+					user.setTypeID(rs.getInt("typeID"));
+					users.add(user);
+				} 
+				//5. close connection
+				con.close();
 
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return users; 
+		}
+		
+		//select all users by ProjectID
+		public static List<User> getAllUsersByProjectID(int projectID) { 
+			System.out.println(SELECT_ALL_USERS_BY_PID);
+			
+			List<User> users = new ArrayList<User>(); 
+			try { 
+				//call getConnection() method
+				con = ConnectionManager.getConnection();
+
+				//3. create statement
+				ps = con.prepareStatement(SELECT_ALL_USERS_BY_PID);
+				ps.setInt(1,projectID);
+				
+				//4. execute query
+				rs = ps.executeQuery();
+
+				//process ResultSet
+				while (rs.next()) { 
+					User user = new User();
+					user.setUserId(rs.getInt("userID"));
+					user.setEmail(rs.getString("email"));
+					user.setUserName(rs.getString("userName"));
+					user.setPassword(rs.getString("password"));
+					user.setTypeID(rs.getInt("typeID"));
+					users.add(user);
 				} 
 				//5. close connection
 				con.close();
@@ -138,12 +183,11 @@ public class UserDAO {
 				con = ConnectionManager.getConnection();
 
 				//3. create statement
-				
-			
+				ps=con.prepareStatement(DELETE_USERS_SQL);
+				ps.setInt(1, id);
 
 				//4. execute query
-				
-
+				ps.executeUpdate();
 
 				//5. close connection
 				con.close();
