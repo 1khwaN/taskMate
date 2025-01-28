@@ -27,6 +27,11 @@
 	response.setDateHeader("Expires", 0);
 	
 	%> 
+    <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/entry-page.css" /> -->
+    
+    <!-- <link rel="stylesheet" href="../css/main.css" /> -->
+    <!--<link rel="stylesheet" href="../css/entry-page.css" />-->
   </head>
   <body>
     <div class="row height-full">
