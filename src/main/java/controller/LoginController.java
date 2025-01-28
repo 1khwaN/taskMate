@@ -35,9 +35,9 @@ public class LoginController extends HttpServlet {
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                    view = request.getRequestDispatcher("dashboard.jsp");
+                    view = request.getRequestDispatcher("pages/dashboard.jsp");
                 } else { // Member
-                    view = request.getRequestDispatcher("memberView.jsp");
+                    view = request.getRequestDispatcher("pages/memberView.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
                 System.out.print(user.getEmail() + " Login successfully");
