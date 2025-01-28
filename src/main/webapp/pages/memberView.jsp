@@ -67,6 +67,13 @@
               Add task
             </button>
             <button
+              id="add-task-cta"
+              class="button regular-button blue-background"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+            >
+              View Project
+            </button>
+            <button
               id="add-project-cta"
               class="button regular-button green-background"
               onclick="window.location.href='addProject.jsp';"
