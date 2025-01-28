@@ -70,188 +70,204 @@
 			</div>
 		</div>
 
-		<!-- board view -->
-		<div id="board-view" class="board-view">
-			<!-- list -->
-			<div>
-				<h2 class="list-header">
-					<span class="circle pink-background"></span><span class="text">To do</span>
-				</h2>
-				<ul class="tasks-list pink">
-					<c:forEach items="${tasks}" var="task">
-						<c:if test="${task.taskStatus == 'To Do'}">
-							<li class="task-item">
-								<button class="task-button">
-									<div>
-				            			<p class="task-name"><c:out value="${task.taskName}"/></p>
-				            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
-									</div>
-									<!-- arrow -->
-									<iconify-icon 
-										icon="material-symbols:arrow-back-ios-rounded"
-										style="color: black" 
-										width="18" 
-										height="18"
-										class="arrow-icon">
-									</iconify-icon>
-								</button>
-							</li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</div>
-
-			<!-- list -->
-			<div>
-				<h2 class="list-header">
-					<span class="circle blue-background"></span><span class="text">To do</span>
-				</h2>
-				<ul class="tasks-list blue">
-					<c:forEach items="${tasks}" var="task">
-						<c:if test="${task.taskStatus == 'Doing'}">
-							<li class="task-item">
-								<button class="task-button">
-									<div>
-			            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-			            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
-									</div>
-									<!-- arrow -->
-									<iconify-icon 
-										icon="material-symbols:arrow-back-ios-rounded"
-										style="color: black" 
-										width="18" 
-										height="18"
-										class="arrow-icon">
-									</iconify-icon>
-								</button>
-							</li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</div>
-		    <!-- list -->
-		    <div>
-				<h2 class="list-header">
-					<span class="circle green-background"></span><span class="text">To do</span>
-				</h2>
-				<ul class="tasks-list green">
-					<c:forEach items="${tasks}" var="task">
-						<c:if test="${task.taskStatus == 'Done'}">
-							<li class="task-item">
-								<button class="task-button">
-									<div>
-			            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-			            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
-									</div>
-									<!-- arrow -->
-									<iconify-icon 
-										icon="material-symbols:arrow-back-ios-rounded"
-										style="color: black" 
-										width="18" 
-										height="18"
-										class="arrow-icon">
-									</iconify-icon>
-								</button>
-							</li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</div>
-	 	</div>
-	</div>
-
-	<!-- view task -->
-	<div id="view-task-overlay" class="overlay view-task-overlay hide">
-		<div class="overlay-content green-background">
-
-		<!-- close button -->
-			<button class="button circle-button blue-background flex justify-center items-center close-button" >
-				<iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
-			</button>
-
-			<c:forEach items="${tasks}" var="task">
-				<h1 class="header no-margin">Task Name :</h1>
-				<p class="value">${task.taskName}</p>
-
-				<h1 class="header">Description</h1>
-				<p class="value">${task.description}</p>
-
-				<div class="flex items-center">
-					<h1 class="header min-width">Due date</h1>
-					<p class="value">${task.endDate}</p>
+		<!-- Check if tasks is null or empty -->
+		<c:if test="${empty tasks}">
+		    <h3>No tasks added yet</h3>
+		</c:if>
+		
+		<!-- Board View: Display tasks if present -->
+		<c:if test="${not empty tasks}">
+			<!-- board view -->
+			<div id="board-view" class="board-view">
+				<!-- list -->
+				<div>
+					<h2 class="list-header">
+						<span class="circle pink-background"></span><span class="text">To do</span>
+					</h2>
+					<ul class="tasks-list pink">
+						<c:forEach items="${tasks}" var="task">
+							<c:if test="${task.taskStatus == 'To Do'}">
+								<li class="task-item">
+									<button class="task-button">
+										<div>
+					            			<p class="task-name"><c:out value="${task.taskName}"/></p>
+					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+										</div>
+							            <!-- delete icon -->
+							           	<a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
+							            <iconify-icon
+							            	icon="icomoon-free:bin"
+							            	width="16"
+							            	height="16"
+							            	style="cursor: pointer;"
+							            	onclick="confirmation('${task.taskID}')"
+										></iconify-icon>
+										<!-- arrow -->
+										<iconify-icon 
+											icon="material-symbols:arrow-back-ios-rounded"
+											style="color: black" 
+											width="18" 
+											height="18"
+											class="arrow-icon">
+										</iconify-icon>
+									</button>
+								</li>
+							</c:if>
+						</c:forEach>
+					</ul>
 				</div>
-
-				<div class="flex items-center">
-					<h1 class="header min-width">Status</h1>
-					<p class="value status-value">
-						<span class="circle blue-background"></span><span>${task.taskStatus}</span>
-					</p>
+	
+				<!-- list -->
+				<div>
+					<h2 class="list-header">
+						<span class="circle blue-background"></span><span class="text">Doing</span>
+					</h2>
+					<ul class="tasks-list blue">
+						<c:forEach items="${tasks}" var="task">
+							<c:if test="${task.taskStatus == 'Doing'}">
+								<li class="task-item">
+									<button class="task-button">
+										<div>
+				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
+				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+										</div>
+							            <!-- delete icon -->
+							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
+							            <iconify-icon
+							            	icon="icomoon-free:bin"
+							            	width="16"
+							            	height="16"
+							            	style="cursor: pointer;"
+							            	onclick="confirmation('${task.taskID}')"
+										></iconify-icon>
+										<!-- arrow -->
+										<iconify-icon 
+											icon="material-symbols:arrow-back-ios-rounded"
+											style="color: black" 
+											width="18" 
+											height="18"
+											class="arrow-icon">
+										</iconify-icon>
+									</button>
+								</li>
+							</c:if>
+						</c:forEach>
+					</ul>
 				</div>
-			</c:forEach>
-			<div class="control-buttons-container">
-
-				<!-- edit button -->
-				<button class="button circle-button pink-background flex justify-center items-center">
-					<iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24"height="24"></iconify-icon>
+			    <!-- list -->
+			    <div>
+					<h2 class="list-header">
+						<span class="circle green-background"></span><span class="text">Done</span>
+					</h2>
+					<ul class="tasks-list green">
+						<c:forEach items="${tasks}" var="task">
+							<c:if test="${task.taskStatus == 'Done'}">
+								<li class="task-item">
+									<button class="task-button">
+										<div>
+				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
+				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+										</div>
+							            <!-- delete icon -->
+							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
+							            <iconify-icon
+							            	icon="icomoon-free:bin"
+							            	width="16"
+							            	height="16"
+							            	style="cursor: pointer;"
+							            	onclick="confirmation('${task.taskID}')"
+										></iconify-icon>
+										<!-- arrow -->
+										<iconify-icon 
+											icon="material-symbols:arrow-back-ios-rounded"
+											style="color: black" 
+											width="18" 
+											height="18"
+											class="arrow-icon">
+										</iconify-icon>
+									</button>
+								</li>
+							</c:if>
+						</c:forEach>
+					</ul>
+				</div>
+		 	</div>
+		</div>
+		<!-- view task -->
+		<div id="view-task-overlay" class="overlay view-task-overlay hide">
+			<div class="overlay-content green-background">
+	
+			<!-- close button -->
+				<button class="button circle-button blue-background flex justify-center items-center close-button" >
+					<iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
 				</button>
 	
-				<!-- delete button -->
-				<button id="delete-task-cta" class="button circle-button pink-background flex justify-center items-center">
-					<iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
-				</button>
+				<c:forEach items="${tasks}" var="task">
+					<h1 class="header no-margin">Task Name :</h1>
+					<p class="value">${task.taskName}</p>
+	
+					<h1 class="header">Description</h1>
+					<p class="value">${task.description}</p>
+	
+					<div class="flex items-center">
+						<h1 class="header min-width">Due date</h1>
+						<p class="value">${task.endDate}</p>
+					</div>
+	
+					<div class="flex items-center">
+						<h1 class="header min-width">Status</h1>
+						<p class="value status-value">
+							<span class="circle blue-background"></span><span>${task.taskStatus}</span>
+						</p>
+					</div>
+				</c:forEach>
+				<div class="control-buttons-container">
+	
+					<!-- edit button -->
+					<button class="button circle-button pink-background flex justify-center items-center">
+						<iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24"height="24"></iconify-icon>
+					</button>
+		
+					<!-- delete button -->
+					<button id="delete-task-cta" class="button circle-button pink-background flex justify-center items-center">
+						<iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
+					</button>
+				</div>
 			</div>
 		</div>
-	</div>
+	</c:if>
 
-<!-- import IconifyIcon web component -->
-<script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
-<!-- js -->
-<script src="${pageContext.request.contextPath}/js/main.js"></script>
-<script>
-	// Select all task buttons
-	const taskButtons = document.querySelectorAll('.task-button');
-	const viewTaskOverlay = document.getElementById('view-task-overlay');
-	const closeOverlayButton = document.querySelector('.close-button');
-	
-	taskButtons.forEach(button => {
-	button.addEventListener('click', () => {
-	    viewTaskOverlay.classList.remove('hide');
-	});
-	});
-	
-	//Add event listener to the close button
-	closeOverlayButton.addEventListener('click', () => {
-	// Hide the overlay
-	viewTaskOverlay.classList.add('hide');
-	});
-	
-	//Select necessary elements
-	const updateButton = document.getElementById('update-task-cta');
-	const overlay = document.getElementById('view-task-overlay');
-	const updateTaskForm = document.getElementById('update-task-form');
-	const saveTaskBtn = document.getElementById('save-task-btn');
-	const cancelTaskBtn = document.getElementById('cancel-task-btn');
-	
-	//Handle the update button click
-	updateButton.addEventListener('click', () => {
-	// Show the overlay and form
-	overlay.classList.remove('hide');
-	updateTaskForm.classList.remove('hide');
-	});
-</script>
 
-<script>
-		function confirmation(projectID) {
-		console.log(projectID); // This will print the projectID for debugging
-		var r = confirm("Are you sure you want to delete?");
-		if (r == true) {
-			// Redirect to ProjectController to delete the project
-			location.href = 'ProjectController?action=deleteProject&projectID=' + projectID;
-			alert("Project successfully deleted");
-		} else {
-		return false; // If the user cancels, do nothing
-	}
-}
+   <!-- import IconifyIcon web component -->
+   <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+   <!-- js -->
+   <script src="${pageContext.request.contextPath}/js/main.js"></script>
+   
+    <script>
+    function confirmation(taskID) {
+    	  const userConfirmation = confirm("Are you sure you want to delete this task?");
+    	  
+    	  if (userConfirmation) {
+    	    const deleteURL = `/taskMate/TaskController?action=deleteTask&taskID=${taskID}`;
+    	    console.log("Delete URL:", deleteURL); // Debug the URL
+    	    fetch(deleteURL, {
+    	      method: "GET",
+    	    })
+    	      .then(response => {
+    	        if (response.ok) {
+    	          alert("Task successfully deleted");
+    	          // Optionally reload the page to refresh the task list
+    	          location.reload();
+    	        } else {
+    	          alert("Failed to delete the task. Please try again.");
+    	        }
+    	      })
+    	      .catch(error => {
+    	        console.error("Error deleting task:", error);
+    	        alert("An error occurred while deleting the task.");
+    	      });
+    	  }
+    	}
 </script>
 
 </body>
