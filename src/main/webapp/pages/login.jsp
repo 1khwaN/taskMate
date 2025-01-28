@@ -18,8 +18,8 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/entry-page.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/entry-page.css" />
     <%
 	response.addHeader("Pragma", "no-cache");
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");

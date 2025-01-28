@@ -83,7 +83,7 @@
 
             <button class="sign-out-cta"
             class="button regular-button red-background"
-            onclick="window.location.href='pages/login.jsp';"
+            onclick="window.location.href='/taskMate/LogoutController';"
             >
             Log out
             </button>
