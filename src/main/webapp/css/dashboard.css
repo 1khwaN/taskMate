@@ -205,6 +205,23 @@ body.overflow-hidden {
   align-items: center;
 }
 
+.icon-container {
+  display: flex; /* Align icons side by side */
+  justify-content: flex-end; /* Push icons to the right side of their container */
+  gap: 8px; /* Space between icons */
+  grid-column: 3 / 4; /* Place in the last column */
+  grid-row: 1 / 3; /* Span two rows */
+  align-items: center; /* Center icons vertically */
+}
+
+.icon-container iconify-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease; /* Add hover animation */
+}
+
+.icon-container iconify-icon:hover {
+  transform: scale(1.2); /* Slightly enlarge icons on hover */
+}
 
 
 /* board view */

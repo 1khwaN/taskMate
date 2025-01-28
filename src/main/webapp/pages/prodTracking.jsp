@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,12 +20,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/prodTrack.css" />
     
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
+	<%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
   </head>
   <body>
     <!-- Because body has height 100%, we need a container to wrap the individual 
@@ -65,7 +70,7 @@
             <button
               id="add-project-cta"
               class="button regular-button green-background"
-              onclick="window.location.href='pages/addProject.jsp';"
+              onclick="window.location.href='/taskMate/project/addProject.jsp';"
             >
               Add Project
             </button>
@@ -136,7 +141,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='pages/boardView.jsp';"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -145,7 +150,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Board</span>
+              <span>Projects</span>
             </label>
           </div>
           
@@ -246,7 +251,7 @@
 	        datasets: taskDatasets
 	    },
 	    options: {
-	    	indexAxis: 'y',
+	    	indexAxis: 'x',
 	        responsive: true,
 	        plugins: {
 	            tooltip: {

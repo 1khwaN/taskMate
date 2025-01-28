@@ -6,7 +6,7 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Update Project - TaskMate System</title>
+	<title>Update Task - TaskMate System</title>
 	<!-- Google Font: Inter -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -168,51 +168,39 @@
 			<iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
 		</button>
 
-		<h1>Update Project</h1>
-		<form class="form" autocomplete="off" action="ProjectController" method="post">
-			<c:if test="${not empty project}">
-				<label for="project-name" class="label">Project Name</label>
-				<input type="text" name="projectName" id="projectName" class="input white-background" required value="${project.projectName}" /> 
+		<h1>Update Task</h1>
+		<form class="form" autocomplete="off" action="TaskController" method="post">
+			<c:if test="${not empty task}">
+				<label for="project-name" class="label">Task Name</label>
+				<input type="text" name="taskName" id="taskName" class="input white-background" required value="${task.taskName}" /> 
 
-				<label for="project-description" class="label">Description</label>
-				<textarea name="description" id="description" rows="5" class="textarea-input white-background">${project.description}</textarea>
+				<label for="task-description" class="label">Description</label>
+				<textarea name="description" id="description" rows="5" class="textarea-input white-background">${task.description}</textarea>
 
 				<h2 class="label">Start Date</h2>
 				<div>
-					<input type="date" name="startDate" id="startDate" class="input white-background" required value="${project.startDate}" />
+					<input type="date" name="startDate" id="startDate" class="input white-background" required value="${task.startDate}" />
 				</div>
 
 				<h2 class="label">Due Date</h2>
 				<div>
-					<input type="date" name="endDate" id="endDate" class="input white-background" required value="${project.endDate}" />
+					<input type="date" name="endDate" id="endDate" class="input white-background" required value="${task.endDate}" />
 				</div>
 
 				<h2 class="label">Status</h2>
-				<div id="projectStatus" class="status-select white-background flex items-center justify-between cursor-pointer" onclick="toggleDropdown()">
-					<span id="projectStatus">To Do</span>
+				<div id="taskStatus" class="status-select white-background flex items-center justify-between cursor-pointer" onclick="toggleDropdown()">
+					<span id="taskStatus">To Do</span>
 					<iconify-icon icon="material-symbols:arrow-drop-down" style="color: black" width="18" height="18" class="arrow-icon"></iconify-icon>
 				</div>
-				<ul id="projectStatus" class="status-dropdown white-background" style="display: none;">
+				<ul id="taskStatus" class="status-dropdown white-background" style="display: none;">
 					<li data-status="To Do" onclick="selectStatus('To Do')">To Do</li>
 					<li data-status="Doing" onclick="selectStatus('Doing')">Doing</li>
 					<li data-status="Done" onclick="selectStatus('Done')">Done</li>
 				</ul>
-				<input type="hidden" name="projectStatus" id="hidden-status" value="To Do" />
-
-				<h2 class="label">Priority</h2>
-				<div id="projectStatus" class="priority-select white-background flex items-center justify-between cursor-pointer" onclick="togglePriorityDropdown()">
-					<span id="projectStatus">Medium</span>
-					<iconify-icon icon="material-symbols:arrow-drop-down" style="color: black" width="18" height="18" class="arrow-icon"></iconify-icon>
-				</div>
-				<ul id="projectStatus" class="priority-dropdown white-background" style="display: none;">
-					<li data-priority="Low" onclick="selectPriority('Low')">Low</li>
-					<li data-priority="Medium" onclick="selectPriority('Medium')">Medium</li>
-					<li data-priority="High" onclick="selectPriority('High')">High</li>
-				</ul>
-				<input type="hidden" name="projectStatus" id="hidden-priority" value="Medium" />
+				<input type="hidden" name="taskStatus" id="hidden-status" value="To Do" />
 
 				<div class="text-center">
-					<button type="submit" class="button regular-button green-background cta-button">Update project</button>
+					<button type="submit" class="button regular-button green-background cta-button">Update task</button>
 				</div>
 			</c:if>
 			<c:if test="${not empty error}">
@@ -223,7 +211,7 @@
 	
 	<!-- Import Iconify -->
 	<script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/addproject.js"></script>
+	<script src="${pageContext.request.contextPath}/js/addtask.js"></script>
 	<script>
 		// Toggle the visibility of the dropdown
 		function toggleDropdown() {
@@ -245,30 +233,6 @@
 					&& !event.target.matches('#status-dropdown')
 					&& !event.target.matches('.arrow-icon')) {
 				document.getElementById('status-dropdown').style.display = 'none';
-			}
-		};
-	</script>
-	<script>
-		// Toggle the visibility of the priority dropdown
-		function togglePriorityDropdown() {
-			const dropdown = document.getElementById('priority-dropdown');
-			dropdown.style.display = dropdown.style.display === 'none' ? 'block'
-					: 'none';
-		}
-
-		// Update the selected priority and the hidden input value
-		function selectPriority(priority) {
-			document.getElementById('selected-priority').textContent = priority;
-			document.getElementById('hidden-priority').value = priority;
-			togglePriorityDropdown(); // Hide the dropdown after selection
-		}
-
-		// Close the dropdown if clicked outside
-		window.onclick = function(event) {
-			if (!event.target.matches('#priority-select')
-					&& !event.target.matches('#priority-dropdown')
-					&& !event.target.matches('.arrow-icon')) {
-				document.getElementById('priority-dropdown').style.display = 'none';
 			}
 		};
 	</script>

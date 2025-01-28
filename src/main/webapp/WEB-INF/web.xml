@@ -29,4 +29,24 @@
     <servlet-name>prodTrackingController</servlet-name>
     <url-pattern>/prodTrackingController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProjectController</display-name>
+    <servlet-name>ProjectController</servlet-name>
+    <servlet-class>controller.ProjectController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProjectController</servlet-name>
+    <url-pattern>/ProjectController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TaskController</display-name>
+    <servlet-name>TaskController</servlet-name>
+    <servlet-class>controller.TaskController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TaskController</servlet-name>
+    <url-pattern>/TaskController</url-pattern>
+  </servlet-mapping>
 </web-app>
