@@ -43,7 +43,7 @@ public class LoginController extends HttpServlet {
                 System.out.print(user.getEmail() + " Login successfully");
                 view.forward(request, response);
             } else {
-                response.sendRedirect("invalidLogin.jsp");
+                response.sendRedirect("pages/invalidLogin.jsp");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
