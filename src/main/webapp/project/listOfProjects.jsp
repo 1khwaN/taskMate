@@ -207,69 +207,6 @@
 	</div>
 </div>
 
-  <!-- <script>
-    // Select all task buttons
-const taskButtons = document.querySelectorAll('.task-button');
-const viewTaskOverlay = document.getElementById('view-task-overlay');
-const closeOverlayButton = document.querySelector('.close-button');
-
-taskButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        viewTaskOverlay.classList.remove('hide');
-    });
-});
-
-// Add event listener to the close button
-closeOverlayButton.addEventListener('click', () => {
-    // Hide the overlay
-    viewTaskOverlay.classList.add('hide');
-});
-
-// Select necessary elements
-const updateButton = document.getElementById('update-task-cta');
-const overlay = document.getElementById('view-task-overlay');
-const updateTaskForm = document.getElementById('update-task-form');
-const saveTaskBtn = document.getElementById('save-task-btn');
-const cancelTaskBtn = document.getElementById('cancel-task-btn');
-
-// Handle the update button click
-updateButton.addEventListener('click', () => {
-  // Show the overlay and form
-  overlay.classList.remove('hide');
-  updateTaskForm.classList.remove('hide');
-});
-
-// Handle the save button click
-saveTaskBtn.addEventListener('click', () => {
-  // Get updated values
-  const updatedName = document.getElementById('update-task-name').value;
-  const updatedDescription = document.getElementById('update-task-description').value;
-  const updatedDueDate = document.getElementById('update-task-due-date').value;
-  const updatedStatus = document.getElementById('update-task-status').value;
-
-  // Simulate saving task details
-  console.log("Updated Task:", {
-    name: updatedName,
-    description: updatedDescription,
-    dueDate: updatedDueDate,
-    status: updatedStatus,
-  });
-
-  // Close the overlay
-  overlay.classList.add('hide');
-});
-
-// Handle the cancel button click
-cancelTaskBtn.addEventListener('click', () => {
-  // Close the overlay
-  overlay.classList.add('hide');
-});
-
-// Populate task details on overlay open
-populateTaskDetails(taskData);
-
-  </script>   -->
-
    <!-- import IconifyIcon web component -->
    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
    <!-- js -->
