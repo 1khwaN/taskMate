@@ -141,7 +141,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/TaskController?action=listTask';"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -150,7 +150,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Tasks List</span>
+              <span>Projects</span>
             </label>
           </div>
           

@@ -15,7 +15,7 @@ import dao.TaskDAO;
 /**
  * Servlet implementation class TaskController
  */
-@WebServlet("/TaskController")
+//@WebServlet("/TaskController")
 public class TaskController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private RequestDispatcher view;

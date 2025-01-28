@@ -82,7 +82,7 @@ public class ProjectController extends HttpServlet {
 		        e.printStackTrace(); // Log any exceptions for debugging
 		    }
 		}
-		view = request.getRequestDispatcher(forward);
+		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
 
@@ -109,7 +109,7 @@ public class ProjectController extends HttpServlet {
 		}
 
 		//		request.setAttribute("project", projectDAO.get);
-		view = request.getRequestDispatcher(LIST);
+		RequestDispatcher view = request.getRequestDispatcher(LIST);
 		view.forward(request, response);
 	}
 
