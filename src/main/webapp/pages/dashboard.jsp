@@ -64,6 +64,15 @@
             >
               Add task
             </button>
+            
+            <button
+              id="add-task-cta"
+              class="button regular-button blue-background"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+            >
+              View Project
+            </button>
+            
             <button
               id="add-project-cta"
               class="button regular-button green-background"
@@ -135,8 +144,8 @@
             name="view-option"
             value="board"
             class="radio-input"
-            onclick="window.location.href='/taskMate/task/listOfTasks.jsp';"
-           />
+            onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+          />
           <label for="board" class="radio-label">
             <iconify-icon
               icon="ic:round-grid-view"
@@ -144,7 +153,7 @@
               width="24"
               height="24"
             ></iconify-icon>
-            <span>Tasks List</span>
+            <span>Projects</span>
           </label>
         </div>
 

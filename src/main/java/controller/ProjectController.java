@@ -2,7 +2,7 @@ package controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,15 +16,14 @@ import model.Project;
 /**
  * Servlet implementation class ProjectController
  */
-@WebServlet("/ProjectController")
 public class ProjectController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private RequestDispatcher view;
 	private String action="", forward="";
 	private int projectID;
-	private static String LIST = "/taskMate/project/listOfProjects.jsp";
-	private static String UPDATE = "/taskMate/project/updateProject.jsp";
-	private static String VIEW = "/taskMate/project/viewProject.jsp";
+
+
+	private static String LIST = "/project/listOfProjects.jsp";
+	private static String UPDATE = "/project/updateProject.jsp";
+	private static String VIEW = "/project/viewProject.jsp";
 //	private static String ADD = "/project/addProject.jsp";
        
     /**
@@ -63,28 +62,26 @@ public class ProjectController extends HttpServlet {
 			projectID = Integer.parseInt(request.getParameter("projectID"));
 			request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
 		}
-//		
-//		if(action.equalsIgnoreCase("deleteProject")) {
-//			forward = LIST;
-//			int projectID = Integer.parseInt(request.getParameter("projectID"));
-//			ProjectDAO.deleteProject(projectID);
-//			request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
-//		}
 		
-
-		if(action.equalsIgnoreCase("delete")) {
-			forward = LIST;
-			int projectID = Integer.parseInt(request.getParameter("projectID"));
-			ProjectDAO.deleteProject(projectID);
-			List <Project> projects = ProjectDAO.getAllProject();
-			request.setAttribute("projects", projects);
+		if (action.equalsIgnoreCase("deleteProject")) {
+			try {
+				forward = LIST;
+				String projectIDParam = request.getParameter("projectID");
+		        System.out.println("Received projectID: " + projectIDParam); // Debug the received projectID
+		        
+		        if (projectIDParam != null && !projectIDParam.isEmpty()) {
+		            projectID = Integer.parseInt(projectIDParam);
+		            ProjectDAO.deleteProject(projectID);
+		            System.out.println("Deleted project with ID: " + projectID); // Debug success
+		        } else {
+		            System.out.println("Invalid projectID received");
+		        }
+		        
+		        request.setAttribute("projects", ProjectDAO.getAllProject());
+		    } catch (Exception e) {
+		        e.printStackTrace(); // Log any exceptions for debugging
+		    }
 		}
-
-//		if(action.equalsIgnoreCase("addProduct")) {
-//			forward = ADD;
-//			request.setAttribute("projects", ProjectDAO.getAllProject());
-//		}
-
 		view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}

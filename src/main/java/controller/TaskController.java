@@ -1,8 +1,7 @@
-	package controller;
+package controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -74,6 +73,26 @@ public class TaskController extends HttpServlet {
 		if(action.equalsIgnoreCase("addTask")) {
 			forward = ADD;
 //			request.setAttribute("projects", ProjectDAO.addTask(task));
+		}
+		
+		if (action.equalsIgnoreCase("deleteTask")) {
+			try {
+				forward = LIST;
+				String taskIDParam = request.getParameter("taskID");
+		        System.out.println("Received taskID: " + taskIDParam); // Debug the received projectID
+		        
+		        if (taskIDParam != null && !taskIDParam.isEmpty()) {
+		        	taskID = Integer.parseInt(taskIDParam);
+		        	TaskDAO.deleteTask(taskID);
+		            System.out.println("Deleted task with ID: " + taskID); // Debug success
+		        } else {
+		            System.out.println("Invalid taskID received");
+		        }
+		        
+		        request.setAttribute("tasks", TaskDAO.getAllTasks());
+		    } catch (Exception e) {
+		        e.printStackTrace(); // Log any exceptions for debugging
+		    }
 		}
 		
 		view = request.getRequestDispatcher(forward);
