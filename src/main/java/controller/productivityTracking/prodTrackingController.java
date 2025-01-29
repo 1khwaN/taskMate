@@ -17,59 +17,17 @@ import java.util.Map;
 @WebServlet("/prodTracking")
 public class prodTrackingController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    
 
     public prodTrackingController() {
         super();
     }
 
-//    @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        ProdTrackingDAO dao = new ProdTrackingDAO();
-//
-//        // Get the logged-in user ID from the session
-////        Integer loggedInUserId = (Integer) request.getSession().getAttribute("userID");
-//        Integer loggedInUserId = 4;
-////        if (loggedInUserId == null) {
-////            // If user is not logged in, redirect to login page
-////            response.sendRedirect("pages/login.jsp");
-////            return;
-////        }
-//
-//        // Fetch task counts for the logged-in user
-//        Map<String, Integer> userTaskCounts = dao.getTaskCountsByUser(loggedInUserId);
-//
-//        // Prepare JSON for chart data
-//        StringBuilder statusesJson = new StringBuilder("[");
-//        StringBuilder countsJson = new StringBuilder("[");
-//
-//        for (Map.Entry<String, Integer> entry : userTaskCounts.entrySet()) {
-//            statusesJson.append("\"").append(entry.getKey()).append("\",");
-//            countsJson.append(entry.getValue()).append(",");
-//        }
-//
-//        // Remove trailing commas and close the arrays
-//        if (!userTaskCounts.isEmpty()) {
-//            statusesJson.deleteCharAt(statusesJson.length() - 1);
-//            countsJson.deleteCharAt(countsJson.length() - 1);
-//        }
-//        statusesJson.append("]");
-//        countsJson.append("]");
-//
-//        // Pass the JSON data to the JSP
-//        request.setAttribute("taskStatuses", statusesJson.toString());
-//        request.setAttribute("taskCounts", countsJson.toString());
-//
-//        // Forward to JSP
-//        RequestDispatcher view = request.getRequestDispatcher("pages/prodTracking.jsp");
-//        view.forward(request, response);
-//    }
-    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	Integer loggedInUserID = (Integer) request.getSession().getAttribute("userID");
+        Integer loggedInUserID = (Integer) request.getSession().getAttribute("userID");
+        Integer userRole = (Integer) request.getSession().getAttribute("sessionTypeID");
         ProdTrackingDAO dao = new ProdTrackingDAO();
 
-        // Fetch task details grouped by status
+        // Fetch task details grouped by status for a specific user
         Map<String, List<String>> taskDetails = dao.getTaskDetailsByUser(loggedInUserID);
 
         // Define the fixed set of colors
@@ -80,6 +38,7 @@ public class prodTrackingController extends HttpServlet {
         StringBuilder labelsJson = new StringBuilder("[");
         StringBuilder datasetsJson = new StringBuilder("[");
 
+        // Loop through the task details for stacked bar chart
         for (Map.Entry<String, List<String>> entry : taskDetails.entrySet()) {
             labelsJson.append("\"").append(entry.getKey()).append("\",");
 
@@ -95,6 +54,7 @@ public class prodTrackingController extends HttpServlet {
                 datasetsJson.deleteCharAt(datasetsJson.length() - 1).append("],")
                     .append("\"backgroundColor\":\"").append(colors[colorIndex % colors.length]).append("\"")
                     .append("},");
+
                 colorIndex++;
             }
         }
@@ -103,17 +63,43 @@ public class prodTrackingController extends HttpServlet {
             labelsJson.deleteCharAt(labelsJson.length() - 1);
             datasetsJson.deleteCharAt(datasetsJson.length() - 1);
         }
+
         labelsJson.append("]");
         datasetsJson.append("]");
 
-        // Pass data to JSP
+        // Pass task data to JSP for stacked bar chart
         request.setAttribute("taskStatuses", labelsJson.toString());
         request.setAttribute("taskDatasets", datasetsJson.toString());
+
+        // Fetch project counts for the pie chart if userRole is 1
+        if (userRole == 1) {
+            Map<String, Integer> projectCounts = dao.getProjectCountsByUser(loggedInUserID);
+            StringBuilder pieChartData = new StringBuilder("[");
+
+            // Construct the pie chart data from project counts
+            for (Map.Entry<String, Integer> entry : projectCounts.entrySet()) {
+                pieChartData.append("{")
+                    .append("\"label\":\"").append(entry.getKey()).append("\",")
+                    .append("\"value\":").append(entry.getValue()).append("},");
+            }
+
+            if (!projectCounts.isEmpty()) {
+                pieChartData.deleteCharAt(pieChartData.length() - 1);
+            }
+
+            pieChartData.append("]");
+
+            // Pass the pie chart data to JSP
+            request.setAttribute("pieChartData", pieChartData.toString());
+        }
 
         // Forward to JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("pages/prodTracking.jsp");
         dispatcher.forward(request, response);
     }
+
+
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

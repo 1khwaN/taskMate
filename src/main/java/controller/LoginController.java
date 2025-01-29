@@ -32,12 +32,13 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("userID", user.getUserID());
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
+                session.setAttribute("userName", user.getUserName());
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                    view = request.getRequestDispatcher("/pages/prodTracking.jsp");
+                    view = request.getRequestDispatcher("/pages/dashboard.jsp");
                 } else { // Member
-                    view = request.getRequestDispatcher("/pages/prodTracking.jsp");
+                    view = request.getRequestDispatcher("/pages/dashboard.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
                 System.out.print(user.getEmail() + " Login successfully");

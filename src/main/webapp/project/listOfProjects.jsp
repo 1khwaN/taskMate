@@ -50,7 +50,7 @@
             <button
               id="add-project-cta"
               class="button regular-button green-background"
-              onclick="window.location.href='/taskMate/project/addProject.jsp';"
+              onclick="window.location.href='project/addProject.jsp';"
             >
               Add Project
             </button>

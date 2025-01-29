@@ -157,5 +157,27 @@ public class ProdTrackingDAO {
         return taskDetails;
     }
 
+    public Map<String, Integer> getProjectCountsByUser(int userID) {
+        Map<String, Integer> projectCounts = new LinkedHashMap<>();
 
+        String query = "SELECT p.projectStatus, COUNT(*) AS count " +
+		                "FROM project p " +
+		                "INNER JOIN project_member pm ON p.projectID = pm.projectID " + // Join project_member
+		                "WHERE pm.userID = ? " +  // Filter by userID from project_member
+		                "GROUP BY p.projectStatus";
+
+        try (Connection con = ConnectionManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, userID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    projectCounts.put(rs.getString("projectStatus"), rs.getInt("count"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return projectCounts;
+    }
 }

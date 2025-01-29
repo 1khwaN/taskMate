@@ -16,8 +16,8 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     
     <%
@@ -184,58 +184,38 @@
 
     
 
+<%@ page import="java.util.Objects" %>
+
+<%
+    HttpSession sessionObj = request.getSession(false);
+    String username = (sessionObj != null) ? (String) sessionObj.getAttribute("userName") : null;
     
-    
+%>
 
-<!-- Sections under the radio buttons -->
-<!-- <div class="sections-container max-width-container">
-  <div
-    class="section-card"
-    onclick="window.location.href='prodTracking.html';"
-  >
-    <iconify-icon
-      icon="mdi:chart-line"
-      style="color: black"
-      width="48"
-      height="48"
-    ></iconify-icon>
-    <h2>Productivity Tracking</h2>
-    <p>Monitor your team's productivity in detail.</p>
-  </div>
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <div
-    class="section-card"
-    onclick="window.location.href='listView.html';"
-  >
-    <iconify-icon
-      icon="material-symbols:format-list-bulleted-rounded"
-      style="color: black"
-      width="48"
-      height="48"
-    ></iconify-icon>
-    <h2>List View</h2>
-    <p>Manage tasks in a structured list format.</p>
-  </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let username = "<%= Objects.toString(username, "") %>";
+        if (username) {
+            Swal.fire({
+                title: "Welcome!",
+                text: "Hello, " + username + "!",
+                icon: "success",
+                confirmButtonText: "OK",
+                timer: 3000
+            });
 
-  <div
-    class="section-card"
-    onclick="window.location.href='boardView.html';"
-  >
-    <iconify-icon
-      icon="ic:round-grid-view"
-      style="color: black"
-      width="48"
-      height="48"
-    ></iconify-icon>
-    <h2>Board View</h2>
-    <p>Visualize tasks in a Kanban-style board.</p>
-  </div>
-</div> -->
-
+            // Clear session attribute after showing the message to prevent it from appearing again
+            fetch('/taskMate/ClearSessionAttributeServlet?attr=sessionUsername', { method: 'GET' });
+        }
+    });
+</script>
     <!-- import IconifyIcon web component -->
     <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
     <!-- js -->
      
-    <script src="../js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>
   </body>
 </html>
