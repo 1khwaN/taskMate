@@ -15,6 +15,11 @@ public class UserDAO {
 	private static String sql=null;
 	private static String INSERT_USERS_SQL = "INSERT INTO user(userName,email,password,typeID)VALUES(?,?,?,?)";
 	private static final String SELECT_USER_BY_ID = "SELECT * FROM user WHERE userID = ?";
+	private static final String SELECT_ALL_USERS_BY_PID = "SELECT * "
+			+ "FROM project_member pm "
+			+ "INNER JOIN user u ON pm.userID = u.userID "
+			+ "INNER JOIN project p ON pm.projectID = p.projectID "
+			+ "WHERE pm.projectID = ?;";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
 	private static final String DELETE_USERS_SQL = "DELETE FROM user WHERE userID = ?;";
 	private static final String UPDATE_USERS_SQL = "UPDATE user SET email= ? WHERE userID = ?;";
@@ -85,7 +90,7 @@ public class UserDAO {
 
 				//process ResultSet
 				if (rs.next()) {
-					user.setUserId(rs.getInt("userID"));
+					user.setUserID(rs.getInt("userID"));
 					user.setUserName(rs.getString("userName"));
 					user.setEmail(rs.getString("email"));
 					user.setPassword(rs.getString("password"));
@@ -107,6 +112,41 @@ public class UserDAO {
 			return user;
 		}
 
+		//select user by id
+		public static User getUser(int id) {
+					System.out.println(SELECT_USER_BY_ID);
+
+					User user = new User();
+
+					try {			
+						//call getConnection() method
+						con = ConnectionManager.getConnection();
+
+						//3. create statement
+						ps = con.prepareStatement(SELECT_USER_BY_ID);
+						ps.setInt(1,userID);
+
+						//4. execute query
+						ps.executeUpdate();
+
+						//process ResultSet
+						if (rs.next()) {
+							user.setUserID(rs.getInt("userID"));
+							user.setUserName(rs.getString("userName"));
+							user.setEmail(rs.getString("email"));
+							user.setPassword(rs.getString("password"));
+						}
+
+						//5. close connection
+						con.close();
+
+					}catch(SQLException e) {
+						e.printStackTrace();
+					}	
+
+					return user;
+				}
+				
 		//select all users
 		public static List<User> getAllUsers() { 
 			System.out.println(SELECT_ALL_USERS);
@@ -116,15 +156,21 @@ public class UserDAO {
 				con = ConnectionManager.getConnection();
 
 				//3. create statement
-				
+				stmt = con.createStatement();
 
 				//4. execute query
-				
+				rs = stmt.executeQuery(SELECT_ALL_USERS);
 
 				//process ResultSet
 				while (rs.next()) { 
-					
-
+					User user = new User();
+					user.setUserID(rs.getInt("userID"));
+//					System.out.println(user.getUserId());
+					user.setEmail(rs.getString("email"));
+					user.setUserName(rs.getString("userName"));
+					user.setPassword(rs.getString("password"));
+					user.setTypeID(rs.getInt("typeID"));
+					users.add(user);
 				} 
 				//5. close connection
 				con.close();
@@ -134,32 +180,67 @@ public class UserDAO {
 			}
 			return users; 
 		}
+		
+		//select all users by ProjectID
+		public static List<User> getAllUsersByProjectID(int projectID) { 
+					System.out.println(SELECT_ALL_USERS_BY_PID);
+					
+					List<User> users = new ArrayList<User>(); 
+					try { 
+						//call getConnection() method
+						con = ConnectionManager.getConnection();
+
+						//3. create statement
+						ps = con.prepareStatement(SELECT_ALL_USERS_BY_PID);
+						ps.setInt(1,projectID);
+						
+						//4. execute query
+						rs = ps.executeQuery();
+						//process ResultSet
+						while (rs.next()) { 
+							User user = new User();
+							user.setUserID(rs.getInt("userID"));
+							user.setEmail(rs.getString("email"));
+							user.setUserName(rs.getString("userName"));
+							user.setPassword(rs.getString("password"));
+							user.setTypeID(rs.getInt("typeID"));
+							System.out.println(rs.getString("userName"));
+
+							users.add(user);
+						} 
+						//5. close connection
+						con.close();
+
+					}catch(SQLException e) {
+						e.printStackTrace();
+					}
+					return users; 
+				}
 
 		//delete user
 		public static boolean deleteUser(int id) throws SQLException {
-			System.out.println(DELETE_USERS_SQL);
+					System.out.println(DELETE_USERS_SQL);
 
-			boolean rowDeleted=false;
-			try {			
-				//call getConnection() method
-				con = ConnectionManager.getConnection();
+					boolean rowDeleted=false;
+					try {			
+						//call getConnection() method
+						con = ConnectionManager.getConnection();
 
-				//3. create statement
-				
-			
+						//3. create statement
+						ps=con.prepareStatement(DELETE_USERS_SQL);
+						ps.setInt(1, id);
 
-				//4. execute query
-				
+						//4. execute query
+						ps.executeUpdate();
 
+						//5. close connection
+						con.close();
 
-				//5. close connection
-				con.close();
-
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}	
-			return rowDeleted;
-		}
+					}catch(SQLException e) {
+						e.printStackTrace();
+					}	
+					return rowDeleted;
+				}
 
 		//update user
 		public static void updateUser(User user){
@@ -198,7 +279,7 @@ public class UserDAO {
 				rs = ps.executeQuery();
 
 				if (rs.next()) {	            
-					user.setUserId(rs.getInt("userID"));
+					user.setUserID(rs.getInt("userID"));
 					user.setEmail(rs.getString("email"));				
 					user.setPassword(rs.getString("password"));
 					user.setTypeID(rs.getInt("typeID"));

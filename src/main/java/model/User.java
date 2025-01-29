@@ -16,10 +16,10 @@ public class User implements Serializable
 		
 	}
 	
-	public int getUserId() {
+	public int getUserID() {
 		return userID;
 	}
-	public void setUserId(int userID) {
+	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 

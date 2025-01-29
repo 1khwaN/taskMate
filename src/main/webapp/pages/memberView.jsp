@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +16,9 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -27,7 +27,6 @@
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
 	response.setDateHeader("Expires", 0);
-	
 	%> 
   </head>
   <body>
@@ -67,13 +66,6 @@
               Add task
             </button>
             <button
-              id="add-task-cta"
-              class="button regular-button blue-background"
-              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
-            >
-              View Project
-            </button>
-            <button
               id="add-project-cta"
               class="button regular-button green-background"
               onclick="window.location.href='addProject.jsp';"
@@ -82,7 +74,7 @@
             </button>
             <button class="sign-out-cta"
             class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
+            onclick="window.location.href='login.jsp';"
             >
             Log out
             	
@@ -148,7 +140,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='memberView.jsp';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->
@@ -168,46 +160,64 @@
      <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<!-- js -->
 	<script src="../js/main.js"></script>
-	
+
 	<div id="board-view" class="board-view">
-    <!-- list -->
-    <div>
-			<div
-				style="display: flex; align-items: center; justify-content: space-between;">
+		<!-- list -->
+		<div>
+			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="list-header">
-					<span class="text">List of Members</span>
+				<a class="text" href="taskMate/UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
 
 				</h2>
 				<button id="add-project-cta"
 					class="button regular-button green-background"
-					onclick="window.location.href='addMembers.jsp';">Add
-					Member</button>
+					onclick="window.location.href='addMembers.jsp';">Add Member</button>
 			</div>
 
-
-
 			<ul class="tasks-list blue">
-        <li class="task-item">
-          <div class="task-button">
-            <div class="task-button">
-              <p class="task-name">Design UI</p>
-              <p class="task-due-date">Due on January 7, 2020</p>
-            </div>
-            <!-- arrow -->
-            <iconify-icon
-              icon="material-symbols:delete-rounded"
-              style="color: red"
-              width="30"
-              height="30"
-            ></iconify-icon>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- list -->
-    
-  </div>
+				<c:forEach var="user" items="${users}">
+					<li class="task-item">
+						<div class="task-button">
+							<div class="task-button">
+								<p class="task-name">Username : <c:out value="${user.userName}"/></p>
+								<p class="task-due-date">Email : <c:out value="${user.email}"/></p>									
+							</div>
+							<input type="hidden" id="userID-${user.userID}" value="${user.userID}">
+							<input type="hidden" id="userName-${user.userName}" value="${user.userName}">
+							
+							<!-- arrow -->
+							<button
+								style='background: none; border: none; cursor: pointer; padding: 0;'
+								onclick="confirmation('${user.userID}','${user.userName}')">
+							<iconify-icon icon="material-symbols:delete-rounded"
+								style="color: red" width="30" height="30">
+							</iconify-icon>
+							</button>
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+		<script>
+		function confirmation(userID, userName){					  
+			 var id = $("#userID-" + userID).val();
+			 var name = $("#userName-" + userName).val();
+		     var r = confirm("Are you sure you want to delete " + name + "?");
+			  if (r == true) {				 		  
+				  location.href ='UserController?action=deleteUser&userID=' + userID;
+				  alert(name + " successfully deleted");			
+			  } else {				  
+			      return false;	
+			  }
+		}
+	</script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		
 	
-   </body>
+		<!-- list -->
+
+	</div>
+
+</body>
   </html>
       
