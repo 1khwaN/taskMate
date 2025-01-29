@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -188,130 +188,78 @@
       </div>
      </div>
     
-    <!-- Productivity Charts -->
     <div class="prod-Container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-        <!-- Bar Chart -->
-         <%
-    String taskStatuses = (String) request.getAttribute("taskStatuses");
-    String taskCounts = (String) request.getAttribute("taskCounts");
+    <!-- Bar Chart -->
+    <div class="chart-frame">
+        <canvas id="stackedBarChart"></canvas>
+    </div>
 
-    // Debugging in JSP
-    System.out.println("Received taskStatuses: " + taskStatuses);
-    System.out.println("Received taskCounts: " + taskCounts);
-	%>
-        <div class="chart-frame">
-            <canvas id="barChart"></canvas>
-        </div>
-        <div class="chart-frame">
-            <canvas id="stackedBarChart"></canvas>
-        </div>
-        <!-- Pie Chart -->
+    <c:if test="${not empty pieChartData}">
+        <!-- Pie Chart (visible for user type ID 1) -->
         <div class="chart-frame">
             <canvas id="pieChart"></canvas>
         </div>
-    </div>
-    
-   
-   
-   <!--  <script>
-   // Data from the server
-   // Chart data passed from servlet
-    const taskData = {
-        labels: ${taskStatuses}, // Task statuses: ["To Do", "Doing", "Done"]
-        datasets: [{
-            label: "User Tasks", 
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each bar segment
-            data: ${taskCounts} // Task counts for each status
-        }]
-    };
+    </c:if>
+</div>
 
-    // Render stacked bar chart
+<script>
+    const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
+    const taskDatasets = ${taskDatasets}; // Example: [{ label: "Task1", data: [1, 0, 0], backgroundColor: "#FF6384" }, ...]
+    
+    // Create the stacked bar chart
     new Chart("stackedBarChart", {
         type: "bar",
-        data: taskData,
+        data: {
+            labels: taskStatuses,
+            datasets: taskDatasets
+        },
         options: {
+            indexAxis: 'x',
             responsive: true,
             plugins: {
-                legend: { position: "top" },
-                title: { display: true, text: "Task Distribution by Status" }
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ": " + context.raw;
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "Task Distribution by Status"
+                }
             },
             scales: {
                 x: { stacked: true },
-                y: { 
-                    stacked: true,
-                    beginAtZero: true 
-                }
+                y: { stacked: true, beginAtZero: true }
             }
         }
+    });
 
-    }); -->
-
-<script>
-	//Pass data from servlet to JavaScript
-	const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
-	const taskDatasets = ${taskDatasets}; // Example: [{ label: "Task1", data: [1, 0, 0], backgroundColor: "#FF6384" }, ...]
-	
-	// Create the stacked bar chart
-	new Chart("stackedBarChart", {
-	    type: "bar",
-	    data: {
-	        labels: taskStatuses,
-	        datasets: taskDatasets
-	    },
-	    options: {
-	    	indexAxis: 'x',
-	        responsive: true,
-	        plugins: {
-	            tooltip: {
-	                callbacks: {
-	                    label: function(context) {
-	                        // Show task name and its count when hovered
-	                        return context.dataset.label + ": " + context.raw;
-	                    }
-	                }
-	            },
-	            title: {
-	                display: true,
-	                text: "Task Distribution by Status"
-	            }
-	        },
-	        scales: {
-	            x: {
-	                stacked: true
-	            },
-	            y: {
-	                stacked: true,
-	                beginAtZero: true
-	            }
-	        }
-	    }
-	});
-
-
-
-    /* // Pie Chart
-    new Chart("pieChart", {
-        type: "pie",
-        data: {
-            labels: taskData.labels,
-            datasets: [{
-                backgroundColor: ["khaki", "peru", "navy"], // Same colors as bar chart
-                data: taskData.values
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Task Distribution"
+    <c:if test="${not empty pieChartData}">
+        const pieChartData = ${pieChartData};
+        
+        // Create the pie chart
+        new Chart("pieChart", {
+            type: "pie",
+            data: {
+                datasets: [{
+                    data: pieChartData.map(item => item.value),
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40"]
+                }],
+                labels: pieChartData.map(item => item.label)
             },
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Project Status Distribution"
+                    }
                 }
             }
-        }
-    }); */
+        });
+    </c:if>
 </script>
 
         
