@@ -138,14 +138,15 @@
 							            	height="16"
 							            	style="cursor: pointer;"
 							            	onclick="confirmation('${task.taskID}')"
-										></iconify-icon>
-										<!-- arrow -->
+										></iconify-icon></a>
+			            				<!-- view -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
 											style="color: black" 
 											width="18" 
 											height="18"
-											class="arrow-icon">
+											class="arrow-icon"
+											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
 										</iconify-icon>
 									</button>
 								</li>
@@ -176,14 +177,15 @@
 							            	height="16"
 							            	style="cursor: pointer;"
 							            	onclick="confirmation('${task.taskID}')"
-										></iconify-icon>
+										></iconify-icon></a>
 										<!-- arrow -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
 											style="color: black" 
 											width="18" 
 											height="18"
-											class="arrow-icon">
+											class="arrow-icon"
+											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
 										</iconify-icon>
 									</button>
 								</li>
@@ -206,22 +208,24 @@
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
 							            <!-- delete icon -->
-							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
+							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>"></a>
 							            <iconify-icon
 							            	icon="icomoon-free:bin"
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
+											class="bin-icon"
 							            	onclick="confirmation('${task.taskID}')"
 										></iconify-icon>
-										<!-- arrow -->
+			            				<!-- view -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
 											style="color: black" 
 											width="18" 
 											height="18"
-											class="arrow-icon">
-										</iconify-icon>
+											class="arrow-icon"
+											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+										</iconify-icon></a>
 									</button>
 								</li>
 							</c:if>
@@ -279,33 +283,14 @@
    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
-   
-    <script>
-    function confirmation(taskID) {
-    	  const userConfirmation = confirm("Are you sure you want to delete this task?");
-    	  
-    	  if (userConfirmation) {
-    	    const deleteURL = `/taskMate/TaskController?action=deleteTask&taskID=${taskID}`;
-    	    console.log("Delete URL:", deleteURL); // Debug the URL
-    	    fetch(deleteURL, {
-    	      method: "GET",
-    	    })
-    	      .then(response => {
-    	        if (response.ok) {
-    	          alert("Task successfully deleted");
-    	          // Optionally reload the page to refresh the task list
-    	          location.reload();
-    	        } else {
-    	          alert("Failed to delete the task. Please try again.");
-    	        }
-    	      })
-    	      .catch(error => {
-    	        console.error("Error deleting task:", error);
-    	        alert("An error occurred while deleting the task.");
-    	      });
-    	  }
-    	}
-</script>
 
+	<script>
+	function confirmation(event, projectID) {
+	    event.preventDefault(); // Stop the default link action
+	    if (confirm("Are you sure you want to delete this project?")) {
+	        window.location.href = "/taskMate/ProjectController?action=deleteProject&projectID=" + projectID;
+	    }
+	}
+	</script>
 </body>
 </html>

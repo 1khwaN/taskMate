@@ -98,30 +98,29 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
+	            				<!-- view -->
 	            				<iconify-icon 
 	            					icon="weui:eyes-on-outlined" 
 	            					width="24" 
 	            					height="24"
+									onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
 					            	icon="icomoon-free:bin"
 					            	width="16"
 					            	height="16"
 					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
-								></iconify-icon>
+					            	href="#" onclick="confirmation(event, '${project.projectID}')">
+								></iconify-icon></a>
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -144,30 +143,29 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
+	            				<!-- view -->
 	            				<iconify-icon 
 	            					icon="weui:eyes-on-outlined" 
 	            					width="24" 
 	            					height="24"
+	            					onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
 					            	icon="icomoon-free:bin"
 					            	width="16"
 					            	height="16"
 					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
+					            	href="#" onclick="confirmation(event, '${project.projectID}')">
 								></iconify-icon>
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -190,30 +188,29 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
+	            				<!-- view -->
 	            				<iconify-icon 
 	            					icon="weui:eyes-on-outlined" 
 	            					width="24" 
 	            					height="24"
+									onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
 					            <iconify-icon
 					            	icon="icomoon-free:bin"
 					            	width="16"
 					            	height="16"
 					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
-								></iconify-icon>
+					            	href="#" onclick="confirmation(event, '${project.projectID}')">
+								></iconify-icon></a>
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -229,32 +226,14 @@
    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
-   
-    <script>
-    function confirmation(projectID) {
-    	  const userConfirmation = confirm("Are you sure you want to delete this project?");
-    	  
-    	  if (userConfirmation) {
-    	    const deleteURL = `/taskMate/ProjectController?action=deleteProject&projectID=${projectID}`;
-    	    console.log("Delete URL:", deleteURL); // Debug the URL
-    	    fetch(deleteURL, {
-    	      method: "GET",
-    	    })
-    	      .then(response => {
-    	        if (response.ok) {
-    	          alert("Project successfully deleted");
-    	          // Optionally reload the page to refresh the project list
-    	          location.reload();
-    	        } else {
-    	          alert("Failed to delete the project. Please try again.");
-    	        }
-    	      })
-    	      .catch(error => {
-    	        console.error("Error deleting project:", error);
-    	        alert("An error occurred while deleting the project.");
-    	      });
-    	  }
-    	}
-</script>
+
+	<script>
+	function confirmation(event, projectID) {
+	    event.preventDefault(); // Stop the default link action
+	    if (confirm("Are you sure you want to delete this project?")) {
+	        window.location.href = "/taskMate/ProjectController?action=deleteProject&projectID=" + projectID;
+	    }
+	}
+	</script>
  </body>
 </html>

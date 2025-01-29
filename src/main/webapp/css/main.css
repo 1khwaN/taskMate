@@ -184,8 +184,8 @@ body {
 
 .secondary-label {
   display: block;
-  font-weight: 500;
-  font-size: var(--font-size-14);
+  font-weight: 900;
+  font-size: var(--font-size-16);
   margin-top: var(--space-16);
 }
 
@@ -197,6 +197,13 @@ body {
   width: 100%;
   padding: var(--space-16);
   margin-top: var(--space-16);
+}
+
+.textarea-input {
+    text-align: left;
+    vertical-align: top;
+    overflow: auto;
+    padding: var(--space-16);
 }
 
 .input,
