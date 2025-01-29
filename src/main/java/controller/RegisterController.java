@@ -40,15 +40,13 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    User user = new User();
-	    
-	    //System.out.print("test");
-	    
+
 	    // Retrieve input from form
 	    String userName = request.getParameter("userName");
 	    String email = request.getParameter("email");
 	    String password = request.getParameter("password");
 	    String confirmPassword = request.getParameter("confirmPassword");
-	    
+
 	    // Set default typeID to 1 if not provided
 	    int typeID = request.getParameter("typeID") != null ? Integer.parseInt(request.getParameter("typeID")) : 1;
 
@@ -60,22 +58,34 @@ public class RegisterController extends HttpServlet {
 	        return;
 	    }
 
+	    // Check if user already exists
+	    if (UserDAO.isEmailRegistered(email)) {
+	        request.setAttribute("errorMessage", "This email is already registered. Please log in.");
+	        RequestDispatcher view = request.getRequestDispatcher("pages/signup.jsp");
+	        view.forward(request, response);
+	        return;
+	    }
+	    
+	 // Validate password strength
+	    if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[!@#$%^&*(),.?\":{}|<>].*_")) {
+	        request.setAttribute("errorMessage", "Password must be at least 6 characters, contain 1 uppercase letter, and 1 special character.");
+	        RequestDispatcher view = request.getRequestDispatcher("pages/signup.jsp");
+	        view.forward(request, response);
+	        return;
+	    }
+
 	    // Set user details
 	    user.setUserName(userName);
 	    user.setEmail(email);
 	    user.setPassword(password);
 	    user.setTypeID(typeID);
 
-	    user = UserDAO.getUser(user);
-	    
-	    if (!user.isLoggedIn()) {
-	        try {
-	            UserDAO.insertUser(user);
-	            RequestDispatcher view = request.getRequestDispatcher("pages/login.jsp"); 
-	            view.forward(request, response);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+	    try {
+	        UserDAO.insertUser(user);
+	        RequestDispatcher view = request.getRequestDispatcher("pages/login.jsp"); 
+	        view.forward(request, response);
+	    } catch (Exception e) {
+	        e.printStackTrace();
 	    }
 	}
 
