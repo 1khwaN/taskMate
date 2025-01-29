@@ -196,6 +196,7 @@
 									onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 					            <!-- delete icon -->
+								<a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
 					            <iconify-icon
 					            	icon="icomoon-free:bin"
 					            	width="16"

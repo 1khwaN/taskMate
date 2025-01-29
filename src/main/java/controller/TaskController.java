@@ -64,26 +64,11 @@ public class TaskController extends HttpServlet {
 			taskID = Integer.parseInt(request.getParameter("taskID"));
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
-		
-//		if(action.equalsIgnoreCase("updateTask")) {
-//			forward = UPDATE;
-//			Task task = new Task();
-//			taskID = Integer.parseInt(request.getParameter("taskID"));
-//			task = TaskDAO.getTaskByID(taskID);
-//			request.setAttribute("selectedProject", task.getProjectID());
-//			request.setAttribute("task", TaskDAO.getTasksByProjectID(taskID));
-//			request.setAttribute("projects", TaskDAO.getAllTasks());
-//		}
 
 		if(action.equalsIgnoreCase("updateTask")) {
 			forward = UPDATE;
-			taskID = Integer.parseInt(request.getParameter("projectID"));
+			taskID = Integer.parseInt(request.getParameter("taskID"));
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
-		}
-		
-		if(action.equalsIgnoreCase("addTask")) {
-			forward = ADD;
-//			request.setAttribute("projects", ProjectDAO.addTask(task));
 		}
 		
 		if (action.equalsIgnoreCase("deleteTask")) {
@@ -114,10 +99,8 @@ public class TaskController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    // Create new Task object
 	    Task task = new Task();
 	    
-	    // Set task properties from form inputs
 	    task.setTaskName(request.getParameter("taskName"));
 	    task.setDescription(request.getParameter("description"));
 	    task.setStartDate(request.getParameter("startDate"));
@@ -137,11 +120,18 @@ public class TaskController extends HttpServlet {
 
 	    // Add task to the database
 	    String taskID = request.getParameter("taskID");
-
-	    if (taskID == null || taskID.isEmpty()) {
-	        TaskDAO.addTask(task);
-	    }
-
+		
+		if(taskID != null && !taskID.isEmpty()) {
+			task.setTaskID(Integer.parseInt(taskID));
+			try {
+				TaskDAO.updateTask(task);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			TaskDAO.addTask(task);
+		}
 	    // Forward to list of tasks page for the given project
 	    forward = LIST;
 	    request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));

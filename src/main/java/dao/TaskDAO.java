@@ -95,14 +95,15 @@ public class TaskDAO {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "UPDATE task SET taskName=?, description=?, startDate=?, endDate=?, taskStatus=? WHERE taskID=?";
+			sql = "UPDATE task SET taskName=?, description=?, startDate=?, endDate=?, taskStatus=?, projectID=? WHERE taskID=?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, task.getTaskName());
 			ps.setString(2, task.getDescription());
 			ps.setString(3, task.getStartDate());
 			ps.setString(4, task.getEndDate());
 			ps.setString(5, task.getTaskStatus());
-			ps.setInt(6,  task.getTaskID());
+			ps.setInt(6,  task.getProjectID());
+			ps.setInt(7,  task.getTaskID());
 			
 			ps.executeUpdate();
 			

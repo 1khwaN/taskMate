@@ -6,7 +6,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>View Task - TaskMate System</title>
+		<title>Update Task - TaskMate System</title>
 		<!-- Google Font: Inter -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,41 +165,40 @@
 			></iconify-icon>
 		</button>
 
-		<h1>View Task]</h1>
+		<h1>Update Task</h1>
 		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
             
             <input type="hidden" name="taskID" value="${task.taskID}" />
-            <input type="hidden" name="projectID" value="${project.projectID}" />
+            <input type="hidden" name="projectID" value="${task.projectID}" />
 		
 			<label for="taskName" class="label">Task Name</label>
- 			<input type="text" name="taskName" id="taskName" class="input white-background" value="<c:out value="${task.taskName}"/>" readonly/>
+ 			<input type="text" name="taskName" id="taskName" class="input white-background" value="<c:out value="${task.taskName}"/>" />
 		
 			<label for="description" class="label">Description</label>
-			<textarea rows="5" name="description" id="description" class="textarea-input white-background" readonly><c:out value="${task.description}" /></textarea>
+			<textarea rows="5" name="description" id="description" class="textarea-input white-background" ><c:out value="${task.description}" /></textarea>
 			
 	        <div class="divided-inputs-container">
 	          <div>
 	            <label for="startDate" class="secondary-label">Start Date</label>
 	            <input
-	              type="date" name="startDate" id="startDate" class="input white-background" value="<c:out value="${task.startDate}"/>" readonly/>
+	              type="date" name="startDate" id="startDate" class="input white-background" value="<c:out value="${task.startDate}"/>" />
 	          </div>
 	          <div>
 	            <label for="endDate" class="secondary-label">Due Date</label>
 	            <input
-	              type="date" name="endDate" id="endDate" class="input white-background" value="<c:out value="${task.endDate}"/>" readonly/>
+	              type="date" name="endDate" id="endDate" class="input white-background" value="<c:out value="${task.endDate}"/>" />
 	          </div>
 	 		</div>
-	 	
-	          <div>
-	            <label for="taskStatus" class="label">Task Status</label>
-	            <input
-	              type="text" name="taskStatus" id="taskStatus" class="input white-background" value="<c:out value="${task.taskStatus}"/>" readonly/>
-	          </div>
+	 		
+	 		<label for="taskStatus" class="label">Task Status</label>
+	 		<select class="form-control" id="taskStatus" name="taskStatus">
+	 			<option value="To Do" ${task.taskStatus == 'To Do' ? 'selected="selected"' : ''}>To Do</option>
+	 			<option value="Doing" ${task.taskStatus == 'Doing' ? 'selected="selected"' : ''}>Doing</option>
+	 			<option value="Done" ${task.taskStatus == 'Done' ? 'selected="selected"' : ''}>Done</option>
+	 		</select>
 
 			<div class="text-center">
-				<input type="button" value="Update Project" 
-				       onclick="window.location.href='/taskMate/TaskController?action=updateTask&taskID=${task.taskID}'"
-				       class="button regular-button green-background cta-button">
+				<input type="submit" value="Update Task" class="button regular-button green-background cta-button"></input>
 			</div>
 		</form>
 	</div>

@@ -35,7 +35,7 @@
 				<div class="buttons-container">
 
 					<button id="update-task-cta" class="button regular-button green-background"
-						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Update Project
+						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Delete All Tasks
 					</button>
 					
 					<c:set var="projectID" value="${param.projectID}" />
@@ -233,13 +233,34 @@
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
 
-	<script>
-	function confirmation(event, projectID) {
-	    event.preventDefault(); // Stop the default link action
-	    if (confirm("Are you sure you want to delete this project?")) {
-	        window.location.href = "/taskMate/ProjectController?action=deleteProject&projectID=" + projectID;
-	    }
-	}
-	</script>
+<script>
+    function confirmation(taskID) {
+    	  const userConfirmation = confirm("Are you sure you want to delete this task?");
+    	  
+    	  if (userConfirmation) {
+    	    const deleteURL = `/taskMate/TaskController?action=deleteTask&taskID=${taskID}`;
+    	    console.log("Delete URL:", deleteURL); // Debug the URL
+    	    fetch(deleteURL, {
+    	      method: "GET",
+    	    })
+    	      .then(response => {
+    	        if (response.ok) {
+    	          alert("Task successfully deleted");
+    	          // Optionally reload the page to refresh the task list
+    	          location.reload();
+    	        } else {
+    	          alert("Failed to delete the task. Please try again.");
+    	        }
+    	      })
+    	      .catch(error => {
+    	        console.error("Error deleting task:", error);
+    	        alert("An error occurred while deleting the task.");
+    	      });
+    	  }
+    	}
+</script>
+
+
+	
 </body>
 </html>
