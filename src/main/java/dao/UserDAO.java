@@ -20,11 +20,11 @@ public class UserDAO {
 	private static final String UPDATE_USERS_SQL = "UPDATE user SET email= ? WHERE userID = ?;";
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
 	
-	private static User user = null;
+//	private static User user = null;
 	private static int userID;
-	private static String userName, email, password;
-	private static int typeID;
-	private static int isLoggedIn;
+//	private static String userName, email, password;
+//	private static int typeID;
+//	private static int isLoggedIn;
 	
 	//insert user
 		public static void insertUser(User user) throws SQLException,NoSuchAlgorithmException{
@@ -61,6 +61,9 @@ public class UserDAO {
 				con.close();
 
 			}catch(SQLException e) {
+				System.out.println("not connected");
+				System.out.println(user.getUserName());
+
 				e.printStackTrace();
 			}	
 		}

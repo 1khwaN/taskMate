@@ -17,6 +17,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	 
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -35,9 +36,9 @@ public class LoginController extends HttpServlet {
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                    view = request.getRequestDispatcher("prodTracking.jsp");
+                    view = request.getRequestDispatcher("pages/prodTracking.jsp");
                 } else { // Member
-                    view = request.getRequestDispatcher("prodTracking.jsp");
+                    view = request.getRequestDispatcher("pages/prodTracking.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
                 System.out.print(user.getEmail() + " Login successfully");
@@ -52,6 +53,7 @@ public class LoginController extends HttpServlet {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            
             response.sendRedirect("error.jsp"); // Redirect to an error page
         }
     }

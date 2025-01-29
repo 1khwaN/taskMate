@@ -181,19 +181,33 @@
      </div>
     
     <!-- Productivity Charts -->
-    <div class="prod-Container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-        <!-- Bar Chart -->
-         <%
+    
+
+<div class="prod-Container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+<%
+    int userRole = (int) session.getAttribute("role"); // Assume role is stored in the session
     String taskStatuses = (String) request.getAttribute("taskStatuses");
     String taskCounts = (String) request.getAttribute("taskCounts");
+    String projectStatuses = (String) request.getAttribute("projectStatuses");
+    String projectCounts = (String) request.getAttribute("projectCounts");
 
     // Debugging in JSP
-    System.out.println("Received taskStatuses: " + taskStatuses);
-    System.out.println("Received taskCounts: " + taskCounts);
-	%>
+    System.out.println("User Role: " + userRole);
+    System.out.println("Task Statuses: " + taskStatuses);
+    System.out.println("Task Counts: " + taskCounts);
+    System.out.println("Project Statuses: " + projectStatuses);
+    System.out.println("Project Counts: " + projectCounts);
+%>
+
+
+    <!-- Display charts based on user role -->
+    <% if (userRole == 2) { %> <!-- Member -->
+        <!-- Stacked Bar Chart -->
         <div class="chart-frame">
-            <canvas id="barChart"></canvas>
+            <canvas id="stackedBarChart"></canvas>
         </div>
+    <% } else if (userRole == 1) { %> <!-- Project Manager -->
+        <!-- Stacked Bar Chart -->
         <div class="chart-frame">
             <canvas id="stackedBarChart"></canvas>
         </div>
@@ -201,31 +215,45 @@
         <div class="chart-frame">
             <canvas id="pieChart"></canvas>
         </div>
-    </div>
-    
-   
-   
-   <!--  <script>
-   // Data from the server
-   // Chart data passed from servlet
-    const taskData = {
-        labels: ${taskStatuses}, // Task statuses: ["To Do", "Doing", "Done"]
-        datasets: [{
-            label: "User Tasks", 
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each bar segment
-            data: ${taskCounts} // Task counts for each status
-        }]
-    };
+    <% } %>
+</div>
 
-    // Render stacked bar chart
+<script>
+    // Pass data from servlet to JavaScript
+    const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
+    const taskCounts = ${taskCounts}; // Example: [5, 3, 7]
+
+    <% if (userRole == 1) { %> 
+    const projectStatuses = ${projectStatuses}; // Example: ["Ongoing", "Completed", "Pending"]
+    const projectCounts = ${projectCounts}; // Example: [2, 4, 1]
+    <% } %>
+
+    // Render the stacked bar chart for tasks
     new Chart("stackedBarChart", {
         type: "bar",
-        data: taskData,
+        data: {
+            labels: taskStatuses,
+            datasets: [{
+                label: "User Tasks",
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                data: taskCounts
+            }]
+        },
         options: {
+            indexAxis: 'x',
             responsive: true,
             plugins: {
-                legend: { position: "top" },
-                title: { display: true, text: "Task Distribution by Status" }
+                title: {
+                    display: true,
+                    text: "Task Distribution by Status"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ": " + context.raw;
+                        }
+                    }
+                }
             },
             scales: {
                 x: { stacked: true },
@@ -235,76 +263,34 @@
                 }
             }
         }
+    });
 
-    }); -->
-
-<script>
-	//Pass data from servlet to JavaScript
-	const taskStatuses = ${taskStatuses}; // Example: ["To Do", "Doing", "Done"]
-	const taskDatasets = ${taskDatasets}; // Example: [{ label: "Task1", data: [1, 0, 0], backgroundColor: "#FF6384" }, ...]
-	
-	// Create the stacked bar chart
-	new Chart("stackedBarChart", {
-	    type: "bar",
-	    data: {
-	        labels: taskStatuses,
-	        datasets: taskDatasets
-	    },
-	    options: {
-	    	indexAxis: 'x',
-	        responsive: true,
-	        plugins: {
-	            tooltip: {
-	                callbacks: {
-	                    label: function(context) {
-	                        // Show task name and its count when hovered
-	                        return context.dataset.label + ": " + context.raw;
-	                    }
-	                }
-	            },
-	            title: {
-	                display: true,
-	                text: "Task Distribution by Status"
-	            }
-	        },
-	        scales: {
-	            x: {
-	                stacked: true
-	            },
-	            y: {
-	                stacked: true,
-	                beginAtZero: true
-	            }
-	        }
-	    }
-	});
-
-
-
-    /* // Pie Chart
+    <% if (userRole == 1) { %>
+    // Render the pie chart for projects (only for project managers)
     new Chart("pieChart", {
         type: "pie",
         data: {
-            labels: taskData.labels,
+            labels: projectStatuses,
             datasets: [{
-                backgroundColor: ["khaki", "peru", "navy"], // Same colors as bar chart
-                data: taskData.values
+                label: "Projects by Status",
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                data: projectCounts
             }]
         },
         options: {
-            title: {
-                display: true,
-                text: "Task Distribution"
-            },
             responsive: true,
             plugins: {
-                legend: {
-                    position: 'top',
+                title: {
+                    display: true,
+                    text: "Projects by Status"
                 }
             }
         }
-    }); */
+    });
+    <% } %>
 </script>
+
+
 
         
     <!-- import IconifyIcon web component -->
