@@ -67,7 +67,7 @@ public class RegisterController extends HttpServlet {
 	    }
 	    
 	 // Validate password strength
-	    if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+	    if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[!@#$%^&*(),.?\":{}|<>].*_")) {
 	        request.setAttribute("errorMessage", "Password must be at least 6 characters, contain 1 uppercase letter, and 1 special character.");
 	        RequestDispatcher view = request.getRequestDispatcher("pages/signup.jsp");
 	        view.forward(request, response);
