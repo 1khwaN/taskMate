@@ -17,7 +17,6 @@ import java.util.Map;
 @WebServlet("/prodTracking")
 public class prodTrackingController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    
 
     public prodTrackingController() {
         super();
@@ -37,11 +36,9 @@ public class prodTrackingController extends HttpServlet {
 
         // Convert data to JSON-like strings for Chart.js
         StringBuilder labelsJson = new StringBuilder("[");
-
-        // for stackedBarChart (task names under each status)
         StringBuilder datasetsJson = new StringBuilder("[");
 
-        // Loop through the task details
+        // Loop through the task details for stacked bar chart
         for (Map.Entry<String, List<String>> entry : taskDetails.entrySet()) {
             labelsJson.append("\"").append(entry.getKey()).append("\",");
 
@@ -50,7 +47,6 @@ public class prodTrackingController extends HttpServlet {
                     .append("\"label\":\"").append(taskName).append("\",")
                     .append("\"data\":[");
 
-                // Fill the data array for each task
                 for (String status : taskDetails.keySet()) {
                     datasetsJson.append(status.equals(entry.getKey()) ? 1 : 0).append(",");
                 }
@@ -71,24 +67,26 @@ public class prodTrackingController extends HttpServlet {
         labelsJson.append("]");
         datasetsJson.append("]");
 
-        // Pass data to JSP
+        // Pass task data to JSP for stacked bar chart
         request.setAttribute("taskStatuses", labelsJson.toString());
         request.setAttribute("taskDatasets", datasetsJson.toString());
 
-        // Additional chart data for userRole 1
+        // Fetch project counts for the pie chart if userRole is 1
         if (userRole == 1) {
-            Map<String, Integer> taskCounts = dao.getTaskCountsByUser(loggedInUserID);
+            Map<String, Integer> projectCounts = dao.getProjectCountsByUser(loggedInUserID);
             StringBuilder pieChartData = new StringBuilder("[");
 
-            // Constructing the pie chart data
-            for (Map.Entry<String, Integer> entry : taskCounts.entrySet()) {
+            // Construct the pie chart data from project counts
+            for (Map.Entry<String, Integer> entry : projectCounts.entrySet()) {
                 pieChartData.append("{")
                     .append("\"label\":\"").append(entry.getKey()).append("\",")
                     .append("\"value\":").append(entry.getValue()).append("},");
             }
-            if (!taskCounts.isEmpty()) {
+
+            if (!projectCounts.isEmpty()) {
                 pieChartData.deleteCharAt(pieChartData.length() - 1);
             }
+
             pieChartData.append("]");
 
             // Pass the pie chart data to JSP
@@ -99,6 +97,8 @@ public class prodTrackingController extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("pages/prodTracking.jsp");
         dispatcher.forward(request, response);
     }
+
+
 
 
     @Override

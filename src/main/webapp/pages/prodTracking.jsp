@@ -195,7 +195,7 @@
     </div>
 
     <c:if test="${not empty pieChartData}">
-        <!-- Pie Chart (visible for user type ID 1) -->
+        <!-- Pie Chart (only visible for userRole 1) -->
         <div class="chart-frame">
             <canvas id="pieChart"></canvas>
         </div>
@@ -239,7 +239,7 @@
     <c:if test="${not empty pieChartData}">
         const pieChartData = ${pieChartData};
         
-        // Create the pie chart
+        // Create the pie chart with project data
         new Chart("pieChart", {
             type: "pie",
             data: {
@@ -261,6 +261,7 @@
         });
     </c:if>
 </script>
+
 
         
     <!-- import IconifyIcon web component -->
