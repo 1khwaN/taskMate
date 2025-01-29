@@ -55,4 +55,55 @@
     /* equal-width columns */
     width: 50%;
   }
+  
+  	/* Set Playwrite ZA for TaskMate */
+	.taskmate-title {
+	    font-family: "Playwrite ZA", sans-serif;
+	    font-weight: normal;
+	}
+	
+	/* Keep Inter for body text */
+	body {
+	    font-family: "Inter", sans-serif;
+	}
+	
+	.input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Error bubble styling */
+.error-bubble {
+    visibility: hidden;
+    background-color: white; /* Change bubble background to white */
+    color: red; /* Change font color to red */
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 100%;
+    left: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.error-bubble::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 10px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent white transparent; /* Change the arrow to match bubble color */
+}
+
+.show-error {
+    visibility: visible;
+    opacity: 1;
+}
+	
 }
