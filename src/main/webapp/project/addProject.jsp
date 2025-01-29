@@ -173,57 +173,43 @@
 		</button>
 
 		<h1>Add Project</h1>
-		<form class="form" autocomplete="off" action="ProjectController" method="post">
+		<form class="form" action="${pageContext.request.contextPath}/ProjectController" method="POST">
+		
 			<label for="projectName" class="label">Project Name</label>
- 			<input type="text" name="project-name" id="project-name" class="input white-background" placeholder="Enter project name" required/>
-
-			<label for="project-description" class="label">Description</label>
-			<textarea name="description" id="description" rows="5" class="textarea-input white-background" placeholder="Enter project description"></textarea>
-
-			<h2 class="label">Start Date</h2>
-			<div><input type="date" name="startDate" id="startDate" class="input white-background" required/></div>
-
-			<h2 class="label">Due Date</h2>
-				<div><input type="date" name=endDate" id="endDate" class="input white-background" required/></div>
-
-			<h2 class="label">Status</h2>
-			<div id="projectStatus" class="status-select white-background flex items-center justify-between cursor-pointer" onclick="toggleDropdown()">
-				<span id="projectStatus">To Do</span>
-				<iconify-icon
-					icon="material-symbols:arrow-drop-down"
-					style="color: black"
-					width="18"
-					height="18"
-					class="arrow-icon"
-				></iconify-icon>
-			</div>
-			<ul id="status-dropdown" class="status-dropdown white-background" style="display: none;">
-				<li data-status="To Do" onclick="selectStatus('To Do')">To Do</li>
-				<li data-status="Doing" onclick="selectStatus('Doing')">Doing</li>
-				<li data-status="Done" onclick="selectStatus('Done')">Done</li>
-			</ul>
-			<input type="hidden" name="projectStatus" id="hidden-status" value="To Do" />
-
-			<h2 class="label">Priority</h2>
-			<div id="projectPriority" class="priority-select white-background flex items-center justify-between cursor-pointer" onclick="togglePriorityDropdown()">
-				<span id="projectPriority">Medium</span>
-				<iconify-icon
-					icon="material-symbols:arrow-drop-down"
-					style="color: black"
-					width="18"
-					height="18"
-					class="arrow-icon"
-				></iconify-icon>
-			</div>
-			<ul id="projectPriority" class="priority-dropdown white-background" style="display: none;">
- 				<li data-priority="Low" onclick="selectPriority('Low')">Low</li>
-				<li data-priority="Medium" onclick="selectPriority('Medium')">Medium</li>
-				<li data-priority="High" onclick="selectPriority('High')">High</li>
-			</ul>
-			<input type="hidden" name="projectPriority" id="hidden-priority" value="Medium" />
+ 			<input type="text" name="projectName" id="projectName" class="input white-background" placeholder="Enter project name" required/>
+		
+			<label for="description" class="label">Description</label>
+ 			<textarea rows="5" name="description" id="description" class="textarea-input white-background" placeholder="Enter description"/></textarea>
+ 			
+	        <div class="divided-inputs-container">
+	          <div>
+	            <label for="startDate" class="secondary-label">Start Date</label>
+	            <input
+	              type="date" name="startDate" id="startDate" class="input white-background" required/>
+	          </div>
+	          <div>
+	            <label for="endDate" class="secondary-label">Due Date</label>
+	            <input
+	              type="date" name="endDate" id="endDate" class="input white-background" required/>
+	          </div>
+	 		</div>
+	 		
+	 		<label for="projectStatus" class="label">Project Status</label>
+	 		<select class="form-control" id="projectStatus" name="projectStatus">
+	 			<option value="To Do">To Do</option>
+	 			<option value="Doing">Doing</option>
+	 			<option value="Done">Done</option>
+	 		</select>
+	 		
+	 		<label for="projectPriority" class="label">Project Priority</label>
+	 		<select class="form-control" id="projectPriority" name="projectPriority">
+	 			<option value="Low">Low</option>
+	 			<option value="Medium">Medium</option>
+	 			<option value="High">High</option>
+	 		</select>
 
 			<div class="text-center">
-				<button type="submit" class="button regular-button green-background cta-button">Add project</button>
+				<input type="submit" value="Add project" class="button regular-button green-background cta-button"></input>
 			</div>
 		</form>
 	</div>

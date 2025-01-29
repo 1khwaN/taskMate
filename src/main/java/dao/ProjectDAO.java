@@ -77,7 +77,7 @@ public class ProjectDAO {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "INSERT INTO project (projectName, description, startDate, endDate, projectStatus, projectPriority) VALUES(?,?,?,?,?,?)";
+			sql = "INSERT INTO project(projectName, description, startDate, endDate, projectStatus, projectPriority)VALUES(?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, project.getProjectName());
 			ps.setString(2, project.getDescription());

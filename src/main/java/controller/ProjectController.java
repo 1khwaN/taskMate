@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import dao.ProjectDAO;
@@ -91,25 +92,55 @@ public class ProjectController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+//		Project project = new Project();
+//		project.setProjectName(request.getParameter("projectName"));
+//		project.setDescription(request.getParameter("description"));
+//		project.setStartDate(request.getParameter("startDate"));
+//		project.setEndDate(request.getParameter("endDate"));
+//		project.setProjectStatus(request.getParameter("projectStatus"));
+//		project.setProjectPriority(request.getParameter("projectPriority"));
+//
+//		String projectID = request.getParameter("projectID");
+//
+//		if(projectID == null || projectID.isEmpty()) {
+//			ProjectDAO.addProject(project);
+//		} else {
+//			ProjectDAO.updateProject(project);
+//		}
+//
+////		response.sendRedirect(request.getContextPath() + "ProjectController?action=listOfProjects");
+//		view = request.getRequestDispatcher(LIST);
+//		view.forward(request, response);
+		
 		Project project = new Project();
-		project.setProjectID(Integer.parseInt(request.getParameter("projectID")));
+
+		//8. retrieve from HTML and set the values
 		project.setProjectName(request.getParameter("projectName"));
 		project.setDescription(request.getParameter("description"));
 		project.setStartDate(request.getParameter("startDate"));
 		project.setEndDate(request.getParameter("endDate"));
 		project.setProjectStatus(request.getParameter("projectStatus"));
 		project.setProjectPriority(request.getParameter("projectPriority"));
-
+		
 		String projectID = request.getParameter("projectID");
-
-		if(projectID == null || projectID.isEmpty()) {
+		
+		if(projectID != null && !projectID.isEmpty()) {
+			project.setProjectID(Integer.parseInt(request.getParameter(projectID)));
+			try {
+				ProjectDAO.updateProject(project);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			//9. invoke method addBooking() in BookingDAO
 			ProjectDAO.addProject(project);
-		} else {
-			ProjectDAO.updateProject(project);
 		}
 
-		//		request.setAttribute("project", projectDAO.get);
-		RequestDispatcher view = request.getRequestDispatcher(LIST);
+		request.setAttribute("projects", ProjectDAO.getAllProject());
+
+		forward = LIST;
+		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
 
