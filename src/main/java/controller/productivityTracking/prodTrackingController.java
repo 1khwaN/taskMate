@@ -72,11 +72,11 @@ public class prodTrackingController extends HttpServlet {
         // Fetch task details grouped by status
         Map<String, List<String>> taskDetails = dao.getTaskDetailsByUser(loggedInUserID);
 
-        // Define the fixed set of colors
+        // Define colors for charts
         String[] colors = { "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40" };
         int colorIndex = 0;
 
-        // Convert data to JSON-like strings for Chart.js
+        // Prepare data for the stacked bar chart
         StringBuilder labelsJson = new StringBuilder("[");
         StringBuilder datasetsJson = new StringBuilder("[");
 
@@ -106,9 +106,33 @@ public class prodTrackingController extends HttpServlet {
         labelsJson.append("]");
         datasetsJson.append("]");
 
-        // Pass data to JSP
+        // Pass task data to JSP
         request.setAttribute("taskStatuses", labelsJson.toString());
         request.setAttribute("taskDatasets", datasetsJson.toString());
+
+        // If the user is a project manager, fetch project data
+        if (userRole == 1) {
+            Map<String, Integer> projectCounts = dao.getProjectCountsByUser(loggedInUserID);
+
+            StringBuilder projectLabelsJson = new StringBuilder("[");
+            StringBuilder projectCountsJson = new StringBuilder("[");
+
+            for (Map.Entry<String, Integer> entry : projectCounts.entrySet()) {
+                projectLabelsJson.append("\"").append(entry.getKey()).append("\",");
+                projectCountsJson.append(entry.getValue()).append(",");
+            }
+
+            if (!projectCounts.isEmpty()) {
+                projectLabelsJson.deleteCharAt(projectLabelsJson.length() - 1);
+                projectCountsJson.deleteCharAt(projectCountsJson.length() - 1);
+            }
+            projectLabelsJson.append("]");
+            projectCountsJson.append("]");
+
+            // Pass project data to JSP
+            request.setAttribute("projectStatuses", projectLabelsJson.toString());
+            request.setAttribute("projectCounts", projectCountsJson.toString());
+        }
 
         // Forward to JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("pages/prodTracking.jsp");

@@ -21,11 +21,11 @@ public class UserDAO {
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
 	private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
 	
-	private static User user = null;
+//	private static User user = null;
 	private static int userID;
-	private static String userName, email, password;
-	private static int typeID;
-	private static int isLoggedIn;
+//	private static String userName, email, password;
+//	private static int typeID;
+//	private static int isLoggedIn;
 	
 	//insert user
 	public static void insertUser(User user) throws  NoSuchAlgorithmException {
@@ -54,6 +54,13 @@ public class UserDAO {
 	        ps.setString(2, user.getEmail());
 	        ps.setString(3, sb.toString()); // Store encrypted password
 	        ps.setInt(4, typeID); // Set default typeID if not provided
+			}catch(SQLException e) {
+				System.out.println("not connected");
+				System.out.println(user.getUserName());
+
+				e.printStackTrace();
+			}	
+		}
 
 	        // Execute query
 	        ps.executeUpdate();

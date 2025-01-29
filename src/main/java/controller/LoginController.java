@@ -17,6 +17,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	 
         try {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -52,6 +53,7 @@ public class LoginController extends HttpServlet {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            
             response.sendRedirect("error.jsp"); // Redirect to an error page
         }
     }
