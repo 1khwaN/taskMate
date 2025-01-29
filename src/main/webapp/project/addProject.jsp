@@ -166,7 +166,7 @@
 		</button>
 
 		<h1>Add Project</h1>
-		<form class="form" action="ProjectController" method="POST">
+		<form class="form" action="${pageContext.request.contextPath}/ProjectController" method="POST">
 		
 			<label for="projectName" class="label">Project Name</label>
  			<input type="text" name="projectName" id="projectName" class="input white-background" placeholder="Enter project name" required/>
