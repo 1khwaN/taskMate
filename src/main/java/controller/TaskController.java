@@ -43,15 +43,13 @@ public class TaskController extends HttpServlet {
 		action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("listTask")) {
-		    int projectID = Integer.parseInt(request.getParameter("projectID")); // Correctly retrieve projectID
+		    int projectID = Integer.parseInt(request.getParameter("projectID"));
 		    forward = LIST;
 			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
-		    // Fetch and set project name
 		    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
-		    System.out.println("Project Name: " + projectName);  // Debugging print to verify if projectName is retrieved
-		    request.setAttribute("projectName", projectName); // Set project name in request
-		    
-		    forward = "task/listOfTasks.jsp"; // Forward to the tasks list JSP
+		    System.out.println("Project Name: " + projectName);
+		    request.setAttribute("projectName", projectName);
+		    forward = "task/listOfTasks.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("listAll")) {
@@ -85,7 +83,7 @@ public class TaskController extends HttpServlet {
 		            System.out.println("Invalid taskID received");
 		        }
 		        
-		        request.setAttribute("tasks", TaskDAO.getAllTasks());
+		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
 		    } catch (Exception e) {
 		        e.printStackTrace(); // Log any exceptions for debugging
 		    }

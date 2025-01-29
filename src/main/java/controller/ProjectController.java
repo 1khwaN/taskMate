@@ -82,6 +82,7 @@ public class ProjectController extends HttpServlet {
 		        e.printStackTrace(); // Log any exceptions for debugging
 		    }
 		}
+		
 		view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}

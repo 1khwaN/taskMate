@@ -129,9 +129,7 @@
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
-							            	onclick="confirmation('${task.taskID}')"
-					            			href="#" onclick="confirmation(event, '${project.projectID}')">
-										></iconify-icon>
+							            	href="#" onclick="confirmation(event, '${task.taskID}')">
 			            				<!-- view -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
@@ -168,9 +166,7 @@
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
-							            	onclick="confirmation('${task.taskID}')"
-					            			href="#" onclick="confirmation(event, '${project.projectID}')">
-										></iconify-icon>
+							            	href="#" onclick="confirmation(event, '${task.taskID}')">
 										<!-- arrow -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
@@ -206,8 +202,7 @@
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
-											class="bin-icon"
-											href="#" onclick="confirmation(event, '${project.projectID}')">
+							            	href="#" onclick="confirmation(event, '${task.taskID}')">
 										></iconify-icon>
 			            				<!-- view -->
 										<iconify-icon 
@@ -233,34 +228,14 @@
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
 
-<script>
-    function confirmation(taskID) {
-    	  const userConfirmation = confirm("Are you sure you want to delete this task?");
-    	  
-    	  if (userConfirmation) {
-    	    const deleteURL = `/taskMate/TaskController?action=deleteTask&taskID=${taskID}`;
-    	    console.log("Delete URL:", deleteURL); // Debug the URL
-    	    fetch(deleteURL, {
-    	      method: "GET",
-    	    })
-    	      .then(response => {
-    	        if (response.ok) {
-    	          alert("Task successfully deleted");
-    	          // Optionally reload the page to refresh the task list
-    	          location.reload();
-    	        } else {
-    	          alert("Failed to delete the task. Please try again.");
-    	        }
-    	      })
-    	      .catch(error => {
-    	        console.error("Error deleting task:", error);
-    	        alert("An error occurred while deleting the task.");
-    	      });
-    	  }
-    	}
-</script>
-
-
+	<script>
+	function confirmation(event, taskID) {
+	    event.preventDefault(); // Stop the default link action
+	    if (confirm("Are you sure you want to delete this task?")) {
+	        window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID;
+	    }
+	}
+	</script>
 	
 </body>
 </html>
