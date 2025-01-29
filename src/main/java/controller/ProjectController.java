@@ -90,30 +90,9 @@ public class ProjectController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		Project project = new Project();
-//		project.setProjectName(request.getParameter("projectName"));
-//		project.setDescription(request.getParameter("description"));
-//		project.setStartDate(request.getParameter("startDate"));
-//		project.setEndDate(request.getParameter("endDate"));
-//		project.setProjectStatus(request.getParameter("projectStatus"));
-//		project.setProjectPriority(request.getParameter("projectPriority"));
-//
-//		String projectID = request.getParameter("projectID");
-//
-//		if(projectID == null || projectID.isEmpty()) {
-//			ProjectDAO.addProject(project);
-//		} else {
-//			ProjectDAO.updateProject(project);
-//		}
-//
-////		response.sendRedirect(request.getContextPath() + "ProjectController?action=listOfProjects");
-//		view = request.getRequestDispatcher(LIST);
-//		view.forward(request, response);
-		
+		// TODO Auto-generated method stub		
 		Project project = new Project();
 
-		//8. retrieve from HTML and set the values
 		project.setProjectName(request.getParameter("projectName"));
 		project.setDescription(request.getParameter("description"));
 		project.setStartDate(request.getParameter("startDate"));
@@ -124,7 +103,7 @@ public class ProjectController extends HttpServlet {
 		String projectID = request.getParameter("projectID");
 		
 		if(projectID != null && !projectID.isEmpty()) {
-			project.setProjectID(Integer.parseInt(request.getParameter(projectID)));
+			project.setProjectID(Integer.parseInt(projectID));
 			try {
 				ProjectDAO.updateProject(project);
 			} catch (Exception e) {
@@ -132,7 +111,6 @@ public class ProjectController extends HttpServlet {
 			}
 		}
 		else {
-			//9. invoke method addBooking() in BookingDAO
 			ProjectDAO.addProject(project);
 		}
 

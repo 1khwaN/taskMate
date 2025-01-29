@@ -34,9 +34,6 @@
 				<br>
 				<div class="buttons-container">
 
-					<%-- <button class="btn btn-danger" id="delete-project-<c:out value="${project.projectID}"/>"
-						onclick="confirmation(<c:out value="${project.projectID}"/>)">Delete</button> --%>
-
 					<button id="update-task-cta" class="button regular-button green-background"
 						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Update Project
 					</button>
@@ -51,7 +48,6 @@
 						onclick="window.location.href='login.jsp';">
 						Log out
 					</button>
-		            </button>
 				</div>
 			</div>
 		</div>
@@ -104,9 +100,6 @@
         </div>
       </div>
 		
-		
-		
-
 		<!-- Check if tasks is null or empty -->
 		<c:if test="${empty tasks}">
 		    <h3>No tasks added yet</h3>
@@ -131,14 +124,14 @@
 					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
 							            <!-- delete icon -->
-							           	<a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
 							            <iconify-icon
 							            	icon="icomoon-free:bin"
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
 							            	onclick="confirmation('${task.taskID}')"
-										></iconify-icon></a>
+					            			href="#" onclick="confirmation(event, '${project.projectID}')">
+										></iconify-icon>
 			            				<!-- view -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
@@ -170,14 +163,14 @@
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
 							            <!-- delete icon -->
-							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>">
 							            <iconify-icon
 							            	icon="icomoon-free:bin"
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
 							            	onclick="confirmation('${task.taskID}')"
-										></iconify-icon></a>
+					            			href="#" onclick="confirmation(event, '${project.projectID}')">
+										></iconify-icon>
 										<!-- arrow -->
 										<iconify-icon 
 											icon="material-symbols:arrow-back-ios-rounded"
@@ -208,14 +201,13 @@
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
 							            <!-- delete icon -->
-							            <a href="/taskMate/TaskController?action=deleteTask&taskID=<c:out value='${task.taskID}'/>"></a>
 							            <iconify-icon
 							            	icon="icomoon-free:bin"
 							            	width="16"
 							            	height="16"
 							            	style="cursor: pointer;"
 											class="bin-icon"
-							            	onclick="confirmation('${task.taskID}')"
+											href="#" onclick="confirmation(event, '${project.projectID}')">
 										></iconify-icon>
 			            				<!-- view -->
 										<iconify-icon 
@@ -225,7 +217,7 @@
 											height="18"
 											class="arrow-icon"
 											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
-										</iconify-icon></a>
+										</iconify-icon>
 									</button>
 								</li>
 							</c:if>
@@ -234,50 +226,7 @@
 				</div>
 		 	</div>
 		</div>
-		<!-- view task -->
-		<div id="view-task-overlay" class="overlay view-task-overlay hide">
-			<div class="overlay-content green-background">
-	
-			<!-- close button -->
-				<button class="button circle-button blue-background flex justify-center items-center close-button" >
-					<iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
-				</button>
-	
-				<c:forEach items="${tasks}" var="task">
-					<h1 class="header no-margin">Task Name :</h1>
-					<p class="value">${task.taskName}</p>
-	
-					<h1 class="header">Description</h1>
-					<p class="value">${task.description}</p>
-	
-					<div class="flex items-center">
-						<h1 class="header min-width">Due date</h1>
-						<p class="value">${task.endDate}</p>
-					</div>
-	
-					<div class="flex items-center">
-						<h1 class="header min-width">Status</h1>
-						<p class="value status-value">
-							<span class="circle blue-background"></span><span>${task.taskStatus}</span>
-						</p>
-					</div>
-				</c:forEach>
-				<div class="control-buttons-container">
-	
-					<!-- edit button -->
-					<button class="button circle-button pink-background flex justify-center items-center">
-						<iconify-icon icon="material-symbols:edit-rounded" style="color: black" width="24"height="24"></iconify-icon>
-					</button>
-		
-					<!-- delete button -->
-					<button id="delete-task-cta" class="button circle-button pink-background flex justify-center items-center">
-						<iconify-icon icon="ic:round-delete" style="color: black" width="24" height="24"></iconify-icon>
-					</button>
-				</div>
-			</div>
-		</div>
 	</c:if>
-
 
    <!-- import IconifyIcon web component -->
    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>

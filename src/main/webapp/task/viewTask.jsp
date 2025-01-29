@@ -6,7 +6,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Add Project - TaskMate System</title>
+		<title>View Task - TaskMate System</title>
 		<!-- Google Font: Inter -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,11 +165,11 @@
 			></iconify-icon>
 		</button>
 
-		<h1>View Task for ${task.project.projectName}</h1>
-		<form class="form" action="${pageContext.request.contextPath}/ProjectController" method="POST">
+		<h1>View Task</h1>
+		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
 		
 			<label for="taskName" class="label">Task Name</label>
- 			<input type="text" name="projtaskNameectName" id="taskName" class="input white-background" value="<c:out value="${task.taskName}"/>" readonly/>
+ 			<input type="text" name="taskName" id="taskName" class="input white-background" value="<c:out value="${task.taskName}"/>" readonly/>
 		
 			<label for="description" class="label">Description</label>
 			<textarea rows="5" name="description" id="description" class="textarea-input white-background" readonly><c:out value="${task.description}" /></textarea>
@@ -194,7 +194,9 @@
 	          </div>
 
 			<div class="text-center">
-				<input type="submit" value="Update Task" class="button regular-button green-background cta-button"></input>
+				<input type="button" value="Update Project" 
+				       onclick="window.location.href='/taskMate/TaskController?action=updateTask&taskID=${task.taskID}'"
+				       class="button regular-button green-background cta-button">
 			</div>
 		</form>
 	</div>

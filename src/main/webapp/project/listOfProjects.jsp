@@ -112,7 +112,7 @@
 					            	height="16"
 					            	style="cursor: pointer;"
 					            	href="#" onclick="confirmation(event, '${project.projectID}')">
-								></iconify-icon></a>
+								></iconify-icon>
 	            				<!-- arrow -->
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"

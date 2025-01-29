@@ -91,35 +91,18 @@ public class TaskDAO {
 		return task;
 	}
 	
-	public static void deleteProduct(int taskID) {
-		try {
-			con = ConnectionManager.getConnection();
-			
-			sql = "DELETE FROM task WHERE taskID = ?";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, taskID);
-			
-			ps.executeUpdate();
-			
-			con.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public static void updateTask(Task task) {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "UPDATE task SET taskName=?, description=?, startDate=?, endDate=?, taskStatus=?, projectID=? WHERE taskID=?";
+			sql = "UPDATE task SET taskName=?, description=?, startDate=?, endDate=?, taskStatus=? WHERE taskID=?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, task.getTaskName());
 			ps.setString(2, task.getDescription());
 			ps.setString(3, task.getStartDate());
 			ps.setString(4, task.getEndDate());
 			ps.setString(5, task.getTaskStatus());
-			ps.setInt(6,  task.getProjectID());
-			ps.setInt(7,  task.getTaskID());
+			ps.setInt(6,  task.getTaskID());
 			
 			ps.executeUpdate();
 			
@@ -163,7 +146,6 @@ public class TaskDAO {
 		try {
 			con = ConnectionManager.getConnection();
 
-			// SQL query to select tasks for a specific projectID
 			sql = "SELECT * FROM task WHERE projectID = ?";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, projectID);
@@ -193,19 +175,15 @@ public class TaskDAO {
 	
 	public static void deleteTask(int taskID) {
 	    try {
-	        // Call getConnection() method 
 	        con = ConnectionManager.getConnection();
 
-	        // Create SQL statement
 	        sql = "DELETE FROM task WHERE taskID = ?";
 	        ps = con.prepareStatement(sql);
 	        ps.setInt(1, taskID);
 
-	        // Execute query
 	        int rowsAffected = ps.executeUpdate();
 	        System.out.println("Rows affected: " + rowsAffected); // Debug number of rows deleted
 
-	        // Close connection
 	        con.close();
 
 	    } catch (Exception e) {

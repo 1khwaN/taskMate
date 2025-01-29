@@ -65,14 +65,20 @@ public class TaskController extends HttpServlet {
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 		
+//		if(action.equalsIgnoreCase("updateTask")) {
+//			forward = UPDATE;
+//			Task task = new Task();
+//			taskID = Integer.parseInt(request.getParameter("taskID"));
+//			task = TaskDAO.getTaskByID(taskID);
+//			request.setAttribute("selectedProject", task.getProjectID());
+//			request.setAttribute("task", TaskDAO.getTasksByProjectID(taskID));
+//			request.setAttribute("projects", TaskDAO.getAllTasks());
+//		}
+
 		if(action.equalsIgnoreCase("updateTask")) {
 			forward = UPDATE;
-			Task task = new Task();
-			taskID = Integer.parseInt(request.getParameter("taskID"));
-			task = TaskDAO.getTaskByID(taskID);
-			request.setAttribute("selectedProject", task.getProjectID());
-			request.setAttribute("task", TaskDAO.getTasksByProjectID(taskID));
-			request.setAttribute("projects", TaskDAO.getAllTasks());
+			taskID = Integer.parseInt(request.getParameter("projectID"));
+			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 		
 		if(action.equalsIgnoreCase("addTask")) {
