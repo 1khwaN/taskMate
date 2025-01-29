@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+<web-app 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" 
+    id="WebApp_ID" 
+    version="6.0">
+  
   <display-name>taskMate</display-name>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
@@ -9,8 +16,9 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+  <!-- Login Controller -->
   <servlet>
-    <description></description>
     <display-name>LoginController</display-name>
     <servlet-name>LoginController</servlet-name>
     <servlet-class>controller.LoginController</servlet-class>
@@ -19,9 +27,10 @@
     <servlet-name>LoginController</servlet-name>
     <url-pattern>/LoginController</url-pattern>
   </servlet-mapping>
+
+  <!-- Productivity Tracking Controller -->
   <servlet>
-    <description></description>
-    <display-name>prodTrackingController</display-name>
+    <display-name>ProdTrackingController</display-name>
     <servlet-name>prodTrackingController</servlet-name>
     <servlet-class>controller.productivityTracking.prodTrackingController</servlet-class>
   </servlet>
@@ -29,4 +38,49 @@
     <servlet-name>prodTrackingController</servlet-name>
     <url-pattern>/prodTrackingController</url-pattern>
   </servlet-mapping>
+
+  <!-- Project Controller -->
+  <servlet>
+    <display-name>ProjectController</display-name>
+    <servlet-name>ProjectController</servlet-name>
+    <servlet-class>controller.ProjectController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProjectController</servlet-name>
+    <url-pattern>/ProjectController</url-pattern>
+  </servlet-mapping>
+
+  <!-- Task Controller -->
+  <servlet>
+    <display-name>TaskController</display-name>
+    <servlet-name>TaskController</servlet-name>
+    <servlet-class>controller.TaskController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TaskController</servlet-name>
+    <url-pattern>/TaskController</url-pattern>
+  </servlet-mapping>
+
+  <!-- Register Controller -->
+  <servlet>
+    <display-name>RegisterController</display-name>
+    <servlet-name>RegisterController</servlet-name>
+    <servlet-class>controller.RegisterController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegisterController</servlet-name>
+    <url-pattern>/RegisterController</url-pattern>
+  </servlet-mapping>
+
+  <!-- Logout Controller -->
+  <servlet>
+    <display-name>LogoutController</display-name>
+    <servlet-name>LogoutController</servlet-name>
+    <servlet-class>controller.LogoutController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutController</servlet-name>
+    <url-pattern>/LogoutController</url-pattern>
+  </servlet-mapping>
+
 </web-app>

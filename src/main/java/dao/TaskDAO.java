@@ -190,5 +190,27 @@ public class TaskDAO {
 		}
 		return tasks;
 	}
+	
+	public static void deleteTask(int taskID) {
+	    try {
+	        // Call getConnection() method 
+	        con = ConnectionManager.getConnection();
+
+	        // Create SQL statement
+	        sql = "DELETE FROM task WHERE taskID = ?";
+	        ps = con.prepareStatement(sql);
+	        ps.setInt(1, taskID);
+
+	        // Execute query
+	        int rowsAffected = ps.executeUpdate();
+	        System.out.println("Rows affected: " + rowsAffected); // Debug number of rows deleted
+
+	        // Close connection
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 
 }

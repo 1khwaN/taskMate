@@ -77,7 +77,7 @@ public class ProjectDAO {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "INSERT INTO project (projectName, description, startDate, endDate, projectStatus, projectPriority) VALUES(?,?,?,?,?,?)";
+			sql = "INSERT INTO project(projectName, description, startDate, endDate, projectStatus, projectPriority)VALUES(?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, project.getProjectName());
 			ps.setString(2, project.getDescription());
@@ -117,39 +117,26 @@ public class ProjectDAO {
 			e.printStackTrace();
 		}
 	}
-
-	/*
-	 * public static void deleteProject (int projectID) { try { con =
-	 * ConnectionManager.getConnection();
-	 * 
-	 * sql = "DELETE FROM project WHERE projectID = ?"; ps =
-	 * con.prepareStatement(sql); ps.setInt(1, projectID);
-	 * 
-	 * ps.executeUpdate();
-	 * 
-	 * con.close(); } catch(Exception e) { e.printStackTrace(); } }
-	 */
-
+	
 	public static void deleteProject(int projectID) {
-		Connection con = null;
-		PreparedStatement ps = null;
-		String sql = "DELETE FROM project WHERE projectID=?";
+	    try {
+	        // Call getConnection() method 
+	        con = ConnectionManager.getConnection();
 
-		try {
-			con = ConnectionManager.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, projectID);
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();  // Log or handle exceptions
-		} finally {
-			try {
-				if (ps != null) ps.close();
-				if (con != null) con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	        // Create SQL statement
+	        sql = "DELETE FROM project WHERE projectID = ?";
+	        ps = con.prepareStatement(sql);
+	        ps.setInt(1, projectID);
 
+	        // Execute query
+	        int rowsAffected = ps.executeUpdate();
+	        System.out.println("Rows affected: " + rowsAffected); // Debug number of rows deleted
+
+	        // Close connection
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }

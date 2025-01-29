@@ -13,12 +13,13 @@ public class UserDAO {
 	private static Statement stmt = null;
 	private static ResultSet rs = null;
 	private static String sql=null;
-	private static String INSERT_USERS_SQL = "INSERT INTO user(userName,email,password,typeID)VALUES(?,?,?)";
+	private static String INSERT_USERS_SQL = "INSERT INTO user(userName,email,password,typeID)VALUES(?,?,?,?)";
 	private static final String SELECT_USER_BY_ID = "SELECT * FROM user WHERE userID = ?";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
 	private static final String DELETE_USERS_SQL = "DELETE FROM user WHERE userID = ?;";
 	private static final String UPDATE_USERS_SQL = "UPDATE user SET email= ? WHERE userID = ?;";
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
+	private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
 	
 //	private static User user = null;
 	private static int userID;
@@ -27,38 +28,25 @@ public class UserDAO {
 //	private static int isLoggedIn;
 	
 	//insert user
-		public static void insertUser(User user) throws SQLException,NoSuchAlgorithmException{
-			System.out.println(INSERT_USERS_SQL);
+	public static void insertUser(User user) throws  NoSuchAlgorithmException {
+	    System.out.println(INSERT_USERS_SQL);
 
-			//convert the password to MD5
-			//password = user.getUserPassword();
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(user.getPassword().getBytes());
+	    // Convert password to MD5
+	    MessageDigest md = MessageDigest.getInstance("MD5");
+	    md.update(user.getPassword().getBytes());
 
-			byte byteData[] = md.digest();
+	    byte byteData[] = md.digest();
+	    StringBuffer sb = new StringBuffer();
+	    for (int i = 0; i < byteData.length; i++) {
+	        sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	    }
 
-			//convert the byte to hex format
-			StringBuffer sb = new StringBuffer();
-			for (int i = 0; i < byteData.length; i++) {
-				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-			}
+	    try {
+	        // Get database connection
+	        con = ConnectionManager.getConnection();
 
-			try {			
-				//call getConnection() method
-				con = ConnectionManager.getConnection();
-//test
-				//3. create statement
-				ps = con.prepareStatement(INSERT_USERS_SQL);
-				ps.setString(1, user.getUserName());
-				ps.setString(2, user.getEmail());
-				ps.setString(3, sb.toString());
-				ps.setInt(4, user.getTypeID());
-				
-				//4. execute query
-				ps.executeUpdate();
-				System.out.print("User registered successfully");
-				//5. close connection
-				con.close();
+	        // Ensure typeID is set (default to 1 if not provided)
+	        int typeID = user.getTypeID() > 0 ? user.getTypeID() : 1;
 
 			}catch(SQLException e) {
 				System.out.println("not connected");
@@ -66,21 +54,38 @@ public class UserDAO {
 
 				e.printStackTrace();
 			}	
-		}
+		
+	        // Prepare SQL statement
+	        ps = con.prepareStatement(INSERT_USERS_SQL);
+	        ps.setString(1, user.getUserName());
+	        ps.setString(2, user.getEmail());
+	        ps.setString(3, sb.toString()); // Store encrypted password
+	        ps.setInt(4, typeID); // Set default typeID if not provided
 
-		//select user by id
-		public static User getUser(int id) {
-			System.out.println(SELECT_USER_BY_ID);
+	        // Execute query
+	        ps.executeUpdate();
+	        System.out.print("User registered successfully");
 
-			User user = new User();
+	        // Close connection
+	        con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+		//select user by email
+		public static User getUser(User user) {
+			System.out.println(SELECT_USER_BY_EMAIL);
+
 
 			try {			
 				//call getConnection() method
 				con = ConnectionManager.getConnection();
 
 				//3. create statement
-				ps = con.prepareStatement(SELECT_USER_BY_ID);
-				ps.setInt(1,userID);
+				ps = con.prepareStatement(SELECT_USER_BY_EMAIL);
+				ps.setString(1,user.getEmail());
 
 				//4. execute query
 				ps.executeUpdate();
@@ -91,6 +96,12 @@ public class UserDAO {
 					user.setUserName(rs.getString("userName"));
 					user.setEmail(rs.getString("email"));
 					user.setPassword(rs.getString("password"));
+					user.setLoggedIn(true);
+				}
+				
+				// if user does not exist set the isValid variable to false
+				else{
+					user.setLoggedIn(false);
 				}
 
 				//5. close connection

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -125,6 +126,13 @@
         margin-bottom: 0;
       }
     </style>
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
   </head>
   <body>
     <div class="form-frame">

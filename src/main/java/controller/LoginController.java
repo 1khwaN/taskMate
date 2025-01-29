@@ -30,15 +30,15 @@ public class LoginController extends HttpServlet {
 
             if (user != null && user.isLoggedIn()) {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("sessionId", user.getUserId());
+                session.setAttribute("userID", user.getUserId());
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
-                    view = request.getRequestDispatcher("pages/prodTracking.jsp");
+                    view = request.getRequestDispatcher("/pages/prodTracking.jsp");
                 } else { // Member
-                    view = request.getRequestDispatcher("pages/prodTracking.jsp");
+                    view = request.getRequestDispatcher("/pages/prodTracking.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
                 System.out.print(user.getEmail() + " Login successfully");
@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
                 System.out.println(user.getPassword());
                 System.out.println(user.getTypeID());
                 System.out.println(user.getUserId());
-                response.sendRedirect("invalidLogin.jsp");
+                response.sendRedirect("pages/invalidLogin.jsp");
             }
         } catch (Exception ex) {
             ex.printStackTrace();

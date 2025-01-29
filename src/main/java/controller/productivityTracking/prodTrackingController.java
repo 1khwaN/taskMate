@@ -12,9 +12,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
+
 @WebServlet("/prodTracking")
 public class prodTrackingController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    
 
     public prodTrackingController() {
         super();
@@ -67,9 +70,11 @@ public class prodTrackingController extends HttpServlet {
 
         // Simulate getting the logged-in user ID and role from session
         // Replace this with actual session attributes in a real implementation
-        int loggedInUserID = 2; // Hardcoded for now
+        
         int userRole = 2; // Hardcoded role: 1 = Project Manager, 2 = Member
         request.getSession().setAttribute("role", userRole); // Set role in session for JSP usage
+    	Integer loggedInUserID = (Integer) request.getSession().getAttribute("userID");
+        
 
         // Fetch task details grouped by status
         Map<String, List<String>> taskDetails = dao.getTaskDetailsByUser(loggedInUserID);
