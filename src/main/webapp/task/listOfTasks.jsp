@@ -30,45 +30,82 @@
 		<!-- header -->
 		<div class="max-width-container">
 			<div class="header flex items-center justify-between">
-				<h1 class="title">Project: ${tasks[0].project.projectName}</h1>
+				<h1 class="title">Project: ${projectName}</h1>
 				<br>
 				<div class="buttons-container">
 
-					<!-- <button id="delete-project-cta"
-						class="button regular-button pink-background"
-						onclick="confirmDelete()">
-						Delete Project
-					</button> -->
-
-					<button class="btn btn-danger" id="delete-project-<c:out value="${project.projectID}"/>"
-						onclick="confirmation(<c:out value="${project.projectID}"/>)">Delete</button>
+					<%-- <button class="btn btn-danger" id="delete-project-<c:out value="${project.projectID}"/>"
+						onclick="confirmation(<c:out value="${project.projectID}"/>)">Delete</button> --%>
 
 					<button id="update-task-cta" class="button regular-button green-background"
 						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Update Project
 					</button>
+					
+					<c:set var="projectID" value="${param.projectID}" />
 					<button id="add-task-cta" class="button regular-button blue-background"
-						onclick="window.location.href='/taskMate/task/addTask.jsp';" > Add task
+					    onclick="window.location.href='/taskMate/task/addTask.jsp?projectID=${projectID}';">
+					    Add task
 					</button>
 
 					<button class="sign-out-cta" class="button regular-button red-background"
 						onclick="window.location.href='login.jsp';">
 						Log out
 					</button>
+		            </button>
 				</div>
 			</div>
 		</div>
-		<div class="radio-buttons-container">
-			<div class="max-width-container flex">      
-			<!-- Board -->
-				<div class="radio-container">
-					<input type="radio" id="board" name="view-option" value="board" class="radio-input" checked onclick="" />
-					<label for="board" class="radio-label">
-						<iconify-icon icon="ic:round-grid-view" style="color: black" width="24" height="24"></iconify-icon>
-						<span>Tasks List</span>
-					</label>
-				</div>
-			</div>
-		</div>
+		
+		
+	<div class="radio-buttons-container">
+        <div class="max-width-container flex">
+          <!-- List -->
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="list"
+              name="view-option"
+              value="list"
+              class="radio-input"
+              checked
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+            />
+            <label for="list" class="radio-label">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Projects List</span>
+            </label>
+          </div>
+          
+          <!-- List -->
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="list"
+              name="view-option"
+              value="list"
+              class="radio-input"
+              checked
+            />
+            <label for="list" class="radio-label">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Tasks List</span>
+            </label>
+          </div>
+        </div>
+      </div>
+		
+		
+		
 
 		<!-- Check if tasks is null or empty -->
 		<c:if test="${empty tasks}">

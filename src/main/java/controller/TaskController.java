@@ -46,6 +46,12 @@ public class TaskController extends HttpServlet {
 		    int projectID = Integer.parseInt(request.getParameter("projectID")); // Correctly retrieve projectID
 		    forward = LIST;
 			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+		    // Fetch and set project name
+		    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
+		    System.out.println("Project Name: " + projectName);  // Debugging print to verify if projectName is retrieved
+		    request.setAttribute("projectName", projectName); // Set project name in request
+		    
+		    forward = "task/listOfTasks.jsp"; // Forward to the tasks list JSP
 		}
 		
 		if(action.equalsIgnoreCase("listAll")) {
@@ -102,25 +108,42 @@ public class TaskController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Task task = new Task();
-		task.setTaskName(request.getParameter("taskName"));
-		task.setTaskName(request.getParameter("taskName"));
-		task.setDescription(request.getParameter("description"));
-		task.setStartDate(request.getParameter("startDate"));
-		task.setEndDate(request.getParameter("endDate"));
-		task.setTaskStatus(request.getParameter("taskStatus"));
-		task.setProjectID(Integer.parseInt(request.getParameter("projectID")));
+	    // Create new Task object
+	    Task task = new Task();
+	    
+	    // Set task properties from form inputs
+	    task.setTaskName(request.getParameter("taskName"));
+	    task.setDescription(request.getParameter("description"));
+	    task.setStartDate(request.getParameter("startDate"));
+	    task.setEndDate(request.getParameter("endDate"));
+	    task.setTaskStatus(request.getParameter("taskStatus"));
 
-		String taskID = request.getParameter("taskID");
+	    // Get the projectID from the form submission
+	    String projectIdParam = request.getParameter("projectID");
+	    System.out.println("Received projectID: " + projectIdParam); // Debugging output
 
-		if(taskID == null || taskID.isEmpty()) {
-			TaskDAO.addTask(task);
-		}
+	    if (projectIdParam == null || projectIdParam.trim().isEmpty()) {
+	        throw new IllegalArgumentException("Project ID is missing or invalid.");
+	    }
 
-		request.setAttribute("tasks", TaskDAO.getAllTasks());
-		view = request.getRequestDispatcher(LIST);
-		view.forward(request, response);
+	    int projectID = Integer.parseInt(projectIdParam);
+	    task.setProjectID(projectID);
+
+	    // Add task to the database
+	    String taskID = request.getParameter("taskID");
+
+	    if (taskID == null || taskID.isEmpty()) {
+	        TaskDAO.addTask(task);
+	    }
+
+	    // Forward to list of tasks page for the given project
+	    forward = LIST;
+	    request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+	    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
+	    System.out.println("Project for " + projectName);  // Debugging print to verify if projectName is retrieved
+	    request.setAttribute("projectName", projectName); 
+	    view = request.getRequestDispatcher("/task/listOfTasks.jsp"); 
+	    view.forward(request, response);
 	}
 
 }

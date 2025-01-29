@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+    // Retrieve projectID from the URL parameters
+    String projectID = request.getParameter("projectID");
+
+    // Check if projectID is valid
+    if (projectID != null && !projectID.trim().isEmpty()) {
+        // If projectID is valid, proceed with the form
+%>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Add Project - TaskMate System</title>
+		<title>Add Task - TaskMate System</title>
 		<!-- Google Font: Inter -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,11 +173,14 @@
 			></iconify-icon>
 		</button>
 
-		<h1>Add Project</h1>
-		<form class="form" action="${pageContext.request.contextPath}/ProjectController" method="POST">
+		<h1>Add Task for ${project.projectName}</h1>
+		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
 		
-			<label for="projectName" class="label">Project Name</label>
- 			<input type="text" name="projectName" id="projectName" class="input white-background" placeholder="Enter project name" required/>
+			<!-- Hidden field to store projectID -->
+            <input type="hidden" name="projectID" value="${param.projectID}" />
+
+            <label for="taskName" class="label">Task Name</label>
+ 			<input type="text" name="taskName" id="taskName" class="input white-background" placeholder="Enter task name" required/>
 		
 			<label for="description" class="label">Description</label>
  			<textarea rows="5" name="description" id="description" class="textarea-input white-background" placeholder="Enter description"/></textarea>
@@ -187,22 +198,15 @@
 	          </div>
 	 		</div>
 	 		
-	 		<label for="projectStatus" class="label">Project Status</label>
-	 		<select class="form-control" id="projectStatus" name="projectStatus">
+	 		<label for="taskStatus" class="label">Task Status</label>
+	 		<select class="form-control" id="taskStatus" name="taskStatus">
 	 			<option value="To Do">To Do</option>
 	 			<option value="Doing">Doing</option>
 	 			<option value="Done">Done</option>
 	 		</select>
-	 		
-	 		<label for="projectPriority" class="label">Project Priority</label>
-	 		<select class="form-control" id="projectPriority" name="projectPriority">
-	 			<option value="Low">Low</option>
-	 			<option value="Medium">Medium</option>
-	 			<option value="High">High</option>
-	 		</select>
 
 			<div class="text-center">
-				<input type="submit" value="Add Project" class="button regular-button green-background cta-button"></input>
+				<input type="submit" value="Add Task" class="button regular-button green-background cta-button"></input>
 			</div>
 		</form>
 	</div>
@@ -212,3 +216,12 @@
 	<script src="${pageContext.request.contextPath}/js/addproject.js"></script>
 </body>
 </html>
+
+<%
+    } else {
+        // If projectID is invalid, display an error message or redirect
+        out.println("Error: Project ID is missing or invalid.");
+        // Optionally redirect to the list of projects
+/*         response.sendRedirect("taskMate/listOfTasks.jsp");
+ */    }
+%>

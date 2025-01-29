@@ -17,7 +17,7 @@ public class TaskDAO {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "INSERT INTO task(taskID,taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
+			sql = "INSERT INTO task(taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, task.getTaskName());
 			ps.setString(2, task.getDescription());
