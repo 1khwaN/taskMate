@@ -22,7 +22,7 @@ public class UserDAO {
 			+ "WHERE pm.projectID = ?;";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
 	private static final String DELETE_USERS_SQL = "DELETE FROM user WHERE userID = ?;";
-	private static final String UPDATE_USERS_SQL = "UPDATE user SET email= ? WHERE userID = ?;";
+	private static final String UPDATE_USER_SQL = "UPDATE user SET userName = ?, email = ? WHERE userID = ?;";
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
 	private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
 	
@@ -64,6 +64,61 @@ public class UserDAO {
 	        ps.executeUpdate();
 	        System.out.print("User registered successfully");
 
+	        // Close connection
+	        con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	//insert project_member
+	public static void insertProjectMember(User user, int projectID) throws  NoSuchAlgorithmException {
+	    System.out.println(INSERT_USERS_SQL);
+
+	    // Convert password to MD5
+	    MessageDigest md = MessageDigest.getInstance("MD5");
+	    md.update(user.getPassword().getBytes());
+
+	    byte byteData[] = md.digest();
+	    StringBuffer sb = new StringBuffer();
+	    for (int i = 0; i < byteData.length; i++) {
+	        sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	    }
+
+	    try {
+	        con = ConnectionManager.getConnection();
+
+	        // Ensure typeID is set (default to 1 if not provided)
+	        int typeID = user.getTypeID() > 0 ? user.getTypeID() : 1;
+
+	        // Prepare SQL statement
+	        ps = con.prepareStatement(INSERT_USERS_SQL, Statement.RETURN_GENERATED_KEYS);
+	        ps.setString(1, user.getUserName());
+	        ps.setString(2, user.getEmail());
+	        ps.setString(3, sb.toString()); // Store encrypted password
+	        ps.setInt(4, typeID); // Set default typeID if not provided
+
+	        // Execute query
+	        ps.executeUpdate();
+	        
+	        rs = ps.getGeneratedKeys();
+	        int userID = -1;
+	        if (rs.next()) {
+	        	userID = rs.getInt(1);
+                System.out.println("Generated userID: " + userID);
+	        }
+	        
+	        if (userID != -1) {
+                String sql = "INSERT INTO project_member (projectID, userID) VALUES (?, ?)";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, projectID);
+                ps.setInt(2, userID);
+                ps.executeUpdate();
+                System.out.println("Added to project_member");
+            }else {
+                System.out.println("Failed to add user to project_member table.");
+            }
+	        
 	        // Close connection
 	        con.close();
 	    } catch (SQLException e) {
@@ -124,10 +179,10 @@ public class UserDAO {
 
 						//3. create statement
 						ps = con.prepareStatement(SELECT_USER_BY_ID);
-						ps.setInt(1,userID);
+						ps.setInt(1,id);
 
 						//4. execute query
-						ps.executeUpdate();
+						rs = ps.executeQuery();
 
 						//process ResultSet
 						if (rs.next()) {
@@ -135,6 +190,8 @@ public class UserDAO {
 							user.setUserName(rs.getString("userName"));
 							user.setEmail(rs.getString("email"));
 							user.setPassword(rs.getString("password"));
+							user.setTypeID(rs.getInt("typeID"));
+							System.out.println(user.getUserName());
 						}
 
 						//5. close connection
@@ -204,8 +261,6 @@ public class UserDAO {
 							user.setUserName(rs.getString("userName"));
 							user.setPassword(rs.getString("password"));
 							user.setTypeID(rs.getInt("typeID"));
-							System.out.println(rs.getString("userName"));
-
 							users.add(user);
 						} 
 						//5. close connection
@@ -244,17 +299,33 @@ public class UserDAO {
 
 		//update user
 		public static void updateUser(User user){
-			System.out.println(UPDATE_USERS_SQL);
+			System.out.println(UPDATE_USER_SQL);
+			
+			//convert the password to MD5
+//			MessageDigest md = MessageDigest.getInstance("MD5");
+//			md.update(user.getPassword().getBytes());
+//
+//			byte byteData[] = md.digest();
+//
+//			//convert the byte to hex format
+//			StringBuffer sb = new StringBuffer();
+//			for (int i = 0; i < byteData.length; i++) {
+//				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+//			}
 			
 			try {			
 				//call getConnection() method
 				con = ConnectionManager.getConnection();
 
 				//3. create statement
-		
+				ps = con.prepareStatement(UPDATE_USER_SQL);
+				ps.setString(1,user.getUserName());
+				ps.setString(2,user.getEmail());
+//				ps.setString(3,sb.toString());
+				ps.setInt(3, user.getUserID());
 
 				//4. execute query
-				
+				ps.executeUpdate();
 
 				//5. close connection
 				con.close();
@@ -325,7 +396,7 @@ public class UserDAO {
 				//if user exists set the isLoggedIn variable to true
 				if (rs.next()) {
 					// User exists, retrieve details
-		            user.setUserId(rs.getInt("userID"));
+		            user.setUserID(rs.getInt("userID"));
 		            user.setUserName(rs.getString("userName"));
 		            user.setEmail(rs.getString("email"));
 		            user.setTypeID(rs.getInt("typeID")); // Assuming userType is stored as an integer
@@ -335,9 +406,7 @@ public class UserDAO {
 		                System.out.println("Logged in as Project Manager");
 		            } else if (user.getTypeID() == 2) {
 		                System.out.println("Logged in as Member");
-		            }
-					
-					
+		            }										
 				}
 				// if user does not exist set the isLoggedIn variable to false
 				else{

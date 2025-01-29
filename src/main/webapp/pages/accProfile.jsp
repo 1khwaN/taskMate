@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,8 +19,12 @@
     <!-- main css -->
     <!-- <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/entry-page.css" /> -->
-    <link rel="stylesheet" href="/taskMate/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/taskMate/css/accProfile.css" />
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/accProfile.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MembersPage.css" />
 
 	<%
 	response.addHeader("Pragma", "no-cache");
@@ -38,9 +42,8 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Account Profile</h3>
-                <p class="text-subtitle text-muted">Users can change their profile information here</p>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
+            <!-- <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.jsp">Dashboard</a></li>
@@ -48,7 +51,7 @@
                     </ol>
                 </nav>
             </div>
-        </div>
+ -->        </div>
     </div>
     <section class="section">
     <div class="row">
@@ -57,11 +60,14 @@
             <div class="card h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-center align-items-center flex-column">
-                        <div class="avatar avatar-xl">
-                            <img src="../img/profPic.png" alt="Avatar">
-                        </div>
-                        <h3 class="mt-3">${user.name}</h3>
-                        <p class="text-small">Project Manager</p>
+                        <h3 class="mt-3">${user.userName}</h3>
+                        <p class="text-small">
+        				<c:choose>
+            				<c:when test="${user.typeID == 1}">Project Manager</c:when>
+            				<c:when test="${user.typeID == 2}">Member</c:when>
+            				<c:otherwise>Unknown Role</c:otherwise>
+        				</c:choose>
+    					</p>
                     </div>
                 </div>
             </div>
@@ -71,23 +77,23 @@
         <div class="col-12 col-lg-8">
             <div class="card h-100">
                 <div class="card-body">
-                    <form action="accProfile.jsp" method="post">
-                        <input type="hidden" name="id" id="id" class="form-control" placeholder=${user.id} value="">               
+                    <form action="UserController" method="post">
+                        <input type="hidden" name="userID" value="${user.userID}">               
                         <div class="form-group">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder=${user.name} value="">
+                            <input type="text" name="userName" id="name" class="form-control" value="${user.userName}">
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" name="email" id="email" class="form-control" placeholder="Your Email" value="">
+                            <input type="text" name="email" id="email" class="form-control" value="${user.email}">
                         </div>
-                        <div class="form-group">
+                        <%-- <div class="form-group">
                             <label for="phone" class="form-label">Password:</label>
-                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Your Password" value="">
-                        </div>
+                            <input type="text" name="phone" id="phone" class="form-control" value="${user.password}">
+                        </div> --%>
                         <div class="form-group">
                             <br>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
                         </div>
                     </form>
                 </div>

@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MembersPage.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -33,16 +34,7 @@
     <!-- Because body has height 100%, we need a container to wrap the individual 
     elements. The purpose is to add top & bottom padding -->
     <div class="content-container">
-      <!-- success notification -->
-      <div id="notification" class="notification green-background">
-        <iconify-icon
-          icon="mdi:check-circle-outline"
-          style="color: black"
-          width="24"
-          height="24"
-        ></iconify-icon>
-        <p>The task was deleted</p>
-      </div>
+      
       <!-- header -->
       <div class="max-width-container">
         <div class="header flex items-center justify-between">
@@ -53,7 +45,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='accProfile.jsp';"
+                onclick="window.location.href='UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -94,7 +86,7 @@
               value="track"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/prodTrackingController';"
+              onclick="window.location.href='prodTrackingController';"
               
             />
             <label for="track" class="radio-label">
@@ -118,7 +110,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/task/listOfTasks.jsp';"
+              onclick="window.location.href='task/listOfTasks.jsp';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -140,7 +132,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
+              onclick="window.location.href='UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->
@@ -166,14 +158,25 @@
 		<div>
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="list-header">
-				<a class="text" href="taskMate/UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
+				<a class="text" href="UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
 
 				</h2>
 				<button id="add-project-cta"
 					class="button regular-button green-background"
-					onclick="window.location.href='addMembers.jsp';">Add Member</button>
+					onclick="openModal()">Add Member</button>
 			</div>
+			<!-- Modal Structure -->
+			<div id="addMemberModal" class="modal">
+        		<div class="modal-content">
+            		<span class="close" onclick="closeModal()">&times;</span>
+            			<div id="modal-body">
+                			<!-- `addMembers.jsp` will be loaded here -->
+            			</div>
+        		</div>
+    		</div>
 
+			
+			<!-- Populate List -->
 			<ul class="tasks-list blue">
 				<c:forEach var="user" items="${users}">
 					<li class="task-item">
@@ -213,8 +216,35 @@
 	</script>
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		
-	
-		<!-- list -->
+	<!-- JavaScript for Modal and AJAX -->
+    <script>
+        function openModal() {
+            document.getElementById("addMemberModal").style.display = "block";
+
+            // Load addMembers.jsp dynamically
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "pages/addMember.jsp", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("modal-body").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        function closeModal() {
+            document.getElementById("addMemberModal").style.display = "none";
+            document.getElementById("modal-body").innerHTML = ""; // Clear modal content
+        }
+
+        // Close modal when clicking outside the modal content
+        window.onclick = function(event) {
+            let modal = document.getElementById("addMemberModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
 
 	</div>
 
