@@ -24,8 +24,8 @@ public class TaskController extends HttpServlet {
 	private static String LIST = "task/listOfTasks.jsp";
 	private static String VIEW = "task/viewTask.jsp";
 	private static String UPDATE = "task/updateTask.jsp";
-	private static String ADD = "task/addTask.jsp";
-	private static String LISTALL = "task/listAll.jsp";
+	private static String ADD = "/task/addTask.jsp";
+	private static String LISTALL = "/task/listAll.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()

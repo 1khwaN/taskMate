@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    
     
 <!DOCTYPE html>
 <html lang="en">
@@ -65,21 +67,15 @@
               Add task
             </button>
             
-            <button
-              id="add-task-cta"
-              class="button regular-button blue-background"
-              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
-            >
-              View Project
-            </button>
-            
-            <button
-              id="add-project-cta"
-              class="button regular-button green-background"
-              onclick="window.location.href='/taskMate/project/addProject.jsp';"
-            >
-              Add Project
-            </button>
+            <c:if test="${sessionScope.sessionTypeID == 1}">
+			    <button
+			        id="add-project-cta"
+			        class="button regular-button green-background"
+			        onclick="window.location.href='/taskMate/project/addProject.jsp';"
+			    >
+			        Add Project
+			    </button>
+			</c:if>
 
             <button class="sign-out-cta"
             class="button regular-button red-background"
@@ -158,6 +154,7 @@
         </div>
 
         <!--Members-->
+        <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
               type="radio"
@@ -178,6 +175,7 @@
               <span>Members</span>
             </label>
           </div>
+          </c:if>
 
       </div>
     </div>

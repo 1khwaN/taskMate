@@ -68,20 +68,16 @@
               Add task
             </button>
             
-            <button
-              id="add-task-cta"
-              class="button regular-button blue-background"
-              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
-            >
-              View Project
-            </button>
-            <button
-              id="add-project-cta"
-              class="button regular-button green-background"
-              onclick="window.location.href='/taskMate/project/addProject.jsp';"
-            >
-              Add Project
-            </button>
+			<c:if test="${sessionScope.sessionTypeID == 1}">
+			    <button
+			        id="add-project-cta"
+			        class="button regular-button green-background"
+			        onclick="window.location.href='/taskMate/project/addProject.jsp';"
+			    >
+			        Add Project
+			    </button>
+			</c:if>
+
             <button class="sign-out-cta"
             class="button regular-button red-background"
             onclick="window.location.href='/taskMate/LogoutController';"
@@ -149,7 +145,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+              onclick="window.location.href='/taskMate/TaskController?action=listTask';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -158,11 +154,12 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Projects</span>
+              <span>List of Tasks</span>
             </label>
           </div>
           
           <!--Members-->
+          <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
               type="radio"
@@ -184,6 +181,7 @@
               <span>Members</span>
             </label>
           </div>
+          </c:if>
         </div>
       </div>
      </div>
