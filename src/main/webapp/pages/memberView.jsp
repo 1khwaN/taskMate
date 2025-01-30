@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MembersPage.css" />
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<%
@@ -165,10 +165,23 @@
      <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<!-- js -->
 	<script src="../js/main.js"></script>
-
+	
+	<c:if test="${empty users}">
+			<div class="centered-container">
+				<h3>⋆˚𝜗𝜚˚⋆ Project : ${project.projectName}</h3>
+		    </div><br>
+			<div class="centered-container">
+		    	<h4><i>No Members added yet</i></h4>
+		    </div>
+		</c:if>
+				<c:if test="${not empty users}">
+		
+<div class="centered-container">
+				<h3>⋆˚𝜗𝜚˚⋆ Project : ${project.projectName}</h3>
+				</div>
 	<div id="board-view" class="board-view">
 		<!-- list -->
-		<div>
+		<div style = "">
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="list-header">
 				<a class="text" href="UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
@@ -214,6 +227,7 @@
 				</c:forEach>
 			</ul>
 		</div>
+		</c:if>
 		<script>
 		function confirmation(userID, userName, projectID) {					  
 		    Swal.fire({

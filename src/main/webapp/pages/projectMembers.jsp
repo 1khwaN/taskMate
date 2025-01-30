@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/prodTrack.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/listView.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js">
     
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -199,7 +201,6 @@
       </div>
      </div>
      
-     <h2>List Of Projects</h2>
      <!-- list view -->
 	 <div id="list-view" class="list-view">
 	    <div class="list-container pink">      
@@ -213,12 +214,12 @@
 	        			<li class="task-item">
 	          				<button class="task-button">
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
-	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
+	            				<p class="task-due-date">Due Date:<c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
 	            				
 	            				<!-- arrow -->
 	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
+		              					icon="ep:arrow-right-bold"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
@@ -244,12 +245,12 @@
 	        			<li class="task-item">
 	          				<button class="task-button">
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
-	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
+	            				<p class="task-due-date">Due Date : <c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
 	            				
 	            				<!-- arrow -->
 	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
+		              					icon="ep:arrow-right-bold"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
@@ -275,12 +276,12 @@
 	        			<li class="task-item">
 	          				<button class="task-button">
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
-	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
+	            				<p class="task-due-date">Due Date : <c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
 	            				
 	            				<!-- arrow -->
 	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
+		              					icon="ep:arrow-right-bold"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
