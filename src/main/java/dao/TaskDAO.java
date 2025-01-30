@@ -17,7 +17,7 @@ public class TaskDAO {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			sql = "INSERT INTO task(taskID,taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
+			sql = "INSERT INTO task(taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, task.getTaskName());
 			ps.setString(2, task.getDescription());
@@ -91,22 +91,6 @@ public class TaskDAO {
 		return task;
 	}
 	
-	public static void deleteProduct(int taskID) {
-		try {
-			con = ConnectionManager.getConnection();
-			
-			sql = "DELETE FROM task WHERE taskID = ?";
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, taskID);
-			
-			ps.executeUpdate();
-			
-			con.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public static void updateTask(Task task) {
 		try {
 			con = ConnectionManager.getConnection();
@@ -163,7 +147,6 @@ public class TaskDAO {
 		try {
 			con = ConnectionManager.getConnection();
 
-			// SQL query to select tasks for a specific projectID
 			sql = "SELECT * FROM task WHERE projectID = ?";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, projectID);
@@ -193,22 +176,30 @@ public class TaskDAO {
 	
 	public static void deleteTask(int taskID) {
 	    try {
-	        // Call getConnection() method 
 	        con = ConnectionManager.getConnection();
 
-	        // Create SQL statement
 	        sql = "DELETE FROM task WHERE taskID = ?";
 	        ps = con.prepareStatement(sql);
 	        ps.setInt(1, taskID);
 
-	        // Execute query
 	        int rowsAffected = ps.executeUpdate();
 	        System.out.println("Rows affected: " + rowsAffected); // Debug number of rows deleted
 
-	        // Close connection
 	        con.close();
 
 	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void deleteAllTasksByProject(int projectID) {
+	    String sql = "DELETE FROM task WHERE projectID = ?";
+	    try (
+	    		Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, projectID);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}

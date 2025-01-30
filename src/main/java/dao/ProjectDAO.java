@@ -17,10 +17,8 @@ public class ProjectDAO {
 	public static List<Project> getAllProject() {
 		List<Project> projects = new ArrayList<Project>();
 		try {
-			//call getConnection() method
 			con = ConnectionManager.getConnection();
 			
-			//create statement
 			sql = "SELECT * FROM project ORDER BY projectID";
 			ps = con.prepareStatement(sql);
 			stmt = con.createStatement();
@@ -120,19 +118,15 @@ public class ProjectDAO {
 	
 	public static void deleteProject(int projectID) {
 	    try {
-	        // Call getConnection() method 
 	        con = ConnectionManager.getConnection();
 
-	        // Create SQL statement
 	        sql = "DELETE FROM project WHERE projectID = ?";
 	        ps = con.prepareStatement(sql);
 	        ps.setInt(1, projectID);
 
-	        // Execute query
 	        int rowsAffected = ps.executeUpdate();
 	        System.out.println("Rows affected: " + rowsAffected); // Debug number of rows deleted
 
-	        // Close connection
 	        con.close();
 
 	    } catch (Exception e) {

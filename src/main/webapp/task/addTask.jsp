@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <%
+<%
+    // Retrieve projectID from the URL parameters
+    String projectID = request.getParameter("projectID");
+
+    // Check if projectID is valid
+    if (projectID != null && !projectID.trim().isEmpty()) {
+        // If projectID is valid, proceed with the form
+%>
+
+<%
 	response.addHeader("Pragma", "no-cache");
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
@@ -9,24 +18,21 @@
 	%> 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Task - TaskMate System</title>
-    <!-- Google Font: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
-    <!-- Add Task-specific styles -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/addTask.css" />
-    <style>
-      body {
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Add Task - TaskMate System</title>
+		<!-- Google Font: Inter -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+		<!-- Add Task-specific styles -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/addTask.css" />
+		<style>
+		body {
         font-family: "Inter", sans-serif;
         background-color: var(--beige);; /* Replace with your dashboard's background color */
         margin: 0;
@@ -131,76 +137,99 @@
       .status-dropdown li:last-child {
         margin-bottom: 0;
       }
+
+      .priority-select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        position: relative;
+      }
+
+      .priority-dropdown {
+        position: absolute;
+        margin-top: 900px;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        list-style-type: none;
+        z-index: 10;
+        display: none; /* Initially hidden */
+      }
+
+      .priority-dropdown li {
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+
+      .priority-dropdown li:last-child {
+        margin-bottom: 0;
+      }
     </style>
-   
 </head>
+
 <body>
 	<div class="form-frame">
 		<!-- Close button -->
 		<button class="button circle-button blue-background flex justify-center items-center close-button" onclick="window.history.back();">
-			<iconify-icon icon="material-symbols:close-rounded" style="color: black" width="26" height="26"></iconify-icon>
+			<iconify-icon
+				icon="material-symbols:close-rounded"
+				style="color: black"
+				width="26"
+				height="26"
+			></iconify-icon>
 		</button>
 
-		<h1>Add Task</h1>
-		<form class="form" autocomplete="off" action="TaskController" method="post">
+		<h1>Add Task for ${project.projectName}</h1>
+		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
+		
+			<!-- Hidden field to store projectID -->
+            <input type="hidden" name="projectID" value="${param.projectID}" />
 
-			<label for="task-name" class="label">Task Name</label>
-			<input type="text" name="taskName" id="taskName" class="input white-background" placeholder="Enter task name" required /> 
-
-			<label for="task-description" class="label">Task Description</label>
-			<textarea name="description" id="description" rows="5" class="textarea-input white-background" placeholder="Enter task description" ></textarea>
-
-			<h2 class="label">Start Date</h2>
-			<div><input type="date" name="startDate" id="startDate" class="input white-background" required /></div>
-
-			<h2 class="label">Due Date</h2>
-			<div class="divided-inputs-container">
-				<div><input type="date" name="endDate" id="endDate" class="input white-background" required /></div>
-			</div>
-
-			<h2 class="label">Status</h2>
-			<div id="status-select"
-				class="status-select white-background flex items-center justify-between cursor-pointer"
-				onclick="toggleDropdown()">
-				<span id="taskStatus">To Do</span>
-				<iconify-icon icon="material-symbols:arrow-drop-down" style="color: black" width="18" height="18" class="arrow-icon"></iconify-icon>
-			</div>
-			<ul id="taskStatus" class="status-dropdown white-background" style="display: none;">
-				<li onclick="selectStatus('To Do')">To Do</li>
-				<li onclick="selectStatus('Doing')">Doing</li>
-				<li onclick="selectStatus('Done')">Done</li>
-			</ul>
-			<input type="hidden" name="taskStatus" id="hidden-status" value="To Do" />
+            <label for="taskName" class="label">Task Name</label>
+ 			<input type="text" name="taskName" id="taskName" class="input white-background" placeholder="Enter task name" required/>
+		
+			<label for="description" class="label">Description</label>
+ 			<textarea rows="5" name="description" id="description" class="textarea-input white-background" placeholder="Enter description"/></textarea>
+ 			
+	        <div class="divided-inputs-container">
+	          <div>
+	            <label for="startDate" class="secondary-label">Start Date</label>
+	            <input
+	              type="date" name="startDate" id="startDate" class="input white-background" required/>
+	          </div>
+	          <div>
+	            <label for="endDate" class="secondary-label">Due Date</label>
+	            <input
+	              type="date" name="endDate" id="endDate" class="input white-background" required/>
+	          </div>
+	 		</div>
+	 		
+	 		<label for="taskStatus" class="label">Task Status</label>
+	 		<select class="form-control" id="taskStatus" name="taskStatus">
+	 			<option value="To Do">To Do</option>
+	 			<option value="Doing">Doing</option>
+	 			<option value="Done">Done</option>
+	 		</select>
 
 			<div class="text-center">
-				<button type="submit" class="button regular-button green-background cta-button">Add Task</button>
+				<input type="submit" value="Add Task" class="button regular-button green-background cta-button"></input>
 			</div>
 		</form>
 	</div>
-	
+
 	<!-- Import Iconify -->
 	<script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/addTask.js"></script>
-	<script>
-		function toggleDropdown() {
-			const dropdown = document.getElementById('status-dropdown');
-			dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-		}
-	
-		function selectStatus(status) {
-			document.getElementById('selected-status').textContent = status;
-			document.getElementById('hidden-status').value = status;
-			document.getElementById('status-dropdown').style.display = 'none';
-		}
-	
-		// Close the dropdown if the user clicks outside of it
-		document.addEventListener('click', function(event) {
-			const selectBox = document.getElementById('status-select');
-			const dropdown = document.getElementById('status-dropdown');
-			if (!selectBox.contains(event.target)) {
-				dropdown.style.display = 'none';
-			}
-		});
-	</script>
+	<script src="${pageContext.request.contextPath}/js/addproject.js"></script>
 </body>
 </html>
+
+<%
+    } else {
+        // If projectID is invalid, display an error message or redirect
+        out.println("Error: Project ID is missing or invalid.");
+        // Optionally redirect to the list of projects
+/*         response.sendRedirect("taskMate/listOfTasks.jsp");
+ */    }
+%>

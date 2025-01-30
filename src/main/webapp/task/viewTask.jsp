@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
-	
-	%> 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Add Project - TaskMate System</title>
+		<title>View Task - TaskMate System</title>
 		<!-- Google Font: Inter -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -158,7 +151,6 @@
         margin-bottom: 0;
       }
     </style>
-    
 </head>
 
 <body>
@@ -173,44 +165,38 @@
 			></iconify-icon>
 		</button>
 
-		<h1>Add Project</h1>
-		<form class="form" action="${pageContext.request.contextPath}/ProjectController" method="POST">
+		<h1>View Task</h1>
+		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
 		
-			<label for="projectName" class="label">Project Name</label>
- 			<input type="text" name="projectName" id="projectName" class="input white-background" placeholder="Enter project name" required/>
+			<label for="taskName" class="label">Task Name</label>
+ 			<input type="text" name="taskName" id="taskName" class="input white-background" value="<c:out value="${task.taskName}"/>" readonly/>
 		
 			<label for="description" class="label">Description</label>
- 			<textarea rows="5" name="description" id="description" class="textarea-input white-background" placeholder="Enter description"/></textarea>
- 			
+			<textarea rows="5" name="description" id="description" class="textarea-input white-background" readonly><c:out value="${task.description}" /></textarea>
+			
 	        <div class="divided-inputs-container">
 	          <div>
 	            <label for="startDate" class="secondary-label">Start Date</label>
 	            <input
-	              type="date" name="startDate" id="startDate" class="input white-background" required/>
+	              type="date" name="startDate" id="startDate" class="input white-background" value="<c:out value="${task.startDate}"/>" readonly/>
 	          </div>
 	          <div>
 	            <label for="endDate" class="secondary-label">Due Date</label>
 	            <input
-	              type="date" name="endDate" id="endDate" class="input white-background" required/>
+	              type="date" name="endDate" id="endDate" class="input white-background" value="<c:out value="${task.endDate}"/>" readonly/>
 	          </div>
 	 		</div>
-	 		
-	 		<label for="projectStatus" class="label">Project Status</label>
-	 		<select class="form-control" id="projectStatus" name="projectStatus">
-	 			<option value="To Do">To Do</option>
-	 			<option value="Doing">Doing</option>
-	 			<option value="Done">Done</option>
-	 		</select>
-	 		
-	 		<label for="projectPriority" class="label">Project Priority</label>
-	 		<select class="form-control" id="projectPriority" name="projectPriority">
-	 			<option value="Low">Low</option>
-	 			<option value="Medium">Medium</option>
-	 			<option value="High">High</option>
-	 		</select>
+	 	
+	          <div>
+	            <label for="taskStatus" class="label">Task Status</label>
+	            <input
+	              type="text" name="taskStatus" id="taskStatus" class="input white-background" value="<c:out value="${task.taskStatus}"/>" readonly/>
+	          </div>
 
 			<div class="text-center">
-				<input type="submit" value="Add Project" class="button regular-button green-background cta-button"></input>
+				<input type="button" value="Update Project" 
+				       onclick="window.location.href='/taskMate/TaskController?action=updateTask&taskID=${task.taskID}'"
+				       class="button regular-button green-background cta-button">
 			</div>
 		</form>
 	</div>
@@ -218,47 +204,5 @@
 	<!-- Import Iconify -->
 	<script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/addproject.js"></script>
-	<script>
-		// Toggle the visibility of the dropdown
-		function toggleDropdown() {
-			const dropdown = document.getElementById('status-dropdown');
-			dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-		}
-
-		// Update the selected status and the hidden input value
-		function selectStatus(status) {
-			document.getElementById('selected-status').textContent = status;
-			document.getElementById('hidden-status').value = status;
-	 		toggleDropdown(); // Hide the dropdown after selection
-		}
-
-		// Close the dropdown if clicked outside
-		window.onclick = function(event) {
-			if (!event.target.matches('#status-select') && !event.target.matches('#status-dropdown') && !event.target.matches('.arrow-icon')) {
-				document.getElementById('status-dropdown').style.display = 'none';
-			}
-		};
-	</script>
-	<script>
-		// Toggle the visibility of the priority dropdown
-		function togglePriorityDropdown() {
-			const dropdown = document.getElementById('priority-dropdown');
-			dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-		}
-
-		// Update the selected priority and the hidden input value
-		function selectPriority(priority) {
-			document.getElementById('selected-priority').textContent = priority;
-			document.getElementById('hidden-priority').value = priority;
-			togglePriorityDropdown(); // Hide the dropdown after selection
-		}
-
-		// Close the dropdown if clicked outside
-		window.onclick = function(event) {
-			if (!event.target.matches('#priority-select') && !event.target.matches('#priority-dropdown') && !event.target.matches('.arrow-icon')) {
-				document.getElementById('priority-dropdown').style.display = 'none';
-			}
-		};
-	</script>
 </body>
 </html>
