@@ -159,6 +159,30 @@
             </label>
           </div>
           </c:if>
+          
+          <c:if test="${sessionScope.sessionTypeID == 1}">
+	        <div class="radio-container">
+            <input
+              type="radio"
+              id="members"
+              name="view-option"
+              value="members"
+              class="radio-input"
+              onclick="window.location.href='projectMembers.jsp';"
+            />
+            
+            <label for="members" class="radio-label">
+              <!-- grid -->
+              <iconify-icon
+                icon="tdesign:member-filled"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Project Members</span>
+            </label>
+          </div>
+          </c:if>
         </div>
       </div>
      </div>
