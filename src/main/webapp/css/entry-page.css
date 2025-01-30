@@ -77,8 +77,8 @@
     border-radius: 8px;
     padding: 5px 10px;
     position: absolute;
-    top: 100%;
-    left: 5px;
+    top: 110%;
+    left: 10px;
     white-space: nowrap;
     font-size: 12px;
     font-weight: bold;
@@ -100,7 +100,9 @@
     visibility: visible;
     opacity: 1;
 }
-	.input-container {
+
+/* Make input-container relative for correct positioning */
+.input-container {
     position: relative;
     width: 100%;
 }
@@ -111,6 +113,7 @@
     height: 40px; /* Adjust based on your design */
 }
 
+/* Style the eye icon */
 .toggle-password {
     position: absolute;
     right: 15px;
@@ -122,6 +125,5 @@
 
 .toggle-password:hover {
     color: #333;
-	
 }
 }
