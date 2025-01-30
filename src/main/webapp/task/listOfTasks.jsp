@@ -53,9 +53,8 @@
 					    Add task
 					</button>
 
-					<button class="sign-out-cta" class="button regular-button red-background"
-						onclick="window.location.href='/taskMate/LogoutController';">
-						Log out
+					<button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
+					    Log out
 					</button>
 				</div>
 			</div>
@@ -260,5 +259,26 @@
 		    }
 		}
 	</script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
+</script>
+	
 </body>
 </html>
