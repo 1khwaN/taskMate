@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
 	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -17,16 +23,13 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    <!-- New Font: Playwrite ZA -->
+	<link href="https://fonts.googleapis.com/css2?family=Playwrite+ZA&display=swap" rel="stylesheet">
+    
     <!-- main css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/entry-page.css" />
-    <%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
-	
-	%> 
+    
     <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/entry-page.css" /> -->
     
@@ -37,9 +40,10 @@
     <div class="row height-full">
       <!-- left side -->
       <div
-        class="left-column flex flex-column height-full justify-center items-center"
-      >
-        <h1 class="welcoming-title">Welcome back</h1>
+        class="left-column flex flex-column height-full justify-center items-center" >
+        
+        <h1 class="taskmate-title"><b>Welcome to TaskMate</b></h1>
+        <h3 class="welcoming-title">Login</h3>
         
         <form class="form" action="${pageContext.request.contextPath}/LoginController" method="POST"><!-- Update action to LoginController -->
           <label for="email" class="label">Email</label>

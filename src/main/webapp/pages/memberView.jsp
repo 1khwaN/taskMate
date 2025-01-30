@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +39,7 @@
 	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
 	response.setDateHeader("Expires", 0);
 	%> 
+	
   </head>
   <body>
     <!-- Because body has height 100%, we need a container to wrap the individual 
@@ -50,7 +61,15 @@
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
-                        <button
+            <button
+              id="add-task-cta"
+              class="button regular-button blue-background"
+              onclick="window.location.href='addTask.jsp';"
+            >
+              Add task
+            </button>
+            
+            <button
               id="add-project-cta"
               class="button regular-button green-background"
               onclick="window.location.href='addProject.jsp';"
@@ -112,11 +131,12 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Projects</span>
+              <span>List of Tasks</span>
             </label>
           </div>
           
           <!--Members-->
+          <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
               type="radio"
@@ -127,6 +147,7 @@
               checked
               onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
+            
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon
@@ -138,6 +159,7 @@
               <span>Members</span>
             </label>
           </div>
+          </c:if>
         </div>
       </div>
      </div>

@@ -127,7 +127,25 @@ public class UserDAO {
 	        e.printStackTrace();
 	    }
 	}
+	public static boolean isEmailRegistered(String email) {
+	    boolean exists = false;
+	    try {
+	        con = ConnectionManager.getConnection();
+	        String checkEmailSQL = "SELECT COUNT(*) FROM user WHERE email = ?";
+	        ps = con.prepareStatement(checkEmailSQL);
+	        ps.setString(1, email);
+	        rs = ps.executeQuery();
+	        
+	        if (rs.next() && rs.getInt(1) > 0) {
+	            exists = true;
+	        }
 
+	        con.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return exists;
+	}
 
 		//select user by email
 		public static User getUser(User user) {
