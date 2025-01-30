@@ -52,10 +52,7 @@ public class TaskController extends HttpServlet {
 		    forward = "task/listOfTasks.jsp";
 		}
 		
-		if(action.equalsIgnoreCase("listAll")) {
-			forward = LISTALL;
-			request.setAttribute("tasks", TaskDAO.getProjectTasks());
-		}
+		
 		
 		if(action.equalsIgnoreCase("viewTask")) {
 			forward = VIEW;
@@ -70,25 +67,41 @@ public class TaskController extends HttpServlet {
 		}
 		
 		if (action.equalsIgnoreCase("deleteTask")) {
-			try {
-				forward = LIST;
-				String taskIDParam = request.getParameter("taskID");
-		        System.out.println("Received taskID: " + taskIDParam); // Debug the received projectID
-		        
+		    try {
+		        forward = LIST;
+		        String taskIDParam = request.getParameter("taskID");
+		        System.out.println("Received taskID: " + taskIDParam); // Debugging
+
 		        if (taskIDParam != null && !taskIDParam.isEmpty()) {
-		        	taskID = Integer.parseInt(taskIDParam);
-		        	TaskDAO.deleteTask(taskID);
-		            System.out.println("Deleted task with ID: " + taskID); // Debug success
+		            taskID = Integer.parseInt(taskIDParam);
+		            
+		            // Get projectID before deleting task
+		            Task task = TaskDAO.getTaskByID(taskID);
+		            if (task != null) {
+		                int projectID = task.getProjectID(); // Save projectID
+		                
+		                // Delete the task
+		                TaskDAO.deleteTask(taskID);
+		                System.out.println("Deleted task with ID: " + taskID); // Debugging
+		                
+		                // Fetch updated tasks for the project
+		                request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+		                request.setAttribute("project", ProjectDAO.getProjectByID(projectID).getProjectName());
+		                request.setAttribute("projectID", projectID);// Keep projectName
+		            } else {
+		                System.out.println("Task not found.");
+		            }
 		        } else {
 		            System.out.println("Invalid taskID received");
 		        }
-		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
+		        
 		        view = request.getRequestDispatcher(forward);
-				view.forward(request, response);
+		        view.forward(request, response);
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }
 		}
+
 		
 		if(action.equalsIgnoreCase("deleteAllTasks")) {
 			forward = LIST;

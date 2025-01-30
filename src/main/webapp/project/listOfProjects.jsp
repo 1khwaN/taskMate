@@ -294,10 +294,22 @@
 	<script>
 	function confirmation(event, projectID) {
 	    event.preventDefault(); // Stop the default link action
-	    if (confirm("Are you sure you want to delete this project?")) {
-	        window.location.href = "/taskMate/ProjectController?action=deleteProject&projectID=" + projectID;
-	    }
+	    Swal.fire({
+	        title: "Are you sure?",
+	        text: "You are about to delete this project. This action cannot be undone.",
+	        icon: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#d33",
+	        cancelButtonColor: "#3085d6",
+	        confirmButtonText: "Yes, delete it!",
+	        cancelButtonText: "Cancel"
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            window.location.href = "/taskMate/ProjectController?action=deleteProject&projectID=" + projectID;
+	        }
+	    });
 	}
+
 	</script>
 	
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
