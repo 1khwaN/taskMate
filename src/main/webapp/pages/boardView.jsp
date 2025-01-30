@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%>
      
 <!DOCTYPE html>
 <html lang="en">
@@ -23,13 +30,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-	<%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
 	
-	%>
   </head>
   <body>
     <!-- Because body has height 100%, we need a container to wrap the individual 

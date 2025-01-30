@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
     
 <!DOCTYPE html>
 <html lang="en">
@@ -22,13 +28,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     
-    <%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
-	
-	%> 
+    
   </head>
   <body>
    <!-- Because body has height 100%, we need a container to wrap the individual 
@@ -77,12 +77,10 @@
 			    </button>
 			</c:if>
 
-            <button class="sign-out-cta"
-            class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
-            >
-            Log out
-            </button>
+			<button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
+			    Log out
+			</button>
+
           </div>
         </div>
       </div>
@@ -133,6 +131,7 @@
         </div> -->
     
         <!-- Board -->
+        <c:if test="${sessionScope.sessionTypeID == 1}">
         <div class="radio-container">
           <input
             type="radio"
@@ -152,6 +151,30 @@
             <span>Projects</span>
           </label>
         </div>
+        </c:if>
+        
+        <c:if test="${sessionScope.sessionTypeID == 2}">
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="board"
+              name="view-option"
+              value="board"
+              class="radio-input"
+              
+              onclick="window.location.href='/taskMate/TaskController?action=listTask';"
+            />
+            <label for="board" class="radio-label">
+              <iconify-icon
+                icon="ic:round-grid-view"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>List of Tasks</span>
+            </label>
+          </div>
+          </c:if>
 
         <!--Members-->
         <c:if test="${sessionScope.sessionTypeID == 1}">
@@ -198,11 +221,11 @@
         let username = "<%= Objects.toString(username, "") %>";
         if (username) {
             Swal.fire({
-                title: "Welcome!",
+                title: "Welcome Back!",
                 text: "Hello, " + username + "!",
                 icon: "success",
                 confirmButtonText: "OK",
-                timer: 3000
+                timer: 3500
             });
 
             // Clear session attribute after showing the message to prevent it from appearing again
@@ -210,6 +233,25 @@
         }
     });
 </script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
+</script>
+
     <!-- import IconifyIcon web component -->
     <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
     <!-- js -->

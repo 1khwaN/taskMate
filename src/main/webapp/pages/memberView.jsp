@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	
+	%> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,13 +30,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-	<%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
 	
-	%> 
   </head>
   <body>
     <!-- Because body has height 100%, we need a container to wrap the individual 
@@ -66,13 +68,7 @@
             >
               Add task
             </button>
-            <button
-              id="add-task-cta"
-              class="button regular-button blue-background"
-              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
-            >
-              View Project
-            </button>
+            
             <button
               id="add-project-cta"
               class="button regular-button green-background"
@@ -135,11 +131,12 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Tasks List</span>
+              <span>List of Tasks</span>
             </label>
           </div>
           
           <!--Members-->
+          <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
               type="radio"
@@ -150,6 +147,7 @@
               checked
               onclick="window.location.href='memberView.jsp';"
             />
+            
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon
@@ -161,6 +159,7 @@
               <span>Members</span>
             </label>
           </div>
+          </c:if>
         </div>
       </div>
      </div>
