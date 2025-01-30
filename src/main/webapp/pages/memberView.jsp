@@ -45,7 +45,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='UserController?action=viewUser';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -86,7 +86,7 @@
               value="track"
               class="radio-input"
               
-              onclick="window.location.href='prodTrackingController';"
+              onclick="window.location.href='/taskMate/prodTrackingController';"
               
             />
             <label for="track" class="radio-label">
@@ -132,7 +132,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='UserController?action=listByProjectID';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->

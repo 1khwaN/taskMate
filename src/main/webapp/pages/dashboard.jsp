@@ -52,7 +52,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='accProfile.jsp';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>

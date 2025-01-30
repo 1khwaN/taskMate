@@ -31,6 +31,8 @@ public class UserController extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer loggedInUserID = (Integer) request.getSession().getAttribute("userID");
+
 		action = request.getParameter("action");
 		
 		//view all users
@@ -78,7 +80,7 @@ public class UserController extends HttpServlet {
 			forward = VIEW;
 			//parse userID
 //			id = Integer.parseInt(request.getParameter("userID")); 
-	        request.setAttribute("user", UserDAO.getUser(25));
+	        request.setAttribute("user", UserDAO.getUser(loggedInUserID));
 		}
 		view = request.getRequestDispatcher(forward);
         view.forward(request, response);
@@ -108,8 +110,13 @@ public class UserController extends HttpServlet {
 		else {
 			user.setUserName(request.getParameter("userName"));
 			user.setEmail(request.getParameter("email"));
+			user.setPassword(request.getParameter("password"));
 			user.setUserID(Integer.parseInt(userID));
-			UserDAO.updateUser(user);
+			try {
+				UserDAO.updateUser(user);
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
 		}
 		//parse projectID
 		request.setAttribute("users",UserDAO.getAllUsersByProjectID(1));

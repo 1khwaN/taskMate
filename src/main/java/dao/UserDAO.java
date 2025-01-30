@@ -4,6 +4,8 @@ import java.security.*;
 import java.sql.*;
 import java.util.*;
 
+import com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.Pattern;
+
 import connection.ConnectionManager;
 import model.User;
 
@@ -22,7 +24,7 @@ public class UserDAO {
 			+ "WHERE pm.projectID = ?;";
 	private static final String SELECT_ALL_USERS = "SELECT * FROM user";
 	private static final String DELETE_USERS_SQL = "DELETE FROM user WHERE userID = ?;";
-	private static final String UPDATE_USER_SQL = "UPDATE user SET userName = ?, email = ? WHERE userID = ?;";
+	private static final String UPDATE_USER_SQL = "UPDATE user SET userName = ?, email = ?, password = ? WHERE userID = ?;";
 	private static final String SELECT_USER_LOGIN = "SELECT * FROM user WHERE email = ? AND password = ?";
 	private static final String SELECT_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?";
 	
@@ -296,22 +298,32 @@ public class UserDAO {
 					}	
 					return rowDeleted;
 				}
-
+		
+		//method to check if MD5
+		private static boolean isMD5(String password) {
+		    return password != null && password.matches("^[a-fA-F0-9]{32}$");
+		}
+		
 		//update user
-		public static void updateUser(User user){
+		public static void updateUser(User user) throws  NoSuchAlgorithmException{
 			System.out.println(UPDATE_USER_SQL);
 			
-			//convert the password to MD5
-//			MessageDigest md = MessageDigest.getInstance("MD5");
-//			md.update(user.getPassword().getBytes());
-//
-//			byte byteData[] = md.digest();
-//
-//			//convert the byte to hex format
-//			StringBuffer sb = new StringBuffer();
-//			for (int i = 0; i < byteData.length; i++) {
-//				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-//			}
+			String password = user.getPassword();
+			
+			if(!isMD5(password)) {
+				//convert the password to MD5
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				md.update(password.getBytes());
+
+				byte byteData[] = md.digest();
+
+				//convert the byte to hex format
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < byteData.length; i++) {
+					sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+				}
+				password = sb.toString();
+			}
 			
 			try {			
 				//call getConnection() method
@@ -321,8 +333,8 @@ public class UserDAO {
 				ps = con.prepareStatement(UPDATE_USER_SQL);
 				ps.setString(1,user.getUserName());
 				ps.setString(2,user.getEmail());
-//				ps.setString(3,sb.toString());
-				ps.setInt(3, user.getUserID());
+				ps.setString(3,password);
+				ps.setInt(4, user.getUserID());
 
 				//4. execute query
 				ps.executeUpdate();
@@ -421,4 +433,5 @@ public class UserDAO {
 
 			return user;
 		}
+
 }
