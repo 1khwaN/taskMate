@@ -47,11 +47,18 @@
 					    Delete All Tasks
 					</button>
 					
-					<c:set var="projectID" value="${param.projectID}" />
+					<%-- <c:set var="projectID" value="${param.projectID}" />
 					<button id="add-task-cta" class="button regular-button blue-background"
 					    onclick="window.location.href='/taskMate/task/addTask.jsp?projectID=${projectID}';">
+					    onclick="window.location.href='/taskMate/TaskController?action=addMember&projectID=${projectID}';">
 					    Add task
-					</button>
+					</button> --%>
+					
+					<c:set var="projectID" value="${param.projectID}" />
+<button id="add-task-cta" class="button regular-button blue-background"
+    onclick="window.location.href='/taskMate/TaskController?action=addMember&projectID=${projectID}';">
+    Add task
+</button>
 
 					<button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
 					    Log out

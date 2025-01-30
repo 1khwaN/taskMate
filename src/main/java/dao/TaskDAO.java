@@ -13,27 +13,74 @@ public class TaskDAO {
 	private static PreparedStatement ps = null;
 	private static String sql = null;
 	
-	public static void addTask(Task task) {
-		try {
-			con = ConnectionManager.getConnection();
-			
-			sql = "INSERT INTO task(taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, task.getTaskName());
-			ps.setString(2, task.getDescription());
-			ps.setString(3, task.getStartDate());
-			ps.setString(4, task.getEndDate());
-			ps.setString(5, task.getTaskStatus());
-			ps.setInt(6, task.getProjectID());
-			
-			ps.executeUpdate();
-			
-			System.out.println("Task added successfully");
-			
-			con.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+//	public  void addTask(Task task) {
+//		try {
+//			con = ConnectionManager.getConnection();
+//			
+//			sql = "INSERT INTO task(taskName,description,startDate,endDate,taskStatus,projectID) VALUES(?,?,?,?,?,?)";
+//			ps = con.prepareStatement(sql);
+//			ps.setString(1, task.getTaskName());
+//			ps.setString(2, task.getDescription());
+//			ps.setString(3, task.getStartDate());
+//			ps.setString(4, task.getEndDate());
+//			ps.setString(5, task.getTaskStatus());
+//			ps.setInt(6, task.getProjectID());
+//			
+//			ps.executeUpdate();
+//			
+//			System.out.println("Task added successfully");
+//			
+//			con.close();
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	public static int addTask(Task task) {
+	    String query = "INSERT INTO task (taskName, description, startDate, endDate, taskStatus, projectID) VALUES (?, ?, ?, ?, ?, ?)";
+	    int taskID = -1; // Default value if insert fails
+
+	    try (Connection con = ConnectionManager.getConnection();
+	         PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+	        ps.setString(1, task.getTaskName());
+	        ps.setString(2, task.getDescription());
+	        ps.setString(3, task.getStartDate());
+	        ps.setString(4, task.getEndDate());
+	        ps.setString(5, task.getTaskStatus());
+	        ps.setInt(6, task.getProjectID());
+
+	        int rowsAffected = ps.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            ResultSet rs = ps.getGeneratedKeys();
+	            if (rs.next()) {
+	                taskID = rs.getInt(1); // Get auto-generated taskID
+	            }
+	        }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return taskID; // Return new taskID
+	}
+
+	
+	public static void addTaskMember(int taskID, int userID) {
+	    String query = "INSERT INTO task_member(taskID,userID) VALUES(?,?)";
+	    
+	    try (
+	    	Connection con = ConnectionManager.getConnection();
+	        PreparedStatement ps = con.prepareStatement(query)) {
+	        ps.setInt(1, taskID);
+	        ps.setInt(2, userID);
+	        ps.executeUpdate();
+	        System.out.println("Task member added: TaskID = " + taskID + ", UserID = " + userID);
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public static List<Task> getAllTasks() {
