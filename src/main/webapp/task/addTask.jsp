@@ -214,13 +214,13 @@
 	 		</select>
 	 		
 	 		<label for="taskMember" class="label">Task Member</label>   
-<select class="form-control" id="taskMember" name="taskMember">  
-    <c:forEach items="${taskMembers}" var="taskMember"> 
-        <option style="color:black" value="<c:out value='${taskMember.userID}'/>">
-            <c:out value="${taskMember.userName}" />
-        </option>
-    </c:forEach>
-</select>
+			<select class="form-control" id="taskMember" name="taskMember">  
+			    <c:forEach items="${taskMembers}" var="taskMember"> 
+			        <option style="color:black" value="<c:out value='${taskMember.userID}'/>">
+			            <c:out value="${taskMember.userName}" />
+			        </option>
+			    </c:forEach>
+			</select>
 
 			<div class="text-center">
 				<input type="submit" value="Add Task" class="button regular-button green-background cta-button"></input>
