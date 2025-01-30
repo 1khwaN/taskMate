@@ -45,14 +45,14 @@
       <!-- header -->
       <div class="max-width-container">
         <div class="header flex items-center justify-between">
-          <h1 class="title">Projects</h1>
+          <h1 class="title">Welcome to TaskMate System!</h1>
           <br>
           <div class="buttons-container">
           
           	<button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='pages/accProfile.jsp';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -64,10 +64,8 @@
             >
               Add Project
             </button>
-            <button class="sign-out-cta"
-            class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
-            >
+            <button class="sign-out-cta button regular-button red-background"
+			onclick="confirmLogout();"            >
             Log out
             </button>
           </div>
@@ -107,7 +105,7 @@
               value="list"
               class="radio-input"
               checked
-              onclick=""
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
             />
             <label for="list" class="radio-label">
               <iconify-icon
@@ -116,11 +114,11 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Projects List</span>
+              <span>Projects</span>
             </label>
           </div>
           
-          <!--Members-->
+          <!-- Project Members -->
           <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
@@ -129,9 +127,9 @@
               name="view-option"
               value="members"
               class="radio-input"
-              
-              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
+            onclick="window.location.href='/taskMate/ProjectController?action=listProjectMembers';"
             />
+            
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon
@@ -302,5 +300,24 @@
 	    }
 	}
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
+</script>
  </body>
 </html>

@@ -183,8 +183,9 @@
               value="members"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
+            onclick="window.location.href='/taskMate/ProjectController?action=listProjectMembers';"
             />
+            
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon

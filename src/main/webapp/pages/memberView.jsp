@@ -63,7 +63,7 @@
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
-              onclick="window.location.href='addTask.jsp';"
+              onclick="window.location.href='pages/addTask.jsp';"
             >
               Add task
             </button>
@@ -72,14 +72,12 @@
             <button
               id="add-project-cta"
               class="button regular-button green-background"
-              onclick="window.location.href='addProject.jsp';"
+			        onclick="window.location.href='/taskMate/project/addProject.jsp';"
             >
               Add Project
             </button>
-            <button class="sign-out-cta"
-            class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
-            >
+            <button class="sign-out-cta button regular-button red-background"
+			onclick="confirmLogout();"            >
             Log out
             	
             
@@ -135,7 +133,6 @@
             </label>
           </div>
           
-          <!--Members-->
           <c:if test="${sessionScope.sessionTypeID == 1}">
 	        <div class="radio-container">
             <input
@@ -145,7 +142,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
+            onclick="window.location.href='/taskMate/ProjectController?action=listProjectMembers';"
             />
             
             <label for="members" class="radio-label">
@@ -161,29 +158,6 @@
           </div>
           </c:if>
           
-          <c:if test="${sessionScope.sessionTypeID == 1}">
-	        <div class="radio-container">
-            <input
-              type="radio"
-              id="members"
-              name="view-option"
-              value="members"
-              class="radio-input"
-              onclick="window.location.href='projectMembers.jsp';"
-            />
-            
-            <label for="members" class="radio-label">
-              <!-- grid -->
-              <iconify-icon
-                icon="tdesign:member-filled"
-                style="color: black"
-                width="24"
-                height="24"
-              ></iconify-icon>
-              <span>Project Members</span>
-            </label>
-          </div>
-          </c:if>
         </div>
       </div>
      </div>
@@ -202,7 +176,7 @@
 				</h2>
 				<button id="add-project-cta"
 					class="button regular-button green-background"
-					onclick="openModal()">Add Member</button>
+					onclick="openModal('${project.projectID}')">Add Member</button>
 			</div>
 			<!-- Modal Structure -->
 			<div id="addMemberModal" class="modal">
@@ -230,7 +204,7 @@
 							<!-- arrow -->
 							<button
 								style='background: none; border: none; cursor: pointer; padding: 0;'
-								onclick="confirmation('${user.userID}','${user.userName}')">
+								onclick="confirmation('${user.userID}','${user.userName}','${project.projectID}')">
 							<iconify-icon icon="material-symbols:delete-rounded"
 								style="color: red" width="30" height="30">
 							</iconify-icon>
@@ -241,13 +215,11 @@
 			</ul>
 		</div>
 		<script>
-		function confirmation(userID, userName){					  
-			 var id = $("#userID-" + userID).val();
-			 var name = $("#userName-" + userName).val();
-		     var r = confirm("Are you sure you want to delete " + name + "?");
+		function confirmation(userID, userName, projectID){					  
+		     var r = confirm("Are you sure you want to delete " + userName + "?");
 			  if (r == true) {				 		  
-				  location.href ='UserController?action=deleteUser&userID=' + userID;
-				  alert(name + " successfully deleted");			
+				  location.href ='UserController?action=deleteUser&userID=' + userID + '&projectID=' + projectID;
+				  alert(userName + " successfully deleted");			
 			  } else {				  
 			      return false;	
 			  }
@@ -257,12 +229,12 @@
 		
 	<!-- JavaScript for Modal and AJAX -->
     <script>
-        function openModal() {
+        function openModal(projectID) {
             document.getElementById("addMemberModal").style.display = "block";
 
             // Load addMembers.jsp dynamically
             let xhr = new XMLHttpRequest();
-            xhr.open("post", "pages/addMember.jsp", true);
+            xhr.open("GET", "pages/addMember.jsp?projectID=" + encodeURIComponent(projectID), true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.getElementById("modal-body").innerHTML = xhr.responseText;
@@ -284,7 +256,25 @@
             }
         };
     </script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
+</script>
 	</div>
 
 </body>

@@ -53,8 +53,8 @@
 					    Add task
 					</button>
 
-					<button class="sign-out-cta" class="button regular-button red-background"
-						onclick="window.location.href='/taskMate/LogoutController';">
+					<button class="sign-out-cta button regular-button red-background"
+						onclick="confirmLogout();">
 						Log out
 					</button>
 				</div>
@@ -65,6 +65,28 @@
 	<div class="radio-buttons-container">
         <div class="max-width-container flex">
           <!-- List -->
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="track"
+              name="view-option"
+              value="track"
+              class="radio-input"
+              
+              onclick="window.location.href='/taskMate/prodTrackingController';"
+              
+            />
+            <label for="track" class="radio-label">
+              <iconify-icon
+                icon="mdi:chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Productivity Tracking</span>
+            </label>
+          </div>
+          
           <div class="radio-container">
             <input
               type="radio"
@@ -82,30 +104,35 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Projects List</span>
+              <span>Projects</span>
             </label>
           </div>
           
           <!-- List -->
-          <div class="radio-container">
+           <c:if test="${sessionScope.sessionTypeID == 1}">
+	        <div class="radio-container">
             <input
               type="radio"
-              id="list"
+              id="members"
               name="view-option"
-              value="list"
+              value="members"
               class="radio-input"
-              checked
+              
+            onclick="window.location.href='/taskMate/ProjectController?action=listProjectMembers';"
             />
-            <label for="list" class="radio-label">
+            
+            <label for="members" class="radio-label">
+              <!-- grid -->
               <iconify-icon
-                icon="material-symbols:format-list-bulleted-rounded"
+                icon="tdesign:member-filled"
                 style="color: black"
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Tasks List</span>
+              <span>Members</span>
             </label>
           </div>
+          </c:if>
         </div>
       </div>
 		
@@ -260,5 +287,24 @@
 		    }
 		}
 	</script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
+</script>
 </body>
 </html>

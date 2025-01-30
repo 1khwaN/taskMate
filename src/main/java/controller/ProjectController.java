@@ -23,6 +23,7 @@ public class ProjectController extends HttpServlet {
 
 
 	private static String LIST = "/project/listOfProjects.jsp";
+	private static String MEMBERS_LIST = "/pages/projectMembers.jsp";
 	private static String UPDATE = "/project/updateProject.jsp";
 	private static String VIEW = "/project/viewProject.jsp";
 //	private static String ADD = "/project/addProject.jsp";
@@ -45,6 +46,10 @@ public class ProjectController extends HttpServlet {
 		//view all projects
 		if(action.equalsIgnoreCase("listProject")) {
 			forward = LIST;
+			request.setAttribute("projects", ProjectDAO.getAllProject());
+		}
+		if(action.equalsIgnoreCase("listProjectMembers")) {
+			forward = MEMBERS_LIST;
 			request.setAttribute("projects", ProjectDAO.getAllProject());
 		}
 		

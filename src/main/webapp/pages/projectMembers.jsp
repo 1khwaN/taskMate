@@ -1,19 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
-	
-	%> 
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<html>
+<head>
+ <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Management System</title>
+    <title>Task Management System - Project Members</title>
     <!-- google font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,14 +19,13 @@
     <!-- main css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/listView.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/prodTrack.css" />
     
-  </head>
-  <body>
-    <!-- Because body has height 100%, we need a container to wrap the individual 
-    elements. The purpose is to add top & bottom padding -->
-    <div class="content-container">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="content-container">
       <!-- success notification -->
       <div id="notification" class="notification green-background">
         <iconify-icon
@@ -45,28 +39,71 @@
       <!-- header -->
       <div class="max-width-container">
         <div class="header flex items-center justify-between">
-          <h1 class="title">Projects</h1>
+          <h1 class="title">Welcome to TaskMate System!</h1>
           <br>
           <div class="buttons-container">
+            <!-- New Profile Button -->
             <button
-              id="add-project-cta"
-              class="button regular-button green-background"
-              onclick="window.location.href='project/addProject.jsp';"
+                id="profile-button"
+                class="button icon-button"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
-              Add Project
+                <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
-            <button class="sign-out-cta"
-            class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
+
+			<c:if test="${sessionScope.sessionTypeID == 2}">
+            <button
+              id="add-task-cta"
+              class="button regular-button blue-background"
+              onclick="window.location.href='pages/addTask.jsp';"
             >
-            Log out
+              Add task
             </button>
+            </c:if>
+            
+			<c:if test="${sessionScope.sessionTypeID == 1}">
+			    <button
+			        id="add-project-cta"
+			        class="button regular-button green-background"
+			        onclick="window.location.href='/taskMate/project/addProject.jsp';"
+			    >
+			        Add Project
+			    </button>
+			</c:if>
+
+            <button class="sign-out-cta button regular-button red-background" 
+            onclick="confirmLogout();">
+			    Log out
+			</button>
+            
           </div>
         </div>
       </div>
       <div class="radio-buttons-container">
         <div class="max-width-container flex">
-          <!-- List -->
+          <!-- Productivity Tracking -->
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="track"
+              name="view-option"
+              value="track"
+              class="radio-input"
+              onclick="window.location.href='/taskMate/prodTrackingController';"
+              
+            />
+            <label for="track" class="radio-label">
+              <iconify-icon
+                icon="mdi:chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Productivity Tracking</span>
+            </label>
+          </div>
+      
+          <!-- <!-- List
           <div class="radio-container">
             <input
               type="radio"
@@ -74,8 +111,8 @@
               name="view-option"
               value="list"
               class="radio-input"
-              checked
-              onclick=""
+              
+              onclick="window.location.href='listView.jsp';"
             />
             <label for="list" class="radio-label">
               <iconify-icon
@@ -84,13 +121,86 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Projects List</span>
+              <span>List</span>
+            </label>
+          </div> --> 
+          <c:if test="${sessionScope.sessionTypeID == 1}">
+        <div class="radio-container">
+          <input
+            type="radio"
+            id="board"
+            name="view-option"
+            value="board"
+            class="radio-input"
+            onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
+          />
+          <label for="board" class="radio-label">
+            <iconify-icon
+              icon="ic:round-grid-view"
+              style="color: black"
+              width="24"
+              height="24"
+            ></iconify-icon>
+            <span>Projects</span>
+          </label>
+        </div>
+        </c:if>
+      
+          <!-- Board -->
+          <c:if test="${sessionScope.sessionTypeID == 2}">
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="board"
+              name="view-option"
+              value="board"
+              class="radio-input"
+              
+              onclick="window.location.href='/taskMate/TaskController?action=listTask';"
+            />
+            <label for="board" class="radio-label">
+              <iconify-icon
+                icon="ic:round-grid-view"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>List of Tasks</span>
             </label>
           </div>
+          </c:if>
+          <!-- Project Members -->
+          <c:if test="${sessionScope.sessionTypeID == 1}">
+	        <div class="radio-container">
+            <input
+              type="radio"
+              id="members"
+              name="view-option"
+              value="members"
+              class="radio-input"
+              checked
+            onclick="window.location.href='/taskMate/ProjectController?action=listProjectMembers';"
+            />
+            
+            <label for="members" class="radio-label">
+              <!-- grid -->
+              <iconify-icon
+                icon="tdesign:member-filled"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Members</span>
+            </label>
+          </div>
+          </c:if>
+          
         </div>
       </div>
- 
-	 <!-- list view -->
+     </div>
+     
+     <h2>List Of Projects</h2>
+     <!-- list view -->
 	 <div id="list-view" class="list-view">
 	    <div class="list-container pink">      
 	  		<h2 class="list-header">
@@ -105,30 +215,15 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
-	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
-	            					width="24" 
-	            					height="24"
-	            				></iconify-icon>
-					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
-					            <iconify-icon
-					            	icon="icomoon-free:bin"
-					            	width="16"
-					            	height="16"
-					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
-								></iconify-icon>
+	            				
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/UserController?action=listByProjectID&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -151,30 +246,15 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
-	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
-	            					width="24" 
-	            					height="24"
-	            				></iconify-icon>
-					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
-					            <iconify-icon
-					            	icon="icomoon-free:bin"
-					            	width="16"
-					            	height="16"
-					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
-								></iconify-icon>
+	            				
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/UserController?action=listByProjectID&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -197,30 +277,15 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- popup view -->
-	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
-	            					width="24" 
-	            					height="24"
-	            				></iconify-icon>
-					            <!-- delete icon -->
-					            <a href="/taskMate/ProjectController?action=deleteProject&projectID=<c:out value='${project.projectID}'/>">
-					            <iconify-icon
-					            	icon="icomoon-free:bin"
-					            	width="16"
-					            	height="16"
-					            	style="cursor: pointer;"
-					            	onclick="confirmation('${project.projectID}')"
-					            	
-								></iconify-icon>
+	            				
 	            				<!-- arrow -->
-								<a href="/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>">
 	            				<iconify-icon
 	              					icon="material-symbols:arrow-back-ios-rounded"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
 	              					class="arrow-icon"
+									onclick="window.location.href='/taskMate/UserController?action=listByProjectID&projectID=<c:out value='${project.projectID}'/>'">
 	            				></iconify-icon>
 	            				</div>
 	          				</button>
@@ -231,37 +296,27 @@
 		</div>
 	</div>
 </div>
-
-   <!-- import IconifyIcon web component -->
-   <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
-   <!-- js -->
-   <script src="${pageContext.request.contextPath}/js/main.js"></script>
-   
-    <script>
-    function confirmation(projectID) {
-    	  const userConfirmation = confirm("Are you sure you want to delete this project?");
-    	  
-    	  if (userConfirmation) {
-    	    const deleteURL = `/taskMate/ProjectController?action=deleteProject&projectID=${projectID}`;
-    	    console.log("Delete URL:", deleteURL); // Debug the URL
-    	    fetch(deleteURL, {
-    	      method: "GET",
-    	    })
-    	      .then(response => {
-    	        if (response.ok) {
-    	          alert("Project successfully deleted");
-    	          // Optionally reload the page to refresh the project list
-    	          location.reload();
-    	        } else {
-    	          alert("Failed to delete the project. Please try again.");
-    	        }
-    	      })
-    	      .catch(error => {
-    	        console.error("Error deleting project:", error);
-    	        alert("An error occurred while deleting the project.");
-    	      });
-    	  }
-    	}
+            <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+            <script src="${pageContext.request.contextPath}/js/main.js"></script>
+         
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of the system.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, log me out!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/taskMate/LogoutController";
+            }
+        });
+    }
 </script>
- </body>
+</body>
 </html>

@@ -21,7 +21,6 @@ public class UserController extends HttpServlet {
 	private String action="", forward="";
 	private static String VIEW ="/pages/accProfile.jsp";
 	private static String LIST ="/pages/memberView.jsp";
-	private static String UPDATE ="updateRegister.jsp";
 	private int id;
 
 	public UserController() {
@@ -40,46 +39,44 @@ public class UserController extends HttpServlet {
 			request.setAttribute("users",UserDAO.getAllUsers());
 			
 		}
-		//view list of project members
+		
+		//view list of project members (done)
 		if(action.equalsIgnoreCase("listByProjectID")) {
+		    int projectID = Integer.parseInt(request.getParameter("projectID"));
 			forward = LIST;
 			
-			//projectID kene pass based on session nnti
-			request.setAttribute("users",UserDAO.getAllUsersByProjectID(1));
-			request.setAttribute("project",ProjectDAO.getProjectByID(1));
-//			request.setAttribute("users", UserDAO.getAllUsers());
-			
+			request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
+			request.setAttribute("project",ProjectDAO.getProjectByID(projectID));			
 		}
-		//delete User
+		
+		//delete User -->
 		if(action.equalsIgnoreCase("deleteUser")) {
 			forward = LIST;
 			
-			id = Integer.parseInt(request.getParameter("userID")); 
-//			int projectId = Integer.parseInt(request.getParameter("projectID"));
+			id = Integer.parseInt(request.getParameter("userID"));
+		    int projectID = Integer.parseInt(request.getParameter("projectID"));
 			try {
 				UserDAO.deleteUser(id);
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-			/* yang nie nak kene tengok dulu, pakai session or retrieve from view
-			 * request.setAttribute("users", UserDAO.getAllUsersByProjectID(projectId));
-			 */			
-			request.setAttribute("users",UserDAO.getAllUsersByProjectID(1));
-			request.setAttribute("project",ProjectDAO.getProjectByID(1));
+			}		
+			request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
+			request.setAttribute("project",ProjectDAO.getProjectByID(projectID));
 		}
-		//insert User by projectID
+		
+		//insert User by projectID -->
 		if(action.equalsIgnoreCase("insertProjectMember")) {
 			forward = LIST;
-			//parse projectID
-			request.setAttribute("users",UserDAO.getAllUsersByProjectID(1));
+		    int projectID = Integer.parseInt(request.getParameter("projectID"));
+			request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
 		}
+		
 		//view User Profile
 		if(action.equalsIgnoreCase("viewUser")) { 
 			forward = VIEW;
-			//parse userID
-//			id = Integer.parseInt(request.getParameter("userID")); 
 	        request.setAttribute("user", UserDAO.getUser(loggedInUserID));
 		}
+		
 		view = request.getRequestDispatcher(forward);
         view.forward(request, response);
 	}
@@ -92,9 +89,9 @@ public class UserController extends HttpServlet {
 //		user.setTypeID(Integer.parseInt(request.getParameter("typeID")));
 		
 		String userID = request.getParameter("userID");
-		
+		int projectID = Integer.parseInt(request.getParameter("projectID"));
+
 		if(userID == null || userID.isEmpty()) {
-			int projectID = Integer.parseInt(request.getParameter("projectID"));
 			user.setUserName(request.getParameter("userName"));
 			user.setEmail(request.getParameter("email"));
 			user.setPassword(request.getParameter("password"));
@@ -117,7 +114,7 @@ public class UserController extends HttpServlet {
 			}
 		}
 		//parse projectID
-		request.setAttribute("users",UserDAO.getAllUsersByProjectID(1));
+		request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
 	    view = request.getRequestDispatcher(LIST);
         view.forward(request, response);
 	}
