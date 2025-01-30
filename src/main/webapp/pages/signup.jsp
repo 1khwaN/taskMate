@@ -18,6 +18,10 @@
     <!-- New Font: Playwrite ZA -->
 	<link href="https://fonts.googleapis.com/css2?family=Playwrite+ZA&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome for icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    
     <!-- main css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/entry-page.css" />
@@ -57,16 +61,23 @@
           <input type="email" name="email" id="email" class="input" required />
 
           <label for="password" class="label">Password</label>
-			<div class="input-container">
-	  			<input type="password" name="password" id="password" class="input" required />
-	   		<span id="password-error" class="error-bubble"></span>
-			</div>
-	
-			<label for="confirmPassword" class="label">Confirm Password</label>
-			<div class="input-container">
+		<div class="input-container">
+		    <input type="password" name="password" id="password" class="input" required />
+		    <span id="password-error" class="error-bubble"></span>
+		    <span class="toggle-password" id="toggle-password">
+		        <i id="toggle-password-icon" class="fa-solid fa-eye"></i>
+		    </span>
+		</div>
+		
+		<label for="confirmPassword" class="label">Confirm Password</label>
+		<div class="input-container">
 		    <input type="password" name="confirmPassword" id="confirmPassword" class="input" required />
 		    <span id="confirm-password-error" class="error-bubble"></span>
-			</div>
+		    <span class="toggle-password" id="toggle-confirm-password">
+		        <i id="toggle-confirm-password-icon" class="fa-solid fa-eye"></i>
+		    </span>
+		</div>
+
           <button type="submit" class="button regular-button pink-background cta-btn">
             Sign up
           </button>
@@ -79,40 +90,64 @@
       <div class="right-column"></div>
     </div>
     <script>
-  	document.querySelector(".form").addEventListener("submit", function(event) {
-      let password = document.getElementById("password").value;
-      let confirmPassword = document.getElementById("confirmPassword").value;
-      let passwordError = document.getElementById("password-error");
-      let confirmPasswordError = document.getElementById("confirm-password-error");
+    document.addEventListener("DOMContentLoaded", function () {
+        function showError(inputId, errorId, message) {
+            let errorBubble = document.getElementById(errorId);
+            errorBubble.textContent = message;
+            errorBubble.classList.add("show-error");
 
-      // Regular expression for at least 1 uppercase, 1 special character, and min 6 characters
-      let passwordRegex = /^(?=.*[A-Z])(?=.*[\W]).{6,}$/;
+            setTimeout(() => {
+                errorBubble.classList.remove("show-error");
+            }, 3000);
+        }
 
-      let hasError = false;
+        function togglePassword(inputId, iconId) {
+            let inputField = document.getElementById(inputId);
+            let icon = document.getElementById(iconId);
 
-      // Password validation
-      if (!passwordRegex.test(password)) {
-          passwordError.innerText = "Must be at least 6 characters, 1 uppercase, 1 special character!";
-          passwordError.classList.add("show-error");
-          hasError = true;
-      } else {
-          passwordError.classList.remove("show-error");
-      }
+            if (inputField.type === "password") {
+                inputField.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash"); // Change to slash icon
+            } else {
+                inputField.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye"); // Change back to normal eye
+            }
+        }
 
-      // Confirm password validation
-      if (password !== confirmPassword) {
-          confirmPasswordError.innerText = "Passwords do not match!";
-          confirmPasswordError.classList.add("show-error");
-          hasError = true;
-      } else {
-          confirmPasswordError.classList.remove("show-error");
-      }
+        document.getElementById("toggle-password").addEventListener("click", function () {
+            togglePassword("password", "toggle-password-icon");
+        });
 
-      // Stop form submission if errors exist
-      if (hasError) {
-          event.preventDefault();
-      }
-  });
+        document.getElementById("toggle-confirm-password").addEventListener("click", function () {
+            togglePassword("confirmPassword", "toggle-confirm-password-icon");
+        });
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+
+            let passwordError = document.getElementById("password-error");
+            let confirmPasswordError = document.getElementById("confirm-password-error");
+
+            passwordError.classList.remove("show-error");
+            confirmPasswordError.classList.remove("show-error");
+
+            let passwordRegex = /^(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
+
+            if (!passwordRegex.test(password)) {
+                showError("password", "password-error", "Password must have 6+ chars, 1 uppercase, 1 special char");
+                event.preventDefault();
+            }
+
+            if (password !== confirmPassword) {
+                showError("confirmPassword", "confirm-password-error", "Passwords do not match");
+                event.preventDefault();
+            }
+        });
+    });
+
 </script>
   </body>
 </html>
