@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%
@@ -60,6 +59,7 @@
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
+			<c:if test="${sessionScope.sessionTypeID == 2}">
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
@@ -67,6 +67,7 @@
             >
               Add task
             </button>
+            </c:if>
             
             <button
               id="add-project-cta"
@@ -130,7 +131,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>List of Tasks</span>
+              <span>Projects</span>
             </label>
           </div>
           

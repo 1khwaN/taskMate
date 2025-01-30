@@ -1,13 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%
-	response.addHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
-	response.setDateHeader("Expires", 0);
-	
-	%> 
+    
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -61,6 +55,7 @@
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
+			<c:if test="${sessionScope.sessionTypeID == 2}">
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
@@ -68,6 +63,7 @@
             >
               Add task
             </button>
+            </c:if>
             
 			<c:if test="${sessionScope.sessionTypeID == 1}">
 			    <button
@@ -79,12 +75,10 @@
 			    </button>
 			</c:if>
 
-            <button class="sign-out-cta"
-            class="button regular-button red-background"
-            onclick="window.location.href='/taskMate/LogoutController';"
-            >
-            Log out
-            </button>
+            <button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
+			    Log out
+			</button>
+            
           </div>
         </div>
       </div>
@@ -281,6 +275,7 @@
     </c:if>
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmLogout() {
         Swal.fire({

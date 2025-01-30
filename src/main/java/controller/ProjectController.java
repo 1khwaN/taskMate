@@ -54,8 +54,8 @@ public class ProjectController extends HttpServlet {
 			request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
 		} else if (action.equalsIgnoreCase("viewTasks")) {
 			int projectID = Integer.parseInt(request.getParameter("projectID"));
-			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID)); // Assuming you have a TaskDAO with this method
-			forward = "task/listOfTasks.jsp"; // Forward to the tasks list JSP
+			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+			forward = "task/listOfTasks.jsp";
 		}
 
 		if(action.equalsIgnoreCase("updateProject")) {
@@ -80,7 +80,7 @@ public class ProjectController extends HttpServlet {
 		        
 		        request.setAttribute("projects", ProjectDAO.getAllProject());
 		    } catch (Exception e) {
-		        e.printStackTrace(); // Log any exceptions for debugging
+		        e.printStackTrace();
 		    }
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -91,30 +91,9 @@ public class ProjectController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		Project project = new Project();
-//		project.setProjectName(request.getParameter("projectName"));
-//		project.setDescription(request.getParameter("description"));
-//		project.setStartDate(request.getParameter("startDate"));
-//		project.setEndDate(request.getParameter("endDate"));
-//		project.setProjectStatus(request.getParameter("projectStatus"));
-//		project.setProjectPriority(request.getParameter("projectPriority"));
-//
-//		String projectID = request.getParameter("projectID");
-//
-//		if(projectID == null || projectID.isEmpty()) {
-//			ProjectDAO.addProject(project);
-//		} else {
-//			ProjectDAO.updateProject(project);
-//		}
-//
-////		response.sendRedirect(request.getContextPath() + "ProjectController?action=listOfProjects");
-//		view = request.getRequestDispatcher(LIST);
-//		view.forward(request, response);
-		
+		// TODO Auto-generated method stub		
 		Project project = new Project();
 
-		//8. retrieve from HTML and set the values
 		project.setProjectName(request.getParameter("projectName"));
 		project.setDescription(request.getParameter("description"));
 		project.setStartDate(request.getParameter("startDate"));
@@ -125,7 +104,7 @@ public class ProjectController extends HttpServlet {
 		String projectID = request.getParameter("projectID");
 		
 		if(projectID != null && !projectID.isEmpty()) {
-			project.setProjectID(Integer.parseInt(request.getParameter(projectID)));
+			project.setProjectID(Integer.parseInt(projectID));
 			try {
 				ProjectDAO.updateProject(project);
 			} catch (Exception e) {
@@ -133,7 +112,6 @@ public class ProjectController extends HttpServlet {
 			}
 		}
 		else {
-			//9. invoke method addBooking() in BookingDAO
 			ProjectDAO.addProject(project);
 		}
 

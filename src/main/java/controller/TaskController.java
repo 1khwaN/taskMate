@@ -43,10 +43,13 @@ public class TaskController extends HttpServlet {
 		action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("listTask")) {
-		    int projectID = Integer.parseInt(request.getParameter("projectID")); // Correctly retrieve projectID
-//			int projectID = 2;
+		    int projectID = Integer.parseInt(request.getParameter("projectID"));
 		    forward = LIST;
 			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+		    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
+		    System.out.println("Project Name: " + projectName);
+		    request.setAttribute("projectName", projectName);
+		    forward = "task/listOfTasks.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("listAll")) {
@@ -59,20 +62,11 @@ public class TaskController extends HttpServlet {
 			taskID = Integer.parseInt(request.getParameter("taskID"));
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
-		
+
 		if(action.equalsIgnoreCase("updateTask")) {
 			forward = UPDATE;
-			Task task = new Task();
 			taskID = Integer.parseInt(request.getParameter("taskID"));
-			task = TaskDAO.getTaskByID(taskID);
-			request.setAttribute("selectedProject", task.getProjectID());
-			request.setAttribute("task", TaskDAO.getTasksByProjectID(taskID));
-			request.setAttribute("projects", TaskDAO.getAllTasks());
-		}
-		
-		if(action.equalsIgnoreCase("addTask")) {
-			forward = ADD;
-//			request.setAttribute("projects", ProjectDAO.addTask(task));
+			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 		
 		if (action.equalsIgnoreCase("deleteTask")) {
@@ -88,12 +82,20 @@ public class TaskController extends HttpServlet {
 		        } else {
 		            System.out.println("Invalid taskID received");
 		        }
-		        
-		        request.setAttribute("tasks", TaskDAO.getAllTasks());
+		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
+		        view = request.getRequestDispatcher(forward);
+				view.forward(request, response);
 		    } catch (Exception e) {
-		        e.printStackTrace(); // Log any exceptions for debugging
+		        e.printStackTrace();
 		    }
 		}
+		
+		if(action.equalsIgnoreCase("deleteAllTasks")) {
+			forward = LIST;
+			int projectID = Integer.parseInt(request.getParameter("projectID"));  
+			TaskDAO.deleteAllTasksByProject(projectID);
+			request.setAttribute("projects", TaskDAO.getTasksByProjectID(projectID));    
+		}	
 		
 		view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
@@ -103,25 +105,46 @@ public class TaskController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		Task task = new Task();
-		task.setTaskName(request.getParameter("taskName"));
-		task.setTaskName(request.getParameter("taskName"));
-		task.setDescription(request.getParameter("description"));
-		task.setStartDate(request.getParameter("startDate"));
-		task.setEndDate(request.getParameter("endDate"));
-		task.setTaskStatus(request.getParameter("taskStatus"));
-		task.setProjectID(Integer.parseInt(request.getParameter("projectID")));
+	    Task task = new Task();
+	    
+	    task.setTaskName(request.getParameter("taskName"));
+	    task.setDescription(request.getParameter("description"));
+	    task.setStartDate(request.getParameter("startDate"));
+	    task.setEndDate(request.getParameter("endDate"));
+	    task.setTaskStatus(request.getParameter("taskStatus"));
 
-		String taskID = request.getParameter("taskID");
+	    String projectIdParam = request.getParameter("projectID");
+	    System.out.println("Received projectID: " + projectIdParam);
 
-		if(taskID == null || taskID.isEmpty()) {
+	    if (projectIdParam == null || projectIdParam.trim().isEmpty()) {
+	        throw new IllegalArgumentException("Project ID is missing or invalid.");
+	    }
+
+	    int projectID = Integer.parseInt(projectIdParam);
+	    task.setProjectID(projectID);
+
+	    // Add task to the database
+	    String taskID = request.getParameter("taskID");
+		
+		if(taskID != null && !taskID.isEmpty()) {
+			task.setTaskID(Integer.parseInt(taskID));
+			try {
+				TaskDAO.updateTask(task);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else {
 			TaskDAO.addTask(task);
 		}
-
-		request.setAttribute("tasks", TaskDAO.getAllTasks());
-		view = request.getRequestDispatcher(LIST);
-		view.forward(request, response);
+	    // Forward to list of tasks page for the given project
+	    forward = LIST;
+	    request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+	    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
+	    System.out.println("Project for " + projectName);  // Debugging print to verify if projectName is retrieved
+	    request.setAttribute("projectName", projectName); 
+	    view = request.getRequestDispatcher("/task/listOfTasks.jsp"); 
+	    view.forward(request, response);
 	}
 
 }
