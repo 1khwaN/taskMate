@@ -164,30 +164,30 @@
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
 	            				<p class="task-due-date"><c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
-	            				<!-- view -->
-	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
-	            					width="24" 
-	            					height="24"
-									onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
-	            				></iconify-icon>
-					            <!-- delete icon -->
-					            <iconify-icon
-					            	icon="icomoon-free:bin"
-					            	width="16"
-					            	height="16"
-					            	style="cursor: pointer;"
-					            	href="#" onclick="confirmation(event, '${project.projectID}')">
-								></iconify-icon>
-	            				<!-- arrow -->
-	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
-	              					style="color: black"
-	              					width="18"
-	              					height="18"
-	              					class="arrow-icon"
-									onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>'">
-	            				></iconify-icon>
+		            				<!-- view -->
+		            				<iconify-icon 
+		            					icon="mi:eye" 
+		            					width="24" 
+		            					height="24"
+										onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
+		            				></iconify-icon>
+						            <!-- delete icon -->
+						            <iconify-icon
+						            	icon="icomoon-free:bin"
+						            	width="16"
+						            	height="16"
+						            	style="cursor: pointer;"
+						            	href="#" onclick="confirmation(event, '${project.projectID}')">
+									></iconify-icon>
+		            				<!-- arrow -->
+		            				<iconify-icon
+		              					icon="ep:arrow-right-bold"
+		              					style="color: black"
+		              					width="18"
+		              					height="18"
+		              					class="arrow-icon"
+										onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${project.projectID}'/>'">
+		            				></iconify-icon>
 	            				</div>
 	          				</button>
 	        			</li>
@@ -211,7 +211,7 @@
 	            				<div class="icon-container">
 	            				<!-- view -->
 	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
+	            					icon="mi:eye" 
 	            					width="24" 
 	            					height="24"
 	            					onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
@@ -226,7 +226,7 @@
 								></iconify-icon>
 	            				<!-- arrow -->
 	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
+	              					icon="ep:arrow-right-bold"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
@@ -256,7 +256,7 @@
 	            				<div class="icon-container">
 	            				<!-- view -->
 	            				<iconify-icon 
-	            					icon="weui:eyes-on-outlined" 
+	            					icon="mi:eye" 
 	            					width="24" 
 	            					height="24"
 									onclick="window.location.href='/taskMate/ProjectController?action=viewProject&projectID=<c:out value='${project.projectID}'/>'">
@@ -272,7 +272,7 @@
 								></iconify-icon></a>
 	            				<!-- arrow -->
 	            				<iconify-icon
-	              					icon="material-symbols:arrow-back-ios-rounded"
+	              					icon="ep:arrow-right-bold"
 	              					style="color: black"
 	              					width="18"
 	              					height="18"
