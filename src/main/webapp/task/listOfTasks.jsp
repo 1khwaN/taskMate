@@ -239,13 +239,15 @@
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
-								            <iconify-icon
-								            	icon="icomoon-free:bin"
-								            	width="16"
-								            	height="16"
-								            	style="cursor: pointer;"
-								            	href="#" onclick="confirmation(event, '${task.taskID}')">
-								            </iconify-icon>
+											<iconify-icon
+											    icon="icomoon-free:bin"
+											    width="16"
+											    height="16"
+											    style="cursor: pointer;"
+											    href="#"
+											    onclick="confirmation(event, '${task.taskID}', '${projectID}')">
+											</iconify-icon>
+
 				            				<!-- view -->
 											<iconify-icon 
 												icon="ep:arrow-right-bold"
@@ -270,14 +272,30 @@
    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
+   
+<c:set var="projectID" value="${project.projectID}" />
 
 	<script>
-	function confirmation(event, taskID) {
+	
+	function confirmation(event, taskID, projectID) {
 	    event.preventDefault(); // Stop the default link action
-	    if (confirm("Are you sure you want to delete this task?")) {
-	        window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID;
-	    }
+	    Swal.fire({
+	        title: "Are you sure?",
+	        text: "You are about to delete this task. This action cannot be undone!",
+	        icon: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#d33",
+	        cancelButtonColor: "#3085d6",
+	        confirmButtonText: "Yes, delete it!",
+	        cancelButtonText: "Cancel"
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID + "&projectID=" + projectID;
+	        }
+	    });
 	}
+
+
 	</script>
 	<script>
 		function confirmDelete(projectID) {

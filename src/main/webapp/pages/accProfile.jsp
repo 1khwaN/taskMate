@@ -83,25 +83,45 @@
         <div class="col-12 col-lg-8">
             <div class="card h-100">
                 <div class="card-body">
-                    <form action="UserController" method="post">
-                        <input type="hidden" name="userID" value="${user.userID}">               
-                        <div class="form-group">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" name="userName" id="name" class="form-control" value="${user.userName}">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" name="email" id="email" class="form-control" value="${user.email}">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" class="form-label">Password:</label>
-                            <input type="password" name="password" id="password" class="form-control" value="${user.password}">
-                        </div>
-                        <div class="form-group">
-                            <br>
-                            <button type="submit" class="btn btn-primary">Update Profile</button>
-                        </div>
-                    </form>
+                    <form action="UserController" method="post" onsubmit="return confirmUpdate();">
+				    <input type="hidden" name="userID" value="${user.userID}">               
+				    <div class="form-group">
+				        <label for="name" class="form-label">Name</label>
+				        <input type="text" name="userName" id="name" class="form-control" value="${user.userName}">
+				    </div>
+				    <div class="form-group">
+				        <label for="email" class="form-label">Email</label>
+				        <input type="text" name="email" id="email" class="form-control" value="${user.email}">
+				    </div>
+				    <div class="form-group">
+				        <label for="phone" class="form-label">Password:</label>
+				        <input type="password" name="password" id="password" class="form-control" value="${user.password}">
+				    </div>
+				    <div class="form-group">
+				        <br>
+				        <button type="submit" class="btn btn-primary">Update Profile</button>
+				    </div>
+				</form>
+				
+				<!-- SweetAlert script -->
+				<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+				<script>
+				    function confirmUpdate() {
+				        return Swal.fire({
+				            title: "Are you sure?",
+				            text: "Do you want to update your profile details?",
+				            icon: "warning",
+				            showCancelButton: true,
+				            confirmButtonColor: "#3085d6",
+				            cancelButtonColor: "#d33",
+				            confirmButtonText: "Yes, update it!",
+				            cancelButtonText: "Cancel"
+				        }).then((result) => {
+				            return result.isConfirmed; // Only submit the form if the user confirms
+				        });
+				    }
+				</script>
+
                 </div>
             </div>
         </div>
