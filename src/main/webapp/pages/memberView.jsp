@@ -215,15 +215,24 @@
 			</ul>
 		</div>
 		<script>
-		function confirmation(userID, userName, projectID){					  
-		     var r = confirm("Are you sure you want to delete " + userName + "?");
-			  if (r == true) {				 		  
-				  location.href ='UserController?action=deleteUser&userID=' + userID + '&projectID=' + projectID;
-				  alert(userName + " successfully deleted");			
-			  } else {				  
-			      return false;	
-			  }
+		function confirmation(userID, userName, projectID) {					  
+		    Swal.fire({
+		        title: "Are you sure?",
+		        text: "You are about to remove " + userName + ". This action cannot be undone.",
+		        icon: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#d33",
+		        cancelButtonColor: "#3085d6",
+		        confirmButtonText: "Yes, delete!",
+		        cancelButtonText: "Cancel"
+		    }).then((result) => {
+		        if (result.isConfirmed) {	
+		            // Redirect to delete the user
+		            window.location.href = 'UserController?action=deleteUser&userID=' + userID + '&projectID=' + projectID;
+		        }
+		    });
 		}
+
 	</script>
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		
@@ -256,25 +265,7 @@
             }
         };
     </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmLogout() {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of the system.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, log me out!",
-            cancelButtonText: "Cancel"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "/taskMate/LogoutController";
-            }
-        });
-    }
-</script>
+
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
