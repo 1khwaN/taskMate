@@ -129,7 +129,7 @@
 									<button class="task-button">
 										<div>
 					            			<p class="task-name"><c:out value="${task.taskName}"/></p>
-					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+					            			<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
@@ -169,7 +169,7 @@
 									<button class="task-button">
 										<div>
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+				            				<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
@@ -208,7 +208,7 @@
 									<button class="task-button">
 										<div>
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+				            				<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
