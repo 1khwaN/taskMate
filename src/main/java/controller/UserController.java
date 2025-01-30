@@ -7,8 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
-import supplier.dao.ProductDAO;
-import supplier.dao.SupplierDAO;
+
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

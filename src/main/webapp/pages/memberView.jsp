@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%
 	response.addHeader("Pragma", "no-cache");
@@ -133,7 +131,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>List of Tasks</span>
+              <span>Projects</span>
             </label>
           </div>
           

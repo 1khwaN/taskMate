@@ -130,7 +130,7 @@
               value="members"
               class="radio-input"
               
-              onclick="window.location.href='pages/memberView.jsp';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->
