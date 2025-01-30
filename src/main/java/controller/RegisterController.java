@@ -40,7 +40,7 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    User user = new User();
-
+	    
 	    // Retrieve input from form
 	    String userName = request.getParameter("userName");
 	    String email = request.getParameter("email");
@@ -49,7 +49,8 @@ public class RegisterController extends HttpServlet {
 
 	    // Set default typeID to 1 if not provided
 	    int typeID = request.getParameter("typeID") != null ? Integer.parseInt(request.getParameter("typeID")) : 1;
-
+	    
+	    //System.out.println(email);
 	    // Password confirmation check
 	    if (!password.equals(confirmPassword)) {
 	        request.setAttribute("errorMessage", "Passwords do not match!");
@@ -67,7 +68,7 @@ public class RegisterController extends HttpServlet {
 	    }
 	    
 	 // Validate password strength
-	    if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[!@#$%^&*(),.?\":{}|<>].*_")) {
+	    if (password.length() < 6 || !password.matches(".*[A-Z].*") || !password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
 	        request.setAttribute("errorMessage", "Password must be at least 6 characters, contain 1 uppercase letter, and 1 special character.");
 	        RequestDispatcher view = request.getRequestDispatcher("pages/signup.jsp");
 	        view.forward(request, response);
@@ -79,7 +80,7 @@ public class RegisterController extends HttpServlet {
 	    user.setEmail(email);
 	    user.setPassword(password);
 	    user.setTypeID(typeID);
-
+	    
 	    try {
 	        UserDAO.insertUser(user);
 	        RequestDispatcher view = request.getRequestDispatcher("pages/login.jsp"); 
