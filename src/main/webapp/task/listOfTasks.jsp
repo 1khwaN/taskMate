@@ -53,9 +53,8 @@
 					    Add task
 					</button>
 
-					<button class="sign-out-cta button regular-button red-background"
-						onclick="confirmLogout();">
-						Log out
+					<button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
+					    Log out
 					</button>
 				</div>
 			</div>
@@ -124,7 +123,7 @@
             <label for="members" class="radio-label">
               <!-- grid -->
               <iconify-icon
-                icon="tdesign:member-filled"
+                icon="ic:round-grid-view"
                 style="color: black"
                 width="24"
                 height="24"
@@ -157,9 +156,9 @@
 									<button class="task-button">
 										<div>
 					            			<p class="task-name"><c:out value="${task.taskName}"/></p>
-					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+					            			<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -170,7 +169,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
@@ -197,9 +196,9 @@
 									<button class="task-button">
 										<div>
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+				            				<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -210,7 +209,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
@@ -236,9 +235,9 @@
 									<button class="task-button">
 										<div>
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
-				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
+				            				<p class="task-due-date">Due Date : <c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -249,7 +248,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
@@ -287,6 +286,7 @@
 		    }
 		}
 	</script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmLogout() {

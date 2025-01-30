@@ -67,12 +67,7 @@
 	    font-family: "Inter", sans-serif;
 	}
 	
-	.input-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
+	
 /* Error bubble styling */
 .error-bubble {
     visibility: hidden;
@@ -105,5 +100,28 @@
     visibility: visible;
     opacity: 1;
 }
+	.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    padding-right: 40px; /* Space for the eye icon */
+    height: 40px; /* Adjust based on your design */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 65%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}
+
+.toggle-password:hover {
+    color: #333;
 	
+}
 }
