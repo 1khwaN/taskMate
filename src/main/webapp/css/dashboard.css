@@ -4,7 +4,26 @@ body.overflow-hidden {
 }
 
 .content-container {
-  padding-block: var(--space-32);
+  padding-block: var(--space-16);
+}
+
+.centered-container {
+  padding-block: var(--space-16);
+}
+
+.centered-container {
+    text-align: center; /* Centers inline elements inside */
+}
+
+.centered-container h3 {
+  	padding-block: var(--space-16);
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--black);
+    background-color: #f0ead6;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: inline-block;
 }
 
 /* header */
@@ -26,8 +45,6 @@ body.overflow-hidden {
 .header .buttons-container {
   display: flex;
   gap: var(--space-16);
-  
-
 }
 
 .profile-icon {
