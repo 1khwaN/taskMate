@@ -90,7 +90,7 @@
             />
             <label for="list" class="radio-label">
               <iconify-icon
-                icon="material-symbols:format-list-bulleted-rounded"
+                icon="ic:round-grid-view"
                 style="color: black"
                 width="24"
                 height="24"
@@ -124,7 +124,7 @@
 					            			<p class="task-name"><c:out value="${task.taskName}"/></p>
 					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -135,7 +135,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
@@ -164,7 +164,7 @@
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -175,7 +175,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
@@ -203,7 +203,7 @@
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
-							            <div>
+							            <div class="icon-container">
 							            <!-- delete icon -->
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
@@ -214,7 +214,7 @@
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
-												icon="material-symbols:arrow-back-ios-rounded"
+												icon="ep:arrow-right-bold"
 												style="color: black" 
 												width="18" 
 												height="18"
