@@ -4,13 +4,13 @@
     <h2>Add Member</h2>
     <form action="UserController" method="post">
         <label for="memberName">Member Name:</label>
-        <input type="text" id="userName" name="userName" required><br><br>
+        <input type="text" id="userName" name="userName" autocomplete="off" required><br><br>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <input type="email" id="email" name="email" autocomplete="off"required><br><br>
         
         <label for="email">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
+        <input type="password" name="password" autocomplete="off" required><br><br>
         
         <input type="hidden" name="typeID" value="2">
         <input type="hidden" name="projectID" value="1">

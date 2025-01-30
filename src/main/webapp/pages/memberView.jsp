@@ -50,14 +50,7 @@
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
-            <button
-              id="add-task-cta"
-              class="button regular-button blue-background"
-              onclick="window.location.href='addTask.jsp';"
-            >
-              Add task
-            </button>
-            <button
+                        <button
               id="add-project-cta"
               class="button regular-button green-background"
               onclick="window.location.href='addProject.jsp';"
@@ -66,7 +59,7 @@
             </button>
             <button class="sign-out-cta"
             class="button regular-button red-background"
-            onclick="window.location.href='login.jsp';"
+            onclick="window.location.href='/taskMate/LogoutController';"
             >
             Log out
             	
@@ -110,7 +103,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='task/listOfTasks.jsp';"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -119,7 +112,7 @@
                 width="24"
                 height="24"
               ></iconify-icon>
-              <span>Tasks List</span>
+              <span>Projects</span>
             </label>
           </div>
           
@@ -223,7 +216,7 @@
 
             // Load addMembers.jsp dynamically
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", "pages/addMember.jsp", true);
+            xhr.open("post", "pages/addMember.jsp", true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.getElementById("modal-body").innerHTML = xhr.responseText;

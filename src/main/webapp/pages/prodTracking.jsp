@@ -55,7 +55,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='pages/accProfile.jsp';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -87,8 +87,6 @@
             onclick="window.location.href='/taskMate/LogoutController';"
             >
             Log out
-            	
-            
             </button>
           </div>
         </div>
