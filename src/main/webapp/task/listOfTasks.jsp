@@ -43,22 +43,15 @@
 				<div class="buttons-container">
 
 					<button class="button regular-button green-background"
-					    onclick="confirmDelete(<c:out value='${param.projectID}' />)">
+					    onclick="confirmDeleteAll(<c:out value='${param.projectID}' />)">
 					    Delete All Tasks
 					</button>
 					
-					<%-- <c:set var="projectID" value="${param.projectID}" />
+					<c:set var="projectID" value="${param.projectID}" />
 					<button id="add-task-cta" class="button regular-button blue-background"
-					    onclick="window.location.href='/taskMate/task/addTask.jsp?projectID=${projectID}';">
 					    onclick="window.location.href='/taskMate/TaskController?action=addMember&projectID=${projectID}';">
 					    Add task
-					</button> --%>
-					
-					<c:set var="projectID" value="${param.projectID}" />
-<button id="add-task-cta" class="button regular-button blue-background"
-    onclick="window.location.href='/taskMate/TaskController?action=addMember&projectID=${projectID}';">
-    Add task
-</button>
+					</button>
 
 					<button class="sign-out-cta button regular-button red-background" onclick="confirmLogout();">
 					    Log out
@@ -174,7 +167,7 @@
 								            	width="16"
 								            	height="16"
 								            	style="cursor: pointer;"
-								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
@@ -214,7 +207,7 @@
 								            	width="16"
 								            	height="16"
 								            	style="cursor: pointer;"
-								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
@@ -253,7 +246,7 @@
 								            	width="16"
 								            	height="16"
 								            	style="cursor: pointer;"
-								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
 				            				<!-- view -->
 											<iconify-icon 
@@ -281,40 +274,41 @@
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
 
 	<script>
-	function confirmation(event, taskID) {
-	    event.preventDefault(); // Stop the default link action
-	    if (confirm("Are you sure you want to delete this task?")) {
-	        window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID;
-	    }
-	}
-	</script>
-	<script>
-		function confirmDelete(projectID) {
-		    if (confirm("Are you sure you want to delete all tasks in this project?")) {
-		        window.location.href = '/taskMate/TaskController?action=deleteAllTasks&projectID=' + projectID;
-		    }
-		}
-	</script>
-	
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmLogout() {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of the system.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, log me out!",
-            cancelButtonText: "Cancel"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "/taskMate/LogoutController";
-            }
-        });
+    function confirmDelete(event, taskID, projectID) {
+        event.preventDefault(); // Stop the default link action
+        if (confirm("Are you sure you want to delete this task?")) {
+            console.log("Deleting task with ID:", taskID);
+            window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID + "&projectID=" + projectID;
+        }
+    }
+
+    function confirmDeleteAll(projectID) {
+        if (confirm("Are you sure you want to delete all tasks in this project?")) {
+            console.log("Deleting all tasks for project:", projectID);
+            window.location.href = '/taskMate/TaskController?action=deleteAllTasks&projectID=' + projectID;
+        }
     }
 </script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+	    function confirmLogout() {
+	        Swal.fire({
+	            title: "Are you sure?",
+	            text: "You will be logged out of the system.",
+	            icon: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#d33",
+	            cancelButtonColor: "#3085d6",
+	            confirmButtonText: "Yes, log me out!",
+	            cancelButtonText: "Cancel"
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                window.location.href = "/taskMate/LogoutController";
+	            }
+	        });
+	    }
+	</script>
 	
 </body>
 </html>

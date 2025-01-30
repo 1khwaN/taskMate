@@ -72,34 +72,6 @@ public class TaskController extends HttpServlet {
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 		
-		if (action.equalsIgnoreCase("deleteTask")) {
-			try {
-				forward = LIST;
-				String taskIDParam = request.getParameter("taskID");
-		        System.out.println("Received taskID: " + taskIDParam); // Debug the received projectID
-		        
-		        if (taskIDParam != null && !taskIDParam.isEmpty()) {
-		        	taskID = Integer.parseInt(taskIDParam);
-		        	TaskDAO.deleteTask(taskID);
-		            System.out.println("Deleted task with ID: " + taskID); // Debug success
-		        } else {
-		            System.out.println("Invalid taskID received");
-		        }
-		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
-		        view = request.getRequestDispatcher(forward);
-				view.forward(request, response);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		}
-		
-		if(action.equalsIgnoreCase("deleteAllTasks")) {
-			forward = LIST;
-			int projectID = Integer.parseInt(request.getParameter("projectID"));  
-			TaskDAO.deleteAllTasksByProject(projectID);
-			request.setAttribute("projects", TaskDAO.getTasksByProjectID(projectID));    
-		}
-		
 		if(action.equalsIgnoreCase("addMember")) {
 		    int projectID = Integer.parseInt(request.getParameter("projectID"));
 		    
@@ -114,6 +86,43 @@ public class TaskController extends HttpServlet {
 		    request.setAttribute("projectID", projectID);
 		}
 		
+		if (action.equalsIgnoreCase("deleteTask")) {
+            try {
+                String taskIDParam = request.getParameter("taskID");
+                System.out.println("Received taskID: " + taskIDParam); // Debug the received taskID
+                
+                if (taskIDParam != null && !taskIDParam.isEmpty()) {
+                    int taskID = Integer.parseInt(taskIDParam);
+                    TaskDAO.deleteTask(taskID);
+                    System.out.println("Deleted task with ID: " + taskID); // Debug success
+                } else {
+                    System.out.println("Invalid taskID received");
+                }
+
+                int projectID = Integer.parseInt(request.getParameter("projectID")); // Ensure we reload tasks for the correct project
+                request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+                
+                view = request.getRequestDispatcher(LIST);
+                view.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        if (action.equalsIgnoreCase("deleteAllTasks")) {
+            try {
+                int projectID = Integer.parseInt(request.getParameter("projectID"));
+                System.out.println("Received projectID for deleteAllTasks: " + projectID);
+                
+                TaskDAO.deleteAllTasksByProject(projectID);
+                
+                request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID)); // Correct attribute name
+                view = request.getRequestDispatcher(LIST);
+                view.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 		view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
 	}
