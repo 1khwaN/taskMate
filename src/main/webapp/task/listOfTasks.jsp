@@ -91,28 +91,6 @@
               <span>Productivity Tracking</span>
             </label>
           </div>
-          <!-- List -->
-          <div class="radio-container">
-            <input
-              type="radio"
-              id="track"
-              name="view-option"
-              value="track"
-              class="radio-input"
-              
-              onclick="window.location.href='/taskMate/prodTrackingController';"
-              
-            />
-            <label for="track" class="radio-label">
-              <iconify-icon
-                icon="mdi:chart-line"
-                style="color: black"
-                width="24"
-                height="24"
-              ></iconify-icon>
-              <span>Productivity Tracking</span>
-            </label>
-          </div>
           
           <div class="radio-container">
             <input
