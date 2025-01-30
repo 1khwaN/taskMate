@@ -54,18 +54,20 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='accProfile.jsp';"
+                onclick="window.location.href='/taskMate/pages/accProfile.jsp';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
+			<c:if test="${sessionScope.sessionTypeID == 2}">
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
-              onclick="window.location.href='addTask.jsp';"
+              onclick="window.location.href='/taskMate/pages/addTask.jsp';"
             >
               Add task
             </button>
+            </c:if>
             
             <c:if test="${sessionScope.sessionTypeID == 1}">
 			    <button

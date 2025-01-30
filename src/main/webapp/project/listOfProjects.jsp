@@ -48,6 +48,15 @@
           <h1 class="title">Projects</h1>
           <br>
           <div class="buttons-container">
+          
+          	<button
+                id="profile-button"
+                class="button icon-button"
+                onclick="window.location.href='pages/accProfile.jsp';"
+            >
+                <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
+            </button>
+          
             <button
               id="add-project-cta"
               class="button regular-button green-background"
@@ -66,6 +75,29 @@
       </div>
       <div class="radio-buttons-container">
         <div class="max-width-container flex">
+        
+        <div class="radio-container">
+            <input
+              type="radio"
+              id="track"
+              name="view-option"
+              value="track"
+              class="radio-input"
+              checked
+              onclick="window.location.href='/taskMate/prodTrackingController';"
+              
+            />
+            <label for="track" class="radio-label">
+              <iconify-icon
+                icon="mdi:chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Productivity Tracking</span>
+            </label>
+          </div>
+        
           <!-- List -->
           <div class="radio-container">
             <input
@@ -87,8 +119,35 @@
               <span>Projects List</span>
             </label>
           </div>
+          
+          <!--Members-->
+          <c:if test="${sessionScope.sessionTypeID == 1}">
+	        <div class="radio-container">
+            <input
+              type="radio"
+              id="members"
+              name="view-option"
+              value="members"
+              class="radio-input"
+              
+              onclick="window.location.href='pages/memberView.jsp';"
+            />
+            <label for="members" class="radio-label">
+              <!-- grid -->
+              <iconify-icon
+                icon="tdesign:member-filled"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Members</span>
+            </label>
+          </div>
+          </c:if>
         </div>
       </div>
+      
+      
  
 	 <!-- list view -->
 	 <div id="list-view" class="list-view">

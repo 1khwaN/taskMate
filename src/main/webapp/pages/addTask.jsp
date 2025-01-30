@@ -139,7 +139,7 @@
       <!-- Close button -->
       <button
         class="button circle-button blue-background flex justify-center items-center close-button"
-        onclick="window.history.back();"
+        onclick="window.location.href='/taskMate/prodTrackingController';"
       >
         <iconify-icon
           icon="material-symbols:close-rounded"

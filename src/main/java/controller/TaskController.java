@@ -83,6 +83,8 @@ public class TaskController extends HttpServlet {
 		            System.out.println("Invalid taskID received");
 		        }
 		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
+		        view = request.getRequestDispatcher(forward);
+				view.forward(request, response);
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }

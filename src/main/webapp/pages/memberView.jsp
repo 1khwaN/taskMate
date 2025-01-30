@@ -61,6 +61,7 @@
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
 
+			<c:if test="${sessionScope.sessionTypeID == 2}">
             <button
               id="add-task-cta"
               class="button regular-button blue-background"
@@ -68,6 +69,7 @@
             >
               Add task
             </button>
+            </c:if>
             
             <button
               id="add-project-cta"
