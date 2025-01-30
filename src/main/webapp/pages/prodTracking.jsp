@@ -50,7 +50,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='pages/accProfile.jsp';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -183,7 +183,7 @@
               value="members"
               class="radio-input"
               
-              onclick="window.location.href='pages/memberView.jsp';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             <label for="members" class="radio-label">
               <!-- grid -->

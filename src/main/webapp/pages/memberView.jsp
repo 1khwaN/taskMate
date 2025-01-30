@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -24,28 +26,26 @@
       rel="stylesheet"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/dashboard.css" />
-    <link rel="stylesheet" href="../css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/boardView.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MembersPage.css" />
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<%
+	response.addHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+	response.setDateHeader("Expires", 0);
+	%> 
 	
   </head>
   <body>
     <!-- Because body has height 100%, we need a container to wrap the individual 
     elements. The purpose is to add top & bottom padding -->
     <div class="content-container">
-      <!-- success notification -->
-      <div id="notification" class="notification green-background">
-        <iconify-icon
-          icon="mdi:check-circle-outline"
-          style="color: black"
-          width="24"
-          height="24"
-        ></iconify-icon>
-        <p>The task was deleted</p>
-      </div>
+      
       <!-- header -->
       <div class="max-width-container">
         <div class="header flex items-center justify-between">
@@ -56,7 +56,7 @@
             <button
                 id="profile-button"
                 class="button icon-button"
-                onclick="window.location.href='accProfile.jsp';"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
             >
                 <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
             </button>
@@ -124,7 +124,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/task/listOfTasks.jsp';"
+              onclick="window.location.href='/taskMate/ProjectController?action=listProject';"
             />
             <label for="board" class="radio-label">
               <iconify-icon
@@ -147,7 +147,7 @@
               value="members"
               class="radio-input"
               checked
-              onclick="window.location.href='memberView.jsp';"
+              onclick="window.location.href='/taskMate/UserController?action=listByProjectID';"
             />
             
             <label for="members" class="radio-label">
@@ -169,46 +169,102 @@
      <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<!-- js -->
 	<script src="../js/main.js"></script>
-	
+
 	<div id="board-view" class="board-view">
-    <!-- list -->
-    <div>
-			<div
-				style="display: flex; align-items: center; justify-content: space-between;">
+		<!-- list -->
+		<div>
+			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="list-header">
-					<span class="text">List of Members</span>
+				<a class="text" href="UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
 
 				</h2>
 				<button id="add-project-cta"
 					class="button regular-button green-background"
-					onclick="window.location.href='addMembers.jsp';">Add
-					Member</button>
+					onclick="openModal()">Add Member</button>
 			</div>
+			<!-- Modal Structure -->
+			<div id="addMemberModal" class="modal">
+        		<div class="modal-content">
+            		<span class="close" onclick="closeModal()">&times;</span>
+            			<div id="modal-body">
+                			<!-- `addMembers.jsp` will be loaded here -->
+            			</div>
+        		</div>
+    		</div>
 
-
-
+			
+			<!-- Populate List -->
 			<ul class="tasks-list blue">
-        <li class="task-item">
-          <div class="task-button">
-            <div class="task-button">
-              <p class="task-name">Design UI</p>
-              <p class="task-due-date">Due on January 7, 2020</p>
-            </div>
-            <!-- arrow -->
-            <iconify-icon
-              icon="material-symbols:delete-rounded"
-              style="color: red"
-              width="30"
-              height="30"
-            ></iconify-icon>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- list -->
-    
-  </div>
-	
-   </body>
+				<c:forEach var="user" items="${users}">
+					<li class="task-item">
+						<div class="task-button">
+							<div class="task-button">
+								<p class="task-name">Username : <c:out value="${user.userName}"/></p>
+								<p class="task-due-date">Email : <c:out value="${user.email}"/></p>									
+							</div>
+							<input type="hidden" id="userID-${user.userID}" value="${user.userID}">
+							<input type="hidden" id="userName-${user.userName}" value="${user.userName}">
+							
+							<!-- arrow -->
+							<button
+								style='background: none; border: none; cursor: pointer; padding: 0;'
+								onclick="confirmation('${user.userID}','${user.userName}')">
+							<iconify-icon icon="material-symbols:delete-rounded"
+								style="color: red" width="30" height="30">
+							</iconify-icon>
+							</button>
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+		<script>
+		function confirmation(userID, userName){					  
+			 var id = $("#userID-" + userID).val();
+			 var name = $("#userName-" + userName).val();
+		     var r = confirm("Are you sure you want to delete " + name + "?");
+			  if (r == true) {				 		  
+				  location.href ='UserController?action=deleteUser&userID=' + userID;
+				  alert(name + " successfully deleted");			
+			  } else {				  
+			      return false;	
+			  }
+		}
+	</script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		
+	<!-- JavaScript for Modal and AJAX -->
+    <script>
+        function openModal() {
+            document.getElementById("addMemberModal").style.display = "block";
+
+            // Load addMembers.jsp dynamically
+            let xhr = new XMLHttpRequest();
+            xhr.open("post", "pages/addMember.jsp", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("modal-body").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+
+        function closeModal() {
+            document.getElementById("addMemberModal").style.display = "none";
+            document.getElementById("modal-body").innerHTML = ""; // Clear modal content
+        }
+
+        // Close modal when clicking outside the modal content
+        window.onclick = function(event) {
+            let modal = document.getElementById("addMemberModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+
+	</div>
+
+</body>
   </html>
       
