@@ -191,5 +191,17 @@ public class TaskDAO {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public static void deleteAllTasksByProject(int projectID) {
+	    String sql = "DELETE FROM task WHERE projectID = ?";
+	    try (
+	    		Connection conn = ConnectionManager.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, projectID);
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 }

@@ -82,12 +82,18 @@ public class TaskController extends HttpServlet {
 		        } else {
 		            System.out.println("Invalid taskID received");
 		        }
-		        
 		        request.setAttribute("tasks", TaskDAO.getTasksByProjectID(taskID));
 		    } catch (Exception e) {
-		        e.printStackTrace(); // Log any exceptions for debugging
+		        e.printStackTrace();
 		    }
 		}
+		
+		if(action.equalsIgnoreCase("deleteAllTasks")) {
+			forward = LIST;
+			int projectID = Integer.parseInt(request.getParameter("projectID"));  
+			TaskDAO.deleteAllTasksByProject(projectID);
+			request.setAttribute("projects", TaskDAO.getTasksByProjectID(projectID));    
+		}	
 		
 		view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
@@ -105,9 +111,8 @@ public class TaskController extends HttpServlet {
 	    task.setEndDate(request.getParameter("endDate"));
 	    task.setTaskStatus(request.getParameter("taskStatus"));
 
-	    // Get the projectID from the form submission
 	    String projectIdParam = request.getParameter("projectID");
-	    System.out.println("Received projectID: " + projectIdParam); // Debugging output
+	    System.out.println("Received projectID: " + projectIdParam);
 
 	    if (projectIdParam == null || projectIdParam.trim().isEmpty()) {
 	        throw new IllegalArgumentException("Project ID is missing or invalid.");

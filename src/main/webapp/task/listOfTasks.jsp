@@ -34,8 +34,9 @@
 				<br>
 				<div class="buttons-container">
 
-					<button id="update-task-cta" class="button regular-button green-background"
-						onclick="window.location.href='ProjectController?action=updateProject&projectID=${project.projectID}';">Delete All Tasks
+					<button class="button regular-button green-background"
+					    onclick="confirmDelete(<c:out value='${param.projectID}' />)">
+					    Delete All Tasks
 					</button>
 					
 					<c:set var="projectID" value="${param.projectID}" />
@@ -123,22 +124,25 @@
 					            			<p class="task-name"><c:out value="${task.taskName}"/></p>
 					            			<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
+							            <div>
 							            <!-- delete icon -->
-							            <iconify-icon
-							            	icon="icomoon-free:bin"
-							            	width="16"
-							            	height="16"
-							            	style="cursor: pointer;"
-							            	href="#" onclick="confirmation(event, '${task.taskID}')">
-			            				<!-- view -->
-										<iconify-icon 
-											icon="material-symbols:arrow-back-ios-rounded"
-											style="color: black" 
-											width="18" 
-											height="18"
-											class="arrow-icon"
-											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
-										</iconify-icon>
+								            <iconify-icon
+								            	icon="icomoon-free:bin"
+								            	width="16"
+								            	height="16"
+								            	style="cursor: pointer;"
+								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            </iconify-icon>
+				            				<!-- view -->
+											<iconify-icon 
+												icon="material-symbols:arrow-back-ios-rounded"
+												style="color: black" 
+												width="18" 
+												height="18"
+												class="arrow-icon"
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+											</iconify-icon>
+										</div>
 									</button>
 								</li>
 							</c:if>
@@ -160,22 +164,25 @@
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
+							            <div>
 							            <!-- delete icon -->
-							            <iconify-icon
-							            	icon="icomoon-free:bin"
-							            	width="16"
-							            	height="16"
-							            	style="cursor: pointer;"
-							            	href="#" onclick="confirmation(event, '${task.taskID}')">
-										<!-- arrow -->
-										<iconify-icon 
-											icon="material-symbols:arrow-back-ios-rounded"
-											style="color: black" 
-											width="18" 
-											height="18"
-											class="arrow-icon"
-											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
-										</iconify-icon>
+								            <iconify-icon
+								            	icon="icomoon-free:bin"
+								            	width="16"
+								            	height="16"
+								            	style="cursor: pointer;"
+								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            </iconify-icon>
+				            				<!-- view -->
+											<iconify-icon 
+												icon="material-symbols:arrow-back-ios-rounded"
+												style="color: black" 
+												width="18" 
+												height="18"
+												class="arrow-icon"
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+											</iconify-icon>
+										</div>
 									</button>
 								</li>
 							</c:if>
@@ -196,23 +203,25 @@
 				            				<p class="task-name"><c:out value="${task.taskName}"/></p>
 				            				<p class="task-due-date"><c:out value="${task.endDate}"/></p>
 										</div>
+							            <div>
 							            <!-- delete icon -->
-							            <iconify-icon
-							            	icon="icomoon-free:bin"
-							            	width="16"
-							            	height="16"
-							            	style="cursor: pointer;"
-							            	href="#" onclick="confirmation(event, '${task.taskID}')">
-										></iconify-icon>
-			            				<!-- view -->
-										<iconify-icon 
-											icon="material-symbols:arrow-back-ios-rounded"
-											style="color: black" 
-											width="18" 
-											height="18"
-											class="arrow-icon"
-											onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
-										</iconify-icon>
+								            <iconify-icon
+								            	icon="icomoon-free:bin"
+								            	width="16"
+								            	height="16"
+								            	style="cursor: pointer;"
+								            	href="#" onclick="confirmation(event, '${task.taskID}')">
+								            </iconify-icon>
+				            				<!-- view -->
+											<iconify-icon 
+												icon="material-symbols:arrow-back-ios-rounded"
+												style="color: black" 
+												width="18" 
+												height="18"
+												class="arrow-icon"
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+											</iconify-icon>
+										</div>
 									</button>
 								</li>
 							</c:if>
@@ -236,6 +245,12 @@
 	    }
 	}
 	</script>
-	
+	<script>
+		function confirmDelete(projectID) {
+		    if (confirm("Are you sure you want to delete all tasks in this project?")) {
+		        window.location.href = '/taskMate/TaskController?action=deleteAllTasks&projectID=' + projectID;
+		    }
+		}
+	</script>
 </body>
 </html>

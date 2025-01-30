@@ -53,8 +53,8 @@ public class ProjectController extends HttpServlet {
 			request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
 		} else if (action.equalsIgnoreCase("viewTasks")) {
 			int projectID = Integer.parseInt(request.getParameter("projectID"));
-			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID)); // Assuming you have a TaskDAO with this method
-			forward = "task/listOfTasks.jsp"; // Forward to the tasks list JSP
+			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+			forward = "task/listOfTasks.jsp";
 		}
 
 		if(action.equalsIgnoreCase("updateProject")) {
@@ -79,7 +79,7 @@ public class ProjectController extends HttpServlet {
 		        
 		        request.setAttribute("projects", ProjectDAO.getAllProject());
 		    } catch (Exception e) {
-		        e.printStackTrace(); // Log any exceptions for debugging
+		        e.printStackTrace();
 		    }
 		}
 		
