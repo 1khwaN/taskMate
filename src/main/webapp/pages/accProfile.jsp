@@ -94,7 +94,7 @@
                             <input type="text" name="email" id="email" class="form-control" value="${user.email}">
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="form-label">Password:</label>
+                            <label for="phone" class="form-label">Password</label>
                             <input type="password" name="password" id="password" class="form-control" value="${user.password}">
                         </div>
                         <div class="form-group">
