@@ -30,7 +30,7 @@
 
         <p class="sign-up-prompt">
           Remembered your credentials?
-          <a href="login.jsp" class="sign-up-link">Go back to Login</a>
+          <a href="${pageContext.request.contextPath}/pages/login.jsp" class="sign-up-link">Go back to Login</a>
         </p>
       </div>
       <!-- right side -->

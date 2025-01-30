@@ -64,7 +64,7 @@ public class UserDAO {
 
 	        // Execute query
 	        ps.executeUpdate();
-	        System.out.print("User registered successfully");
+	        System.out.print(user.getEmail() + " registered successfully");
 
 	        // Close connection
 	        con.close();
