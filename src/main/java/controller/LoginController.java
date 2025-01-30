@@ -29,7 +29,7 @@ public class LoginController extends HttpServlet {
 
             if (user != null && user.isLoggedIn()) {
                 HttpSession session = request.getSession(true);
-                session.setAttribute("userID", user.getUserID());
+                session.setAttribute("userID", user.getUserId());
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
                 session.setAttribute("userName", user.getUserName());
@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
                 System.out.println(user.getEmail() + " Login not successful");
                 System.out.println(user.getPassword());
                 System.out.println(user.getTypeID());
-                System.out.println(user.getUserID());
+                System.out.println(user.getUserId());
                 response.sendRedirect("pages/invalidLogin.jsp");
             }
         } catch (Exception ex) {

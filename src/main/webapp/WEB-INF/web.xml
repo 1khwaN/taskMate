@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
-
   <display-name>taskMate</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -73,17 +72,5 @@
   <servlet-mapping>
     <servlet-name>ClearSessionAttributeServlet</servlet-name>
     <url-pattern>/ClearSessionAttributeServlet</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-    <display-name>UserController</display-name>
-    <servlet-name>UserController</servlet-name>
-    <servlet-class>controller.UserController</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>UserController</servlet-name>
-    <url-pattern>/UserController</url-pattern>
   </servlet-mapping>
-  
 </web-app>
