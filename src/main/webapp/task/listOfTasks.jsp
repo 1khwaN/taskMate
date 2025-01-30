@@ -287,7 +287,7 @@
    <!-- js -->
    <script src="${pageContext.request.contextPath}/js/main.js"></script>
    
-<c:set var="projectID" value="${project.projectID}" />
+<%-- <c:set var="projectID" value="${project.projectID}" /> --%>
 
 	<script>
     function confirmDelete(event, taskID, projectID) {
