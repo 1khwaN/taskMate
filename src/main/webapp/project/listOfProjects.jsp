@@ -13,7 +13,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Management System</title>
+    <title>List Projects - Task Management System</title>
     <!-- google font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,7 +45,7 @@
       <!-- header -->
       <div class="max-width-container">
         <div class="header flex items-center justify-between">
-          <h1 class="title">Projects</h1>
+          <h1 class="title">Welcome to TaskMate System!</h1>
           <br>
           <div class="buttons-container">
           

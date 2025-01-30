@@ -13,7 +13,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Management System</title>
+    <title>List Tasks - Task Management System</title>
     <!-- google font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,7 +38,7 @@
 		<!-- header -->
 		<div class="max-width-container">
 			<div class="header flex items-center justify-between">
-				<h1 class="title">Project: ${projectName}</h1>
+          		<h1 class="title">Welcome to TaskMate System!</h1>
 				<br>
 				<div class="buttons-container">
 
@@ -63,6 +63,27 @@
 		
 	<div class="radio-buttons-container">
         <div class="max-width-container flex">
+        <div class="radio-container">
+            <input
+              type="radio"
+              id="track"
+              name="view-option"
+              value="track"
+              class="radio-input"
+              checked
+              onclick="window.location.href='/taskMate/prodTrackingController';"
+              
+            />
+            <label for="track" class="radio-label">
+              <iconify-icon
+                icon="mdi:chart-line"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>Productivity Tracking</span>
+            </label>
+          </div>
           <!-- List -->
           <div class="radio-container">
             <input
@@ -110,11 +131,19 @@
 		
 		<!-- Check if tasks is null or empty -->
 		<c:if test="${empty tasks}">
-		    <h3>No tasks added yet</h3>
+			<div class="centered-container">
+				<h3>⋆˚𝜗𝜚˚⋆ Project : ${projectName}</h3>
+		    </div><br>
+			<div class="centered-container">
+		    	<h4><i>No tasks added yet</i></h4>
+		    </div>
 		</c:if>
 		
 		<!-- Board View: Display tasks if present -->
 		<c:if test="${not empty tasks}">
+		<div class="centered-container">
+				<h3>⋆˚𝜗𝜚˚⋆ Project : ${projectName}</h3>
+				</div>
 			<!-- board view -->
 			<div id="board-view" class="board-view">
 				<!-- list -->
