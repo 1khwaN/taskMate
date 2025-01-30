@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Project;
 import model.User;
+import dao.ProjectDAO;
 import dao.UserDAO;
 import java.io.IOException;
 
@@ -22,6 +24,7 @@ public class LoginController extends HttpServlet {
             String password = request.getParameter("password");
 
             User user = new User();
+            Project project = new Project();
             user.setEmail(email);
             user.setPassword(password);
 
@@ -33,6 +36,7 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
                 session.setAttribute("userName", user.getUserName());
+                session.setAttribute("projectID", project.getProjectID());
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager
@@ -41,6 +45,7 @@ public class LoginController extends HttpServlet {
                     view = request.getRequestDispatcher("/pages/dashboard.jsp");
                 }
                 request.setAttribute("user", UserDAO.getUserByEmail(user.getEmail()));
+                request.setAttribute("projectID", ProjectDAO.getProjectIDsByUserID(user.getUserID()));
                 System.out.print(user.getEmail() + " Login successfully");
                 view.forward(request, response);
             } else {

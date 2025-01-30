@@ -133,4 +133,30 @@ public class ProjectDAO {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public static List<Integer> getProjectIDsByUserID(int userID) {
+	    List<Integer> projectIDs = new ArrayList<>();
+	    
+	    try {
+	        con = ConnectionManager.getConnection();
+	        
+	        // Assuming there's a table 'user_project' that links users to projects
+	        sql = "SELECT projectID FROM project_member WHERE userID = ?";
+	        ps = con.prepareStatement(sql);
+	        ps.setInt(1, userID);
+	        
+	        rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	            projectIDs.add(rs.getInt("projectID"));
+	        }
+	        
+	        con.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return projectIDs;
+	}
+
 }

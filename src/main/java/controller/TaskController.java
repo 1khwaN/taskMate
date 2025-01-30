@@ -43,9 +43,11 @@ public class TaskController extends HttpServlet {
 		action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("listTask")) {
-		    int projectID = Integer.parseInt(request.getParameter("projectID"));
+			Integer projectID = (Integer) request.getAttribute("projectID");
+			Integer userID = (Integer) request.getSession().getAttribute("userID");
 		    forward = LIST;
 			request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
+			request.setAttribute("projectID", ProjectDAO.getProjectIDsByUserID(userID));
 		    String projectName = ProjectDAO.getProjectByID(projectID).getProjectName();
 		    System.out.println("Project Name: " + projectName);
 		    request.setAttribute("projectName", projectName);
