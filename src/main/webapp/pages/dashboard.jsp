@@ -164,7 +164,7 @@
               value="board"
               class="radio-input"
               
-              onclick="window.location.href='/taskMate/TaskController?action=listTask';"
+              onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${sessionScope.projectID}'/>';"
             />
             <label for="board" class="radio-label">
               <iconify-icon

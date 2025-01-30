@@ -108,7 +108,7 @@
             />
             <label for="list" class="radio-label">
               <iconify-icon
-                icon="material-symbols:format-list-bulleted-rounded"
+              icon="ic:round-grid-view"
                 style="color: black"
                 width="24"
                 height="24"

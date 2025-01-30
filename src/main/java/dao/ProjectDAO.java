@@ -133,4 +133,26 @@ public class ProjectDAO {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public static int getProjectIDByUserID(int userID) {
+	    int projectID = -1; 
+
+
+	    try {
+	    	con = ConnectionManager.getConnection();
+		    sql = "SELECT projectID FROM project_member WHERE userID = ?";
+	         ps = con.prepareStatement(sql);
+	        ps.setInt(1, userID);
+
+	        rs = ps.executeQuery();
+	            if (rs.next()) { 
+	                projectID = rs.getInt("projectID");
+	            }
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    System.out.println(projectID);
+	    return projectID; 
+	}
 }

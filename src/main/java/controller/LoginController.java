@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import dao.ProjectDAO;
 import dao.UserDAO;
 import java.io.IOException;
 
@@ -33,6 +34,10 @@ public class LoginController extends HttpServlet {
                 session.setAttribute("sessionEmail", user.getEmail());
                 session.setAttribute("sessionTypeID", user.getTypeID());
                 session.setAttribute("userName", user.getUserName());
+                int userID = user.getUserID();
+                int projectID = ProjectDAO.getProjectIDByUserID(userID);
+                System.out.println("Retrived ID : " + userID + "   ProjectID :" + projectID);
+                session.setAttribute("projectID", projectID);
 
                 RequestDispatcher view;
                 if (user.getTypeID() == 1) { // Project manager

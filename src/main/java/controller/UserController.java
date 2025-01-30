@@ -61,7 +61,8 @@ public class UserController extends HttpServlet {
 				e.printStackTrace();
 			}		
 			request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
-			request.setAttribute("project",ProjectDAO.getProjectByID(projectID));
+			request.setAttribute("projectID", projectID);
+//			request.setAttribute("project",ProjectDAO.getProjectByID(projectID));
 		}
 		
 		//insert User by projectID -->
@@ -91,31 +92,38 @@ public class UserController extends HttpServlet {
 		String userID = request.getParameter("userID");
 		int projectID = Integer.parseInt(request.getParameter("projectID"));
 
+
 		if(userID == null || userID.isEmpty()) {
+			forward = LIST;
 			user.setUserName(request.getParameter("userName"));
 			user.setEmail(request.getParameter("email"));
 			user.setPassword(request.getParameter("password"));
 			user.setTypeID(Integer.parseInt(request.getParameter("typeID")));
+
 			try {
 				UserDAO.insertProjectMember(user, projectID);
+				request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
+				request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
 		}
 		else {
+			forward = VIEW;
 			user.setUserName(request.getParameter("userName"));
 			user.setEmail(request.getParameter("email"));
 			user.setPassword(request.getParameter("password"));
 			user.setUserID(Integer.parseInt(userID));
+
 			try {
 				UserDAO.updateUser(user);
+				request.setAttribute("user",UserDAO.getUser(user.getUserID()));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
 		}
 		//parse projectID
-		request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
-	    view = request.getRequestDispatcher(LIST);
+	    view = request.getRequestDispatcher(forward);
         view.forward(request, response);
 	}
 

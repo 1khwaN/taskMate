@@ -78,13 +78,22 @@
                 </div>
             </div>
         </div>
+		<%
+		Integer projectID = (Integer) session.getAttribute("projectID");
+	    if (projectID == null) {
+	        projectID = 0; // Default value
+	    }
+		System.out.println("ProjectID = " + projectID);
 
+		%>
         <!-- Form Section -->
         <div class="col-12 col-lg-8">
             <div class="card h-100">
                 <div class="card-body">
                     <form action="UserController" method="post" onsubmit="return confirmUpdate();">
-				    <input type="hidden" name="userID" value="${user.userID}">               
+				    <input type="hidden" name="userID" value="${user.userID}">   
+				    <input type="hidden" name="projectID" value="<%= projectID%>">              
+				                
 				    <div class="form-group">
 				        <label for="name" class="form-label">Name</label>
 				        <input type="text" name="userName" id="name" class="form-control" value="${user.userName}">
@@ -104,23 +113,28 @@
 				</form>
 				
 				<!-- SweetAlert script -->
-				<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-				<script>
-				    function confirmUpdate() {
-				        return Swal.fire({
-				            title: "Are you sure?",
-				            text: "Do you want to update your profile details?",
-				            icon: "warning",
-				            showCancelButton: true,
-				            confirmButtonColor: "#3085d6",
-				            cancelButtonColor: "#d33",
-				            confirmButtonText: "Yes, update it!",
-				            cancelButtonText: "Cancel"
-				        }).then((result) => {
-				            return result.isConfirmed; // Only submit the form if the user confirms
-				        });
-				    }
-				</script>
+				<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    async function confirmUpdate() {
+        // Show confirmation dialog
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to update your profile details?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "Cancel"
+        });
+
+        // Return true only if the user confirms, otherwise prevent form submission
+        return result.isConfirmed;
+    }
+</script>
+
 
                 </div>
             </div>

@@ -84,29 +84,8 @@
               <span>Productivity Tracking</span>
             </label>
           </div>
-          <!-- List -->
-          <div class="radio-container">
-            <input
-              type="radio"
-              id="track"
-              name="view-option"
-              value="track"
-              class="radio-input"
-              
-              onclick="window.location.href='/taskMate/prodTrackingController';"
-              
-            />
-            <label for="track" class="radio-label">
-              <iconify-icon
-                icon="mdi:chart-line"
-                style="color: black"
-                width="24"
-                height="24"
-              ></iconify-icon>
-              <span>Productivity Tracking</span>
-            </label>
-          </div>
           
+          <c:if test="${sessionScope.sessionTypeID == 1}">
           <div class="radio-container">
             <input
               type="radio"
@@ -119,7 +98,7 @@
             />
             <label for="list" class="radio-label">
               <iconify-icon
-                icon="material-symbols:format-list-bulleted-rounded"
+              icon="ic:round-grid-view"
                 style="color: black"
                 width="24"
                 height="24"
@@ -127,6 +106,31 @@
               <span>Projects</span>
             </label>
           </div>
+          </c:if>
+          
+          <c:if test="${sessionScope.sessionTypeID == 2}">
+          <div class="radio-container">
+            <input
+              type="radio"
+              id="list"
+              name="view-option"
+              value="list"
+              class="radio-input"
+              checked
+              onclick="window.location.href='/taskMate/TaskController?action=listTask&projectID=<c:out value='${sessionScope.projectID}'/>';"
+            />
+            <label for="list" class="radio-label">
+              <iconify-icon
+                icon="material-symbols:format-list-bulleted-rounded"
+                style="color: black"
+                width="24"
+                height="24"
+              ></iconify-icon>
+              <span>List of Tasks</span>
+            </label>
+          </div>
+          </c:if>
+          
           
           <!-- List -->
            <c:if test="${sessionScope.sessionTypeID == 1}">
