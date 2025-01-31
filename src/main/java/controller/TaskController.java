@@ -60,17 +60,22 @@ public class TaskController extends HttpServlet {
 		if(action.equalsIgnoreCase("viewTask")) {
 			forward = VIEW;
 			taskID = Integer.parseInt(request.getParameter("taskID"));
-//			int projectID = Integer.parseInt(request.getParameter("projectID"));  
-
+			int projectID = Integer.parseInt(request.getParameter("projectID"));  
+			System.out.println("Project ID : " + projectID);
 //			List<User> users = UserDAO.getAllUsersByProjectID(projectID);
 //			request.setAttribute("taskMembers", users); 
+			request.setAttribute("projectID",projectID);
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 
 		if(action.equalsIgnoreCase("updateTask")) {
 			forward = UPDATE;
 			taskID = Integer.parseInt(request.getParameter("taskID"));
-			
+			int projectID = Integer.parseInt(request.getParameter("projectID"));  
+			System.out.println("Project ID for update : " + projectID);
+			List<User> users = UserDAO.getAllUsersByProjectID(projectID);
+			request.setAttribute("taskMembers", users); 
+
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 			request.setAttribute("taskMember", ProjectDAO.getProjectIDByUserID(taskID));
 		}
@@ -209,6 +214,7 @@ public class TaskController extends HttpServlet {
 	        task.setTaskID(Integer.parseInt(taskIDParam));
 	        try {
 	            TaskDAO.updateTask(task);
+	            TaskDAO.updateTaskMember(task.getTaskID(), userID);
 	            taskID = task.getTaskID();
 	        } catch (Exception e) {
 	            e.printStackTrace();

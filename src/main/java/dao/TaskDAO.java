@@ -59,6 +59,22 @@ public class TaskDAO {
 	    }
 	}
 	
+	public static void updateTaskMember(int taskID, int userID) {
+	    String query = "UPDATE task_member SET userID = ? WHERE taskID = ?";
+	    
+	    try (
+	    	Connection con = ConnectionManager.getConnection();
+	        PreparedStatement ps = con.prepareStatement(query)) {
+	        ps.setInt(1, userID);
+	        ps.setInt(2, taskID);
+	        ps.executeUpdate();
+	        System.out.println("Task member updated: TaskID = " + taskID + ", UserID = " + userID);
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	public static List<Task> getAllTasks() {
 		List<Task> tasks = new ArrayList<Task>();
 		try {
