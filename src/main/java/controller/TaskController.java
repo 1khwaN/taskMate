@@ -60,13 +60,19 @@ public class TaskController extends HttpServlet {
 		if(action.equalsIgnoreCase("viewTask")) {
 			forward = VIEW;
 			taskID = Integer.parseInt(request.getParameter("taskID"));
+//			int projectID = Integer.parseInt(request.getParameter("projectID"));  
+
+//			List<User> users = UserDAO.getAllUsersByProjectID(projectID);
+//			request.setAttribute("taskMembers", users); 
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
 		}
 
 		if(action.equalsIgnoreCase("updateTask")) {
 			forward = UPDATE;
 			taskID = Integer.parseInt(request.getParameter("taskID"));
+			
 			request.setAttribute("task", TaskDAO.getTaskByID(taskID));
+			request.setAttribute("taskMember", ProjectDAO.getProjectIDByUserID(taskID));
 		}
 		
 		if (action.equalsIgnoreCase("deleteTask")) {

@@ -213,6 +213,7 @@
 	 			<option value="Done">Done</option>
 	 		</select>
 	 		
+	 		<c:if test="${sessionScope.sessionTypeID == 1}">
 	 		<label for="taskMember" class="label">Task Member</label>   
 			<select class="form-control" id="taskMember" name="taskMember">  
 			    <c:forEach items="${taskMembers}" var="taskMember"> 
@@ -221,6 +222,10 @@
 			        </option>
 			    </c:forEach>
 			</select>
+			</c:if>
+			<c:if test="${sessionScope.sessionTypeID == 2}">
+				<input type="hidden" name="taskMember" value="${sessionScope.userID}" />
+			</c:if>
 
 			<div class="text-center">
 				<input type="submit" value="Add Task" class="button regular-button green-background cta-button"></input>

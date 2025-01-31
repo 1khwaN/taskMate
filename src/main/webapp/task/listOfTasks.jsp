@@ -42,11 +42,19 @@
 				<br>
 				<div class="buttons-container">
 
+				<button
+                id="profile-button"
+                class="button icon-button"
+                onclick="window.location.href='/taskMate/UserController?action=viewUser';"
+            >
+                <img src="/taskMate/img/profLogoDashboard.png" alt="Profile" class="profile-icon">
+            	</button>
+					<c:if test="${sessionScope.sessionTypeID == 1}">
 					<button class="button regular-button green-background"
 					    onclick="confirmDeleteAll(<c:out value='${param.projectID}' />)">
 					    Delete All Tasks
 					</button>
-					
+					</c:if>
 					<c:set var="projectID" value="${param.projectID}" />
 					<button id="add-task-cta" class="button regular-button blue-background"
 					    onclick="window.location.href='/taskMate/TaskController?action=addMember&projectID=${projectID}';">
@@ -207,7 +215,7 @@
 												width="18" 
 												height="18"
 												class="arrow-icon"
-												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>"/>'">
 											</iconify-icon>
 										</div>
 									</button>
