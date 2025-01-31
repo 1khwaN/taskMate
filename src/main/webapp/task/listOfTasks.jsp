@@ -327,20 +327,44 @@
 <%-- <c:set var="projectID" value="${project.projectID}" /> --%>
 
 	<script>
-    function confirmDelete(event, taskID, projectID) {
-        event.preventDefault(); // Stop the default link action
-        if (confirm("Are you sure you want to delete this task?")) {
-            console.log("Deleting task with ID:", taskID);
-            window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID + "&projectID=" + projectID;
-        }
-    }
+	function confirmDelete(event, taskID, projectID) {
+	    event.preventDefault(); // Stop the default link action
 
-    function confirmDeleteAll(projectID) {
-        if (confirm("Are you sure you want to delete all tasks in this project?")) {
-            console.log("Deleting all tasks for project:", projectID);
-            window.location.href = '/taskMate/TaskController?action=deleteAllTasks&projectID=' + projectID;
-        }
-    }
+	    Swal.fire({
+	        title: "Are you sure?",
+	        text: "You are about to delete this task. This action cannot be undone.",
+	        icon: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#d33",
+	        cancelButtonColor: "#3085d6",
+	        confirmButtonText: "Yes, delete it!",
+	        cancelButtonText: "Cancel"
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            console.log("Deleting task with ID:", taskID);
+	            window.location.href = "/taskMate/TaskController?action=deleteTask&taskID=" + taskID + "&projectID=" + projectID;
+	        }
+	    });
+	}
+
+	function confirmDeleteAll(projectID) {
+	    Swal.fire({
+	        title: "Are you sure?",
+	        text: "You are about to delete all tasks in this project. This action cannot be undone.",
+	        icon: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#d33",
+	        cancelButtonColor: "#3085d6",
+	        confirmButtonText: "Yes, delete all!",
+	        cancelButtonText: "Cancel"
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            console.log("Deleting all tasks for project:", projectID);
+	            window.location.href = "/taskMate/TaskController?action=deleteAllTasks&projectID=" + projectID;
+	        }
+	    });
+	}
+
 </script>
 	
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
