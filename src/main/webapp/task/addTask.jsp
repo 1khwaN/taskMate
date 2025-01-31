@@ -184,7 +184,7 @@
 			></iconify-icon>
 		</button>
 
-		<h1>Add Task for ${project.projectName}</h1>
+		<h1>Add Task ${project.projectName}</h1>
 		<form class="form" action="${pageContext.request.contextPath}/TaskController" method="POST">
 		
 			<!-- Hidden field to store projectID -->
