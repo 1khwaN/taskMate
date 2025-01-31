@@ -206,7 +206,7 @@
 			<c:if test="${sessionScope.sessionTypeID == 1}">
 			<div class="text-center">
 				<input type="button" value="Update Task" 
-				       onclick="window.location.href='/taskMate/TaskController?action=updateTask&taskID=${task.taskID}'"
+						onclick="window.location.href='/taskMate/TaskController?action=updateTask&taskID=${task.taskID}&projectID=${projectID}'"
 				       class="button regular-button green-background cta-button">
 			</div>
 			</c:if>

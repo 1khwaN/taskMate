@@ -218,7 +218,7 @@
 												width="18" 
 												height="18"
 												class="arrow-icon"
-												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>"/>'">
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>&projectID=<c:out value="${param.projectID}"/>'">
 											</iconify-icon>
 										</div>
 									</button>
@@ -258,7 +258,7 @@
 												width="18" 
 												height="18"
 												class="arrow-icon"
-												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>&projectID=<c:out value="${param.projectID}"/>'">
 											</iconify-icon>
 										</div>
 									</button>
@@ -306,7 +306,7 @@
 												width="18" 
 												height="18"
 												class="arrow-icon"
-												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>'">
+												onclick="window.location.href='/taskMate/TaskController?action=viewTask&taskID=<c:out value="${task.taskID}"/>&projectID=<c:out value="${param.projectID}"/>'">
 											</iconify-icon>
 										</div>
 									</button>
