@@ -89,7 +89,7 @@ public class TaskController extends HttpServlet {
 		                
 		                // Fetch updated tasks for the project
 		                request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));
-		                request.setAttribute("project", ProjectDAO.getProjectByID(projectID).getProjectName());
+		                request.setAttribute("projectName", ProjectDAO.getProjectByID(projectID).getProjectName());
 		                request.setAttribute("projectID", projectID);// Keep projectName
 		            } else {
 		                System.out.println("Task not found.");

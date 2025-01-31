@@ -61,7 +61,7 @@ public class UserController extends HttpServlet {
 				e.printStackTrace();
 			}		
 			request.setAttribute("users",UserDAO.getAllUsersByProjectID(projectID));
-			request.setAttribute("projectID", projectID);
+			request.setAttribute("project", ProjectDAO.getProjectByID(projectID));
 //			request.setAttribute("project",ProjectDAO.getProjectByID(projectID));
 		}
 		

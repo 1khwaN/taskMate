@@ -214,7 +214,7 @@
 	        			<li class="task-item">
 	          				<button class="task-button">
 	            				<p class="task-name"><c:out value="${project.projectName}"/></p>
-	            				<p class="task-due-date">Due Date:<c:out value="${project.endDate}"/></p>
+	            				<p class="task-due-date">Due Date : <c:out value="${project.endDate}"/></p>
 	            				<div class="icon-container">
 	            				
 	            				<!-- arrow -->

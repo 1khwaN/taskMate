@@ -170,8 +170,28 @@
 			<div class="centered-container">
 				<h3>⋆˚𝜗𝜚˚⋆ Project : ${project.projectName}</h3>
 		    </div><br>
-			<div class="centered-container">
-		    	<h4><i>No Members added yet</i></h4>
+		   	<div class="centered-container">
+					    	<h4><i>No Members added yet</i></h4>
+			</div>
+		    <div id="board-view" class="board-view">
+		    	<div style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="list-header">
+				<a class="text" href="UserController?action=listByProjectID">List of Members for ${project.projectName}</a>
+
+				</h2>
+				<button id="add-project-cta"
+					class="button regular-button green-background"
+					onclick="openModal('${project.projectID}')">Add Member</button>
+			</div>
+			<!-- Modal Structure -->
+			<div id="addMemberModal" class="modal">
+        		<div class="modal-content">
+            		<span class="close" onclick="closeModal()">&times;</span>
+            			<div id="modal-body">
+                			<!-- `addMembers.jsp` will be loaded here -->
+            			</div>
+        		</div>
+    		</div>
 		    </div>
 		</c:if>
 				<c:if test="${not empty users}">
