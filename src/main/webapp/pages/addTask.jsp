@@ -5,7 +5,10 @@
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 	response.addHeader("Cache-Control", "pre-check=0, post-check=0");
 	response.setDateHeader("Expires", 0);
-	
+	if(session.getAttribute("sessionEmail")==null)
+	{
+		response.sendRedirect("pages/login.jsp");
+	}
 	%> 
 <!DOCTYPE html>
 <html lang="en">
