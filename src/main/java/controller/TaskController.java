@@ -222,10 +222,12 @@ public class TaskController extends HttpServlet {
 	        }
 	    } else {
 	        taskID = TaskDAO.addTask(task); // Now returns the new taskID
+	     // Add user to task_member table
+		    TaskDAO.addTaskMember(taskID, userID);
 	    }
 
-	    // Add user to task_member table
-	    TaskDAO.addTaskMember(taskID, userID);
+//	    // Add user to task_member table
+//	    TaskDAO.addTaskMember(taskID, userID);
 
 	    // Forward to list of tasks page for the given project
 	    request.setAttribute("tasks", TaskDAO.getTasksByProjectID(projectID));

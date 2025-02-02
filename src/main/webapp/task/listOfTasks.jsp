@@ -204,6 +204,7 @@
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
+							            <c:if test="${sessionScope.sessionTypeID == 1}">
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
 								            	width="16"
@@ -211,6 +212,7 @@
 								            	style="cursor: pointer;"
 								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
+								            </c:if>
 				            				<!-- view -->
 											<iconify-icon 
 												icon="ep:arrow-right-bold"
@@ -244,6 +246,7 @@
 										</div>
 							            <div class="icon-container">
 							            <!-- delete icon -->
+							            <c:if test="${sessionScope.sessionTypeID == 1}">
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
 								            	width="16"
@@ -251,6 +254,7 @@
 								            	style="cursor: pointer;"
 								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
+								            </c:if>
 				            				<!-- view -->
 											<iconify-icon 
 												icon="ep:arrow-right-bold"
@@ -291,7 +295,7 @@
 											    href="#"
 											    onclick="confirmation(event, '${task.taskID}', '${projectID}')">
 											</iconify-icon> -->
-
+											<c:if test="${sessionScope.sessionTypeID == 1}">
 								            <iconify-icon
 								            	icon="icomoon-free:bin"
 								            	width="16"
@@ -299,6 +303,7 @@
 								            	style="cursor: pointer;"
 								            	onclick="confirmDelete(event, '${task.taskID}', '${param.projectID}')">
 								            </iconify-icon>
+								            </c:if>
 				            				<!-- view -->
 											<iconify-icon 
 												icon="ep:arrow-right-bold"
