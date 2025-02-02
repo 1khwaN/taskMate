@@ -94,5 +94,29 @@
     });
 </script>
 
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if registration was successful
+    let registrationSuccess = "<%= session.getAttribute("registrationSuccess") %>";
+
+    if (registrationSuccess === "true") {
+      // Show SweetAlert popup
+      Swal.fire({
+        title: "Registration Successful!",
+        text: "You can now log in to your account.",
+        icon: "success",
+        confirmButtonColor: "#4CAF50",
+        confirmButtonText: "OK"
+      });
+
+      // Remove the session attribute to prevent showing it again
+      <% session.removeAttribute("registrationSuccess"); %>
+    }
+  });
+</script>
+
   </body>
 </html>

@@ -228,4 +228,33 @@
 	<script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/addproject.js"></script>
 </body>
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select the form and submit button
+    const form = document.querySelector(".form");
+    const submitButton = document.querySelector(".cta-button");
+
+    // Prevent form submission and show confirmation
+    submitButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Stop default form submission
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to update this task?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#4CAF50",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, update it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit(); // Submit the form if confirmed
+        }
+      });
+    });
+  });
+</script>
 </html>

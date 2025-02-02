@@ -83,8 +83,11 @@ public class RegisterController extends HttpServlet {
 	    
 	    try {
 	        UserDAO.insertUser(user);
-	        RequestDispatcher view = request.getRequestDispatcher("pages/login.jsp"); 
-	        view.forward(request, response);
+	        
+	        request.getSession().setAttribute("registrationSuccess", "true");
+
+		     // Redirect to login page
+		     response.sendRedirect("pages/login.jsp");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
